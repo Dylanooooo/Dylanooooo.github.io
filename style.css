@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     text-decoration: none;
@@ -6,16 +6,27 @@
     flex-wrap: wrap;
 }
 
-.navbar{
+body {
+    background-color: darkslategray;
+}
+
+main {
+    height: 100%;
+    width: 100%;
+}
+
+.navbar {
     background-color: black;
     height: 75px;
     display: grid;
     grid-template-columns: repeat(11, 1fr);
     grid-template-rows: 75px;
     position: absolute;
+    width: 100%;
+    box-shadow: 0px 0px 50px 10px black;
 }
 
-.projectLink{
+.projectLink {
     color: white;
     border-left: 1px solid grey;
     display: flex;
@@ -25,9 +36,70 @@
     box-sizing: border-box;
     font-size: 1.5rem;
     grid-area: 1/11/2/12;
+    font-family: 'Courier New', Courier, monospace;
+    background: rgb(29, 29, 29);
+    background: linear-gradient(135deg, rgba(29, 29, 29, 1) 0%, rgba(139, 139, 139, 1) 100%);
+
 }
 
-.homeImg{
+@keyframes colorChange {
+    0% {
+        background: rgb(29, 29, 29);
+        background: linear-gradient(135deg, rgba(29, 29, 29, 1) 0%, rgba(139, 139, 139, 1) 100%);
+    }
+
+    12.5%{
+        background: rgb(42, 42, 42);
+        background: linear-gradient(135deg, rgba(42, 42, 42, 1) 0%, rgba(125, 125, 125, 1) 100%);
+    }
+
+    25%{
+        background: rgb(56, 56, 56);
+        background: linear-gradient(135deg, rgba(56, 56, 56, 1) 0%, rgba(112, 112, 112, 1) 100%);
+    }
+
+    37.5%{
+        background: rgb(70, 70, 70);
+        background: linear-gradient(135deg, rgba(70, 70, 70, 1) 0%, rgba(98, 98, 98, 1) 100%);
+    }
+
+    50%{
+        background: rgb(84, 84, 84);
+        background: linear-gradient(135deg, rgba(84, 84, 84, 1) 0%, rgba(84, 84, 84, 1) 100%);
+    }
+
+    62.5%{
+        background: rgb(98, 98, 98);
+        background: linear-gradient(135deg, rgba(98, 98, 98, 1) 0%, rgba(70, 70, 70, 1) 100%);
+    }
+
+    75%{
+        background: rgb(112, 112, 112);
+        background: linear-gradient(135deg, rgba(112, 112, 112, 1) 0%, rgba(56, 56, 56, 1) 100%);
+    }
+
+    87.5%{
+        background: rgb(125, 125, 125);
+        background: linear-gradient(135deg, rgba(125, 125, 125, 1) 0%, rgba(42, 42, 42, 1) 100%);
+    }
+
+    100% {
+        background: rgb(139, 139, 139);
+        background: linear-gradient(135deg, rgba(139, 139, 139, 1) 0%, rgba(29, 29, 29, 1) 100%);
+    }
+}
+
+.projectLink:hover {
+    animation: colorChange 0.3s linear;
+    background: rgb(139, 139, 139);
+    background: linear-gradient(135deg, rgba(139, 139, 139, 1) 0%, rgba(29, 29, 29, 1) 100%);
+}
+
+.projectLink:not(:hover){
+    
+}
+
+.homeImg {
     background-color: white;
     padding: 15px;
     height: 35px;
@@ -35,19 +107,19 @@
     grid-area: 1/1/2/2;
 }
 
-.home{
+.home {
     height: 75px;
     display: flex;
     justify-content: center;
     align-content: center;
 }
 
-.lightball{
+.lightball {
     width: 1px;
     height: 1px;
     box-shadow: 0px 0px 30px 20px white;
     position: absolute;
-    color:white;
+    color: white;
     background-color: white;
-    
+    pointer-events: none;
 }
