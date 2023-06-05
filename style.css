@@ -4,15 +4,26 @@
     text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
     flex-wrap: wrap;
+    cursor: none;
+}
+
+html {
+    height: 100%;
 }
 
 body {
-    background-color: darkslategray;
+    background: darkslategray;
+    background: linear-gradient(135deg, darkslategray 0%, darkslategray 100%);
+    height: 100%;
+    overflow: hidden;
 }
 
 main {
     height: 100%;
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(6, 1fr);
 }
 
 .navbar {
@@ -36,7 +47,7 @@ main {
     box-sizing: border-box;
     font-size: 1.5rem;
     grid-area: 1/11/2/12;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Space Mono', monospace;
     background: rgb(29, 29, 29);
     background: linear-gradient(135deg, rgba(29, 29, 29, 1) 0%, rgba(139, 139, 139, 1) 100%);
 
@@ -48,37 +59,37 @@ main {
         background: linear-gradient(135deg, rgba(29, 29, 29, 1) 0%, rgba(139, 139, 139, 1) 100%);
     }
 
-    12.5%{
+    12.5% {
         background: rgb(42, 42, 42);
         background: linear-gradient(135deg, rgba(42, 42, 42, 1) 0%, rgba(125, 125, 125, 1) 100%);
     }
 
-    25%{
+    25% {
         background: rgb(56, 56, 56);
         background: linear-gradient(135deg, rgba(56, 56, 56, 1) 0%, rgba(112, 112, 112, 1) 100%);
     }
 
-    37.5%{
+    37.5% {
         background: rgb(70, 70, 70);
         background: linear-gradient(135deg, rgba(70, 70, 70, 1) 0%, rgba(98, 98, 98, 1) 100%);
     }
 
-    50%{
+    50% {
         background: rgb(84, 84, 84);
         background: linear-gradient(135deg, rgba(84, 84, 84, 1) 0%, rgba(84, 84, 84, 1) 100%);
     }
 
-    62.5%{
+    62.5% {
         background: rgb(98, 98, 98);
         background: linear-gradient(135deg, rgba(98, 98, 98, 1) 0%, rgba(70, 70, 70, 1) 100%);
     }
 
-    75%{
+    75% {
         background: rgb(112, 112, 112);
         background: linear-gradient(135deg, rgba(112, 112, 112, 1) 0%, rgba(56, 56, 56, 1) 100%);
     }
 
-    87.5%{
+    87.5% {
         background: rgb(125, 125, 125);
         background: linear-gradient(135deg, rgba(125, 125, 125, 1) 0%, rgba(42, 42, 42, 1) 100%);
     }
@@ -90,13 +101,9 @@ main {
 }
 
 .projectLink:hover {
-    animation: colorChange 0.3s linear;
+    animation: colorChange 0.1s linear;
     background: rgb(139, 139, 139);
     background: linear-gradient(135deg, rgba(139, 139, 139, 1) 0%, rgba(29, 29, 29, 1) 100%);
-}
-
-.projectLink:not(:hover){
-    
 }
 
 .homeImg {
@@ -105,21 +112,50 @@ main {
     height: 35px;
     border-radius: 100%;
     grid-area: 1/1/2/2;
+    transition: all 0.2s ease;
 }
 
 .home {
     height: 75px;
     display: flex;
-    justify-content: center;
     align-content: center;
+    padding-left: 5px;
+}
+
+.homeImg:hover:hover{
+    height: 30px;
+    background-color: rgb(184, 184, 184);
 }
 
 .lightball {
-    width: 1px;
-    height: 1px;
-    box-shadow: 0px 0px 30px 20px white;
+    width: 3px;
+    height: 3px;
+    box-shadow: 0px 0px 40px 10px white;
     position: absolute;
-    color: white;
     background-color: white;
     pointer-events: none;
+    border: 1px solid black;
+    border-radius: 100px;
+}
+
+.welcome {
+    font-family: 'Space Mono', monospace;
+    font-size: 100px;
+    color: whitesmoke;
+    grid-area: 2/2/3/7;
+    padding: 0px 20px 0px 20px;
+    width: fit-content;
+    border-radius: 20px;
+    justify-content: center;
+    display: flex;
+    align-content: center;
+    border: 1px solid rgb(39, 65, 65);
+    box-shadow: 0px 0px 15px 1px black;
+    transition: all 0.2s linear;
+}
+
+.welcome:hover {
+    background-color: whitesmoke;
+    color: black;
+    box-shadow: 0px 0px 15px 1px rgb(114, 114, 114);
 }
