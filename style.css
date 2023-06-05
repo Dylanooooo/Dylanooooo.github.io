@@ -102,7 +102,7 @@ main {
 }
 
 .projectLink:hover {
-    animation: colorChange 0.1s linear;
+    animation: colorChange 0.5s linear;
     background: rgb(139, 139, 139);
     background: linear-gradient(135deg, rgba(139, 139, 139, 1) 0%, rgba(29, 29, 29, 1) 100%);
 }
@@ -172,28 +172,61 @@ main {
     background-size: 1000% 1000%;
     backdrop-filter: blur(10px);
     filter: blur(5px);
-    transition: all 5s ease;
-    /* animation: bg-move 60s infinite ease; */
+    transition: background-position 5s, filter 1s ease;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(6, 1fr);
 }
 
 .card:hover{
     filter: blur(0px);
 }
 
-/* @keyframes bg-move{
-    0%{background-position: 0% 0%;}
-    10%{background-position: 83% 17%;}
-    20%{background-position: 80% 67%;}
-    30%{background-position: 69% 78%;}
-    40%{background-position: 35% 83% ;}
-    50%{background-position: 6% 48%;}
-    60%{background-position: 18% 76%;}
-    70%{background-position: 18% 54%;}
-    80%{background-position: 77% 35%;}
-    90%{background-position: 75% 10%;}
-    100%{background-position: 0% 0%;}
-} */
-
 .aboutMe{
     font-size: 60px;
+    grid-area: 1/1/3/6;
+}
+
+.aboutMeText{
+    margin-left: 20px;
+    grid-area: 2/1/2/3;
+}
+
+.aboutMeFoto{
+    grid-area: 2/7/6/11;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.FotoOfMe{
+    height: 350px;
+    border: double white 5px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px 1px white;
+    filter: blur(10px);
+    transition: filter 1s linear;
+    position: relative;
+}
+
+.FotoOfMe:hover{
+    animation: wiggle 5s infinite ease;
+    filter: blur(0px);
+}
+
+@keyframes wiggle { 
+    0%{rotate: 0deg;}
+    25%{rotate: 3deg;}
+    75%{rotate: -3deg;}
+    100%{rotate: 0deg;}
+}
+
+.me{
+    position: absolute;
+    top: 50%;
+    background-color: rgba(38, 63, 63, 0.6);
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    transition: opacity 0.5s linear;
 }
