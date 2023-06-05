@@ -172,8 +172,7 @@ main {
     background-size: 1000% 1000%;
     backdrop-filter: blur(10px);
     filter: blur(5px);
-    transition: filter 0.5s linear;
-    transition: background-position 5s ease;
+    transition: all 5s ease;
     /* animation: bg-move 60s infinite ease; */
 }
 
