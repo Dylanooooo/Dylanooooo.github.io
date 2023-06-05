@@ -22,8 +22,9 @@ main {
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(24, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    gap: 15px;
 }
 
 .navbar {
@@ -130,7 +131,7 @@ main {
 .lightball {
     width: 3px;
     height: 3px;
-    box-shadow: 0px 0px 40px 10px white;
+    box-shadow: 0px 0px 35px 10px white;
     position: absolute;
     background-color: white;
     pointer-events: none;
@@ -142,7 +143,7 @@ main {
     font-family: 'Space Mono', monospace;
     font-size: 100px;
     color: whitesmoke;
-    grid-area: 2/2/3/7;
+    grid-area: 3/2/5/9;
     padding: 0px 20px 0px 20px;
     width: fit-content;
     border-radius: 20px;
@@ -158,4 +159,42 @@ main {
     background-color: whitesmoke;
     color: black;
     box-shadow: 0px 0px 15px 1px rgb(114, 114, 114);
+}
+
+.card{
+    border: 1px solid black;
+    grid-area: 5/3/11/13;
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    background: radial-gradient(circle, rgb(37, 37, 37) 0%, rgb(29, 29, 29) 25%, rgb(60, 60, 60) 50%, rgb(120, 120, 120) 75%, rgb(200, 200, 200) 100%);
+    box-shadow: 0px 0px 15px 1px black;
+    background-size: 1000% 1000%;
+    backdrop-filter: blur(10px);
+    filter: blur(5px);
+    transition: filter 0.5s linear;
+    transition: background-position 5s ease;
+    /* animation: bg-move 60s infinite ease; */
+}
+
+.card:hover{
+    filter: blur(0px);
+}
+
+/* @keyframes bg-move{
+    0%{background-position: 0% 0%;}
+    10%{background-position: 83% 17%;}
+    20%{background-position: 80% 67%;}
+    30%{background-position: 69% 78%;}
+    40%{background-position: 35% 83% ;}
+    50%{background-position: 6% 48%;}
+    60%{background-position: 18% 76%;}
+    70%{background-position: 18% 54%;}
+    80%{background-position: 77% 35%;}
+    90%{background-position: 75% 10%;}
+    100%{background-position: 0% 0%;}
+} */
+
+.aboutMe{
+    font-size: 60px;
 }
