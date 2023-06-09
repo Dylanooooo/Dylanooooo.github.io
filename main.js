@@ -66,7 +66,7 @@ document.querySelector(".name").onmouseover = event => {
     }, 30);
 }
 
-// -----------------------------------------------------------
+// Moving background
 
 let card = document.querySelector(".card")
 let time = 0
@@ -78,7 +78,7 @@ setInterval(() => {
     time = 5000
 }, time)
 
-// --------------------------------------------------------
+// Remove text above image
 
 let FotoOfMe = document.querySelector(".FotoOfMe")
 
