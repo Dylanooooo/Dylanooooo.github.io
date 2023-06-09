@@ -97,22 +97,25 @@ let age = document.querySelector(".age")
 setInterval(() => {
     let date = new Date()
     age.innerHTML = `<p>I am ${calcAge(date)}</p>`
-}, 1000);
+}, 1);
 
 function calcAge(date) {
-    let year = date.getTime() - 1159142400000
+    let currentAge = date.getTime() - 1159142400000
+    // get my age in miliseconds
 
-    let days = Math.round(year/1000/60/60/24)
+    let totalDays = currentAge/1000/60/60/24
+    // get my age in days
 
-    console.log(days % 12)
-    console.log(days % 365.25)
-
-    return year
+    let yearsLeft = totalDays / 365.25
+    let calcMonths = totalDays % 365.25
+    
+    let monthsLeft = calcMonths / 30.44
+    let calcDays = calcMonths % 30.44
+    
+    let daysLeft = calcDays
+    
+    let totalAge = `${Math.floor(yearsLeft)} Years, ${Math.floor(monthsLeft)} Months and ${Math.floor(daysLeft)} Days old`
+    return totalAge
 }
-
-// setInterval(() => {
-//     let test = document.querySelector(".inputDate").value
-//     console.log(new Date(test).getTime())
-// }, 1)
 
 // 1159142400000 is my birthdate

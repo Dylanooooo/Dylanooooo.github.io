@@ -226,6 +226,6 @@ main {
     transition: opacity 0.5s linear;
 }
 
-.inputDate{
-    grid-area: 2/2/3/4;
+.age{
+    width: 300px;
 }
