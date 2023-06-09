@@ -72,8 +72,8 @@ let card = document.querySelector(".card")
 let time = 0
 
 setInterval(() => {
-    let x = Math.floor(Math.random()*100)
-    let y = Math.floor(Math.random()*100)
+    let x = Math.floor(Math.random() * 100)
+    let y = Math.floor(Math.random() * 100)
     card.style.backgroundPosition = `${x}% ${y}%`
     time = 5000
 }, time)
@@ -89,3 +89,30 @@ FotoOfMe.addEventListener("mouseover", () => {
 FotoOfMe.addEventListener("mouseout", () => {
     document.querySelector(".me").style.opacity = "1"
 })
+
+// ----------------------------------------------------
+
+let age = document.querySelector(".age")
+
+setInterval(() => {
+    let date = new Date()
+    age.innerHTML = `<p>I am ${calcAge(date)}</p>`
+}, 1000);
+
+function calcAge(date) {
+    let year = date.getTime() - 1159142400000
+
+    let days = Math.round(year/1000/60/60/24)
+
+    console.log(days % 12)
+    console.log(days % 365.25)
+
+    return year
+}
+
+// setInterval(() => {
+//     let test = document.querySelector(".inputDate").value
+//     console.log(new Date(test).getTime())
+// }, 1)
+
+// 1159142400000 is my birthdate
