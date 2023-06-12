@@ -75,8 +75,7 @@ setInterval(() => {
     let x = Math.floor(Math.random() * 100)
     let y = Math.floor(Math.random() * 100)
     card.style.backgroundPosition = `${x}% ${y}%`
-    time = 5000
-}, time)
+}, 5000)
 
 // Remove text above image
 
