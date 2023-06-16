@@ -173,7 +173,7 @@ main {
     backdrop-filter: blur(10px);
     transition: background-position 5s ease;
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    /* grid-template-columns: repeat(10, 1fr); */
     grid-template-rows: repeat(6, 1fr);
 }
 
@@ -224,6 +224,7 @@ main {
     border: 1px solid black;
     border-radius: 5px;
     transition: opacity 0.5s linear;
+    pointer-events: none;
 }
 
 .age{
