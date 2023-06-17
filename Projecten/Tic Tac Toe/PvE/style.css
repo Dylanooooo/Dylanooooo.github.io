@@ -1,0 +1,160 @@
+body{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+#wrapper{
+    margin-top: 100px;
+    width: fit-content;
+    height: fit-content;
+    display: grid;
+    grid-template-areas: 
+    ". start . ."
+    "pf pf pf win"
+    "pf pf pf win"
+    "pf pf pf win"
+    ". st . ."
+    ;
+}
+
+.playField{
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 10px;
+    width: 260px;
+    height: 260px;
+    border: solid 2px;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: grey;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    grid-area: pf;
+}
+
+#box{
+    border: solid 2px black;
+    border-radius: 10px;
+    background-color: black;
+    box-shadow: 0px 5px 0px rgb(61, 61, 61);
+    color: white;
+    text-align: center;
+    font-size: 65px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#box:hover{
+    cursor: pointer;
+    border-color: white;
+}
+
+#box:active{
+    margin-top: 5px;
+    margin-bottom: -5px;
+    box-shadow: none;
+}
+
+.start{
+    padding: 10px;
+    border: solid 2px;
+    border-radius: 20px;
+    text-align: center;
+    background-color: red;
+    font-size: 50px;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    grid-area: start;
+}
+
+.start:hover{
+    cursor: pointer;
+    background-color: rgb(255, 108, 108);
+}
+
+#showTurn{
+    background-color: rgb(93, 93, 255);
+    border: solid 10px black;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 45px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    width: 116px;
+    height: 116px;
+    margin: auto;
+    grid-area: st;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.winBar{
+    margin-top: 5px;
+    margin-left: 5px;
+    border: 2px solid black;
+    width: fit-content;
+    height: fit-content;
+    background-color: yellow;
+    border-radius: 10px;
+    font-family: Impact;
+    font-size: 30px;
+    text-align: center;
+    grid-area: win;
+}
+
+.horizontalLine{
+    margin: 0;
+    background-color: black;
+    height: 3px;
+    border: 0;
+}
+
+.XandO{
+    display: flex;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.verticalLine{
+    margin: 0;
+    border: 0;
+    width: 3px;
+    background-color: black;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.resetWinButton{
+    width: 100%;
+    border: 3px solid black;
+    border-radius: 7px;
+    background-color: red;
+    color: white;
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.resetWinButton:hover{
+    cursor: pointer;
+    background-color: rgb(150, 0, 0);
+}
+
+.resetWinButton:active{
+    border-color: white;
+}
+
+a{
+    text-decoration: none;
+    border: 2px solid black;
+    background-color: black;
+    border-radius: 5px;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+    color: white;
+}

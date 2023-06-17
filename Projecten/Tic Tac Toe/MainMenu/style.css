@@ -1,0 +1,142 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: rgb(34,193,195);
+    background: linear-gradient(270deg, rgba(34,193,195,1) 0%, rgba(0,0,0,1) 100%);
+}
+
+a{
+    font-size: 50px;
+    margin: 10px;
+    text-decoration: none;
+    color: black;
+    direction: rtl;
+}
+
+.loading{
+    background-color: darkslategrey;
+    position: absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    height:100%;
+    width:100%;
+    text-align: center;
+}
+
+.loader{
+    margin-top: 17%;
+    border: 16px solid rgb(50, 82, 82);
+    border-top: 16px solid white;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin{
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}
+
+.logo{
+    font-size: 100px;
+}
+
+.dissapear{
+    transition: opacity 2s;
+    opacity: 0;
+}
+
+.goPvP{
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    transition: left 1s ease;
+}
+
+.goPvE{
+    position: absolute;
+    left: 25%;
+    top: 40%;
+    transition: left 1s ease;
+}
+
+.betterPvE{
+    position: absolute;
+    top: 50%;
+    left: 18%;
+    transition: left 1s ease;
+}
+
+.goPvP:hover{
+    left: 23%;
+}
+
+.goPvE:hover{
+    left: 23%;
+}
+
+.betterPvE:hover{
+    left: 16%;
+}
+
+h1{
+    font-size: 100px;
+    color: whitesmoke;
+}
+
+img{
+    width: 600px;
+    rotate: 333deg;
+    position: absolute;
+    top: 15%;
+    left: 12%;
+    opacity: 0.2;
+}
+
+.me{
+    position: absolute;
+    top: 93%;
+    left: 95%;
+    animation: rainbow 3s linear infinite;
+    border: 1px solid black;
+    background-color: rgba(128, 128, 128, 0.3);
+    padding: 3px;
+}
+
+@keyframes rainbow{
+    14%{color: orange;}
+    28%{color: yellow;}
+    42%{color: green;}
+    56%{color: blue;}
+    70%{color: indigo;}
+    84%{color: violet;}
+    100%{color: red;}
+}
+
+.splashText{
+    rotate: 335deg;
+    position: absolute;
+    top: 8%;
+    left: 57%;
+    font-size: 40px;
+    font-weight: bolder;
+    color: goldenrod;
+    animation: size 2s linear infinite;
+    text-shadow: -5px 5px 2px black;
+}
+
+@keyframes size{
+    25%{font-size: 45px;}
+    50%{font-size: 40px;}
+    75%{font-size: 45px;}
+    100%{font-size: 40px;}
+}

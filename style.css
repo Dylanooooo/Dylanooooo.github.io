@@ -230,3 +230,38 @@ main {
 .age{
     width: 300px;
 }
+
+.container{
+    margin-top: 100px;
+    background-color: lightgray;
+    padding: 10px;
+    border: 3px solid grey;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    height:700px;
+    width: fit-content;
+    overflow-y: scroll;
+}
+
+.link{
+    color: black;
+}
+
+.link:hover{
+    color: white;
+}
+
+.project{
+    background-color: grey;
+    border: solid black 2px;
+    border-radius: 10px;
+    padding: 3px;
+    margin: 2px;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-image{
+    height: 300px;
+}

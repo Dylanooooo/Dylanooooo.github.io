@@ -1,0 +1,37 @@
+body, html{
+    height: 99.7%;
+    width: 100%;
+    margin: 0;
+    background-color: black;
+}
+
+.mainMenu{
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#playbtn{
+    position: absolute;
+    width: 330px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#playbtn:hover{
+    background-image: url("./media/playback.png");
+    width: 330px;
+    cursor: pointer;
+}
+
+
+#quitbtn{
+    position: absolute;
+    width: 330px;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
