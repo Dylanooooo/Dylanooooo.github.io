@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="CSS/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="Media/EndermanFavicon.ico">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/index.html">
+                <img class="logo-img" src="Media/EndermanLogo.png" alt="" srcset="">
+            </a>
+            <h1>en<p>D</p>er<p>M</p>a<p>N</p>
+            </h1>
+            <a class="chat" href="chat.html">Chat</a>
+            <a class="support" href="support.html">Support</a>
+            <div class="inloggen">Inloggen</div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <img class="home-img" src="Media/nature.png" alt="" srcset="">
+            <div class="card card-1">
+                <a href="Cards-HTML/card-1.html">
+                    <h2 class="h2-card">Dylano</h2>
+                </a>
+            </div>
+            <div class="card card-2">
+                <a href="Cards-HTML/card-2.html">
+                    <h2 class="h2-card">Maurits</h2>
+                </a>
+            </div>
+            <div class="card card-3">
+                <a href="Cards-HTML/card-3.html">
+                    <h2 class="h2-card">Noam</h2>
+                </a>
+            </div>
+        </div>
+        <button class="chatbot-button">
+            Chatbot
+        </button>
+    </main>
+
+    <div class="chatbot-text" style="display: none;">
+        <div class="display-text"></div>
+        <textarea class="chatbot-text-text"></textarea>
+    </div>
+
+    <div class="login-page" style="display: none;">
+        <h2>Log In</h2>
+        <br>
+        <br>
+        <h3>Username: </h3>
+        <input class="input input-text" type="text">
+        <br>
+        <h3>Email:</h3>
+        <input class="input input-email" type="email">
+        <br>
+        <h3>Password:</h3>
+        <input class="input input-password" type="password">
+        <div class="login-buttons">
+            <div class="login-button login-close">Close</div>
+            <div class="login-button login-login">Login</div>
+        </div>
+    </div>
+
+    <script src="JS/main.js"></script>
+</body>
+
+</html>
