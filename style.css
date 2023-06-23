@@ -38,7 +38,7 @@ main {
     box-shadow: 0px 0px 50px 10px black;
 }
 
-.projectLink {
+.projectLink, .infoLink {
     color: white;
     border-left: 1px solid grey;
     display: flex;
@@ -47,11 +47,18 @@ main {
     height: 75px;
     box-sizing: border-box;
     font-size: 1.5rem;
-    grid-area: 1/11/2/12;
     font-family: 'Space Mono', monospace;
     background: rgb(29, 29, 29);
     background: linear-gradient(135deg, rgba(29, 29, 29, 1) 0%, rgba(139, 139, 139, 1) 100%);
 
+}
+
+.projectLink{
+    grid-area: 1/11/2/12;
+}
+
+.infoLink{
+    grid-area: 1/10/2/11;
 }
 
 @keyframes colorChange {
@@ -102,6 +109,12 @@ main {
 }
 
 .projectLink:hover {
+    animation: colorChange 0.5s linear;
+    background: rgb(139, 139, 139);
+    background: linear-gradient(135deg, rgba(139, 139, 139, 1) 0%, rgba(29, 29, 29, 1) 100%);
+}
+
+.infoLink:hover{
     animation: colorChange 0.5s linear;
     background: rgb(139, 139, 139);
     background: linear-gradient(135deg, rgba(139, 139, 139, 1) 0%, rgba(29, 29, 29, 1) 100%);
@@ -264,4 +277,19 @@ main {
 
 .project-image{
     height: 300px;
+}
+
+.insp{
+    grid-area: 3/3/6/8;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    box-shadow: 10px 10px 30px 5px black;
+}
+
+.codepenImg{
+    width: 100%;
 }
