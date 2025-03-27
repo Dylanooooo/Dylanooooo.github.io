@@ -3,204 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stagiairs Portal - Flitz-Events</title>
+    <title>Login - Flitz-Events Portal</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
-
+<body class="login-page">
     <!-- Header -->
     <header>
-        <div class="container">
-            <h1>Welkom bij Flitz-Events Stagiairs Portal</h1>
+        <div class="header-container">
+            <h1>Flitz-Events Portal</h1>
         </div>
     </header>
 
-    <!-- Navigatie -->
-    <nav>
+    <!-- Login Sectie -->
+    <section id="login">
         <div class="container">
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-            <ul class="nav-list">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#over-ons">Over ons</a></li>
-                <li><a href="#rooster">Rooster</a></li>
-                <li><a href="#training-materialen">Training materialen</a></li>
-                <li><a href="#team-updates">Team updates</a></li>
-                <li><a href="#support">Support</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero Sectie -->
-    <div class="hero" id="home">
-        <div class="container">
-            <h2>Welkom in het Flitz-Events team!</h2>
-            <p>Vind hier alle informatie die je nodig hebt tijdens je stageperiode</p>
-            <div class="cta">
-                <button>Open Stagegids</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Informatie Sectie -->
-    <section id="rooster">
-        <div class="container">
-            <h2>Belangrijke Informatie</h2>
-            <div class="cards">
-                <a href="https://docs.google.com/spreadsheets/d/1q85WahQ9-WEO6UBlUUC2N7itOSUHbpdrFnu5Ia6cF2o/edit?gid=245731719#gid=245731719" class="card">
-                    <img src="/Images/EventPlanning.png" alt="Werktijden">
-                    <h3>Werktijden & Roosters</h3>
-                    <p>Bekijk je werkschema, vraag vrije dagen aan en regel ruilen met collega's.</p>
-                </a>
-                <div class="card">
-                    <img src="/Images/SocialMedia.png" alt="Leermateriaal">
-                    <h3>Leer Materiaal</h3>
-                    <p>Trainingsmodules, handleidingen en tutorials voor je specifieke stageplek.</p>
+            <div class="login-container">
+                <div class="login-logo">
+                    <img src="/Images/FlitzLogo.png" alt="Flitz-Events Logo">
                 </div>
-                <div class="card">
-                    <img src="/Images/EventLeading.png" alt="Evaluaties">
-                    <h3>Voortgang & Evaluaties</h3>
-                    <p>Plan gesprekken met je begeleider en hou je leerdoelen bij.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Training Materialen Sectie -->
-    <section id="training-materialen">
-        <div class="container">
-            <h2>Training Materialen</h2>
-            <p>Hier vind je alle benodigde materialen om je vaardigheden te verbeteren en je stage succesvol te maken.</p>
-            <div class="training-grid">
-                <div class="training-item">
-                    <h3>Handleidingen</h3>
-                    <p>Gedetailleerde handleidingen voor verschillende taken en processen.</p>
-                    <a href="/docs/handleidingen.pdf" target="_blank">Download Handleidingen</a>
-                </div>
-                <div class="training-item">
-                    <h3>Video Tutorials</h3>
-                    <p>Bekijk onze video tutorials voor praktische tips en tricks.</p>
-                    <a href="/videos/tutorials.html" target="_blank">Bekijk Tutorials</a>
-                </div>
-                <div class="training-item">
-                    <h3>Oefenmateriaal</h3>
-                    <p>Test je kennis met oefenmateriaal en quizzen.</p>
-                    <a href="/docs/oefenmateriaal.pdf" target="_blank">Download Oefenmateriaal</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Over Ons Sectie -->
-    <section id="over-ons">
-        <div class="container">
-            <h2>Over Flitz-Events</h2>
-            <p>Flitz-Events is dé specialist in strandactiviteiten en evenementen aan de Nederlandse kust!</p>
-            <div class="about-grid">
-                <div class="about-item">
-                    <h3>Onze Missie</h3>
-                    <p>Wij maken van elk strand een speeltuin en van elke activiteit een onvergetelijke ervaring.</p>
-                </div>
-                <div class="about-item">
-                    <h3>Voor Stagiairs</h3>
-                    <p>Bij Flitz-Events krijg je de kans om je te ontwikkelen in een dynamische omgeving.</p>
-                </div>
-                <div class="about-item">
-                    <h3>Wat Bieden Wij?</h3>
-                    <ul>
-                        <li>Praktijkervaring in evenementenorganisatie</li>
-                        <li>Persoonlijke begeleiding</li>
-                        <li>Flexibele werktijden</li>
-                        <li>Gezellig jong team</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Updates Sectie -->
-    <section id="team-updates">
-        <div class="container">
-            <h2>Team Updates</h2>
-            <p>Blijf op de hoogte van het laatste nieuws en updates binnen het team.</p>
-            <div class="updates-grid">
-                <div class="update-item">
-                    <h3>Nieuw Teamlid</h3>
-                    <p>Welkom aan onze nieuwe stagiair, Lisa! Ze zal ons ondersteunen bij evenementenplanning.</p>
-                    <span class="date">20 maart 2025</span>
-                </div>
-                <div class="update-item">
-                    <h3>Teamuitje</h3>
-                    <p>Vergeet niet: ons teamuitje is gepland op 25 maart. Zorg dat je erbij bent!</p>
-                    <span class="date">18 maart 2025</span>
-                </div>
-                <div class="update-item">
-                    <h3>Belangrijke Mededeling</h3>
-                    <p>De planning voor de zomerperiode is nu beschikbaar. Controleer je rooster!</p>
-                    <span class="date">15 maart 2025</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Feedback Sectie -->
-    <section id="support">
-        <div class="container">
-            <h2>Heb Je Vragen of Feedback?</h2>
-            <p>We staan altijd open voor je vragen en ideeën om je stageperiode nog beter te maken!</p>
-            <form>
-                <input type="text" placeholder="Naam" required>
-                <input type="email" placeholder="E-mail" required>
-                <input type="text" placeholder="Afdeling" required>
-                <textarea placeholder="Je vraag of feedback"></textarea>
-                <button type="submit">Verstuur Bericht</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Contact Sectie -->
-    <section id="contact">
-        <div class="container">
-            <h2>Contact Flitz-Events</h2>
-            <div class="contact-grid">
-                <div class="contact-item">
-                    <h3>Bezoekadres</h3>
-                    <p>Strandweg 123</p>
-                    <p>2202 AB Noordwijk</p>
-                </div>
-                <div class="contact-item">
-                    <h3>Contact</h3>
-                    <p>Tel: 06-12345678</p>
-                    <p>Email: stages@flitz-events.nl</p>
-                </div>
-                <div class="contact-item">
-                    <h3>Openingstijden</h3>
-                    <p>Maandag t/m Vrijdag: 09:00 - 17:00</p>
-                    <p>Weekend: Op afspraak</p>
-                </div>
+                <h2>Inloggen</h2>
+                <form id="login-form">
+                    <input type="text" id="username" placeholder="Gebruikersnaam" required>
+                    <input type="password" id="password" placeholder="Wachtwoord" required>
+                    <button type="submit">Inloggen</button>
+                </form>
+                <div class="login-message" id="login-message"></div>
+                <p class="login-help">Problemen met inloggen? Neem contact op met je begeleider.</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; 2025 Flitz-Events Stages. Alle rechten voorbehouden.</p>
+        <div class="footer-container">
+            <p>&copy; 2025 Flitz-Events. Alle rechten voorbehouden.</p>
         </div>
     </footer>
 
-    <script>
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navList = document.querySelector('.nav-list');
-
-        mobileMenu.addEventListener('click', () => {
-            navList.classList.toggle('active');
-        });
-    </script>
-
+    <script src="login.js"></script>
 </body>
 </html>
