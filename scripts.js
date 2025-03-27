@@ -246,4 +246,200 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialiseer de chat interface
     initializeChat();
+
+    // Voeg dit toe aan het einde van je bestaande DOMContentLoaded handler
+    // en verwijder de oude sticky navbar code
+    initializeStickyNavbar();
+
+    // Initialiseer WhatsApp chat als we op de chat pagina zijn
+    if (document.getElementById('whatsapp-chat')) {
+        initializeWhatsappChat();
+    }
 });
+
+// Verbeterde Sticky navbar functionaliteit
+function initializeStickyNavbar() {
+    console.log("Initialiseren van sticky navbar...");
+    
+    const navbar = document.querySelector('nav');
+    const navSpacer = document.querySelector('.nav-spacer');
+    const bannerWrapper = document.querySelector('.intro-banner-wrapper');
+    const header = document.querySelector('header');
+    
+    if (!navbar || !bannerWrapper || !header) {
+        console.log("Ontbrekende elementen voor sticky navbar:", {
+            navbar: !!navbar,
+            bannerWrapper: !!bannerWrapper,
+            header: !!header
+        });
+        return;
+    }
+    
+    // Maak de spacer indien niet aanwezig
+    if (!navSpacer) {
+        const newSpacer = document.createElement('div');
+        newSpacer.className = 'nav-spacer';
+        navbar.after(newSpacer);
+        console.log("Nav spacer dynamisch toegevoegd");
+    }
+    
+    const updatedNavSpacer = document.querySelector('.nav-spacer');
+    
+    // Bereken correcte hoogte voor de spacer
+    const navHeight = navbar.offsetHeight;
+    if (updatedNavSpacer) {
+        updatedNavSpacer.style.height = navHeight + 'px';
+        console.log(`Nav spacer hoogte ingesteld op ${navHeight}px`);
+    }
+    
+    // Controleer de positie bij het laden
+    checkNavbarPosition();
+    
+    // Controleer de positie bij scrollen met throttling
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        if (!scrollTimeout) {
+            scrollTimeout = setTimeout(function() {
+                checkNavbarPosition();
+                scrollTimeout = null;
+            }, 10);
+        }
+    });
+    
+    // Controleer positie bij resize
+    window.addEventListener('resize', checkNavbarPosition);
+    
+    function checkNavbarPosition() {
+        // Bereken wanneer de banner uit beeld is
+        const bannerHeight = bannerWrapper.offsetHeight;
+        const headerHeight = header.offsetHeight;
+        const scrollPosition = window.scrollY;
+        const triggerPosition = headerHeight + bannerHeight - 10; // 10px eerder triggeren
+        
+        // Debug info
+        console.log(`Scroll positie: ${scrollPosition}, Trigger positie: ${triggerPosition}`);
+        
+        // Als de scroll positie voorbij de banner is
+        if (scrollPosition >= triggerPosition) {
+            navbar.classList.add('sticky');
+            updatedNavSpacer?.classList.add('active');
+            console.log("Sticky navbar geactiveerd");
+        } else {
+            navbar.classList.remove('sticky');
+            updatedNavSpacer?.classList.remove('active');
+            console.log("Sticky navbar gedeactiveerd");
+        }
+    }
+}
+
+// WhatsApp-stijl chat functionaliteit
+function initializeWhatsappChat() {
+    const chatItems = document.querySelectorAll('.chat-item');
+    const chatDetailPanel = document.getElementById('chat-detail-panel');
+    const backButton = document.getElementById('back-to-chats');
+    const sendButton = document.getElementById('send-button');
+    const messageInput = document.getElementById('message-input');
+    
+    // Open chat detail bij klikken op een chat
+    if (chatItems) {
+        chatItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Markeer geselecteerde chat
+                chatItems.forEach(chat => chat.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Haal chat-id op (zou je kunnen gebruiken om de juiste berichten te laden)
+                const chatId = this.getAttribute('data-chat-id');
+                console.log(`Opening chat: ${chatId}`);
+                
+                // Update avatar en naam in de header (in een echte app zou je dit dynamisch laden)
+                const avatar = this.querySelector('.chat-avatar').textContent;
+                const name = this.querySelector('h4').textContent;
+                
+                const contactAvatar = chatDetailPanel.querySelector('.contact-avatar');
+                const contactName = chatDetailPanel.querySelector('.contact-details h4');
+                
+                if (contactAvatar && contactName) {
+                    contactAvatar.textContent = avatar;
+                    contactName.textContent = name;
+                }
+                
+                // Activeer het detail paneel (vooral belangrijk op mobiel)
+                if (chatDetailPanel) {
+                    chatDetailPanel.classList.add('active');
+                }
+            });
+        });
+    }
+    
+    // Terug naar chatlijst bij klikken op terug knop
+    if (backButton) {
+        backButton.addEventListener('click', function() {
+            if (chatDetailPanel) {
+                chatDetailPanel.classList.remove('active');
+            }
+        });
+    }
+    
+    // Bericht versturen
+    if (sendButton && messageInput) {
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
+    
+    function sendMessage() {
+        const messageText = messageInput.value.trim();
+        if (messageText) {
+            // Huidige tijd
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+            
+            // Nieuw bericht element maken
+            const messagesContainer = document.querySelector('.messages-container');
+            const newMessage = document.createElement('div');
+            newMessage.className = 'message sent';
+            newMessage.innerHTML = `
+                <div class="message-bubble">
+                    ${messageText}
+                    <span class="message-time">${timeString}</span>
+                </div>
+            `;
+            
+            // Toevoegen aan chat
+            if (messagesContainer) {
+                messagesContainer.appendChild(newMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // Input leegmaken
+            messageInput.value = '';
+            
+            // In een echte app zou je hier een API call maken om het bericht op te slaan
+            console.log(`Message sent: ${messageText}`);
+        }
+    }
+    
+    // Check op mobiel of desktop voor initiële weergave
+    function checkMobileView() {
+        const isMobile = window.innerWidth <= 768;
+        if (chatDetailPanel) {
+            // Op desktop standaard het eerste gesprek tonen
+            if (!isMobile && chatItems && chatItems.length > 0) {
+                chatItems[0].click();
+            } else if (isMobile) {
+                // Op mobiel standaard de chatlijst tonen
+                chatDetailPanel.classList.remove('active');
+            }
+        }
+    }
+    
+    // Voer direct uit en bij resize
+    checkMobileView();
+    window.addEventListener('resize', checkMobileView);
+}

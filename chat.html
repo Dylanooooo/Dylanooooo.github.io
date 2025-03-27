@@ -6,6 +6,7 @@
     <title>Chat | Flitz-Events Stageportaal</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -28,121 +29,171 @@
             <ul class="nav-list">
                 <li><a href="dashboard-stagiair.html">Dashboard</a></li>
                 <li><a href="projecten.html">Projecten</a></li>
-                <li><a href="chat.html">Chat</a></li>
+                <li><a href="chat.html" class="active">Chat</a></li>
             </ul>
         </div>
     </nav>
 
-    <section id="chat-interface">
-        <div class="content-container">
-            <div class="chat-container">
-                <div class="chat-sidebar">
-                    <div class="chat-search">
-                        <input type="text" placeholder="Zoeken...">
+    <section id="whatsapp-chat">
+        <div class="container">
+            <div class="whatsapp-container">
+                <!-- Linkerpaneel: Chat Lijst -->
+                <div class="chat-list-panel" id="chat-list-panel">
+                    <div class="panel-header">
+                        <h2>Chats</h2>
+                        <div class="header-actions">
+                            <button class="icon-button"><i class="fa fa-search"></i></button>
+                            <button class="icon-button"><i class="fa fa-ellipsis-v"></i></button>
+                        </div>
                     </div>
-
-                    <h3>Teamleden</h3>
-                    <ul class="chat-contacts">
-                        <li class="chat-contact">
-                            <div class="contact-avatar">R</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Romano</div>
-                                <div class="contact-status">Online</div>
+                    
+                    <div class="search-container">
+                        <div class="search-box">
+                            <i class="fa fa-search"></i>
+                            <input type="text" placeholder="Zoeken of nieuw gesprek starten">
+                        </div>
+                    </div>
+                    
+                    <div class="chats-container">
+                        <!-- Individuele chats -->
+                        <div class="chat-item" data-chat-id="joris">
+                            <div class="chat-avatar">JV</div>
+                            <div class="chat-details">
+                                <div class="chat-header">
+                                    <h4>Joris de Vries</h4>
+                                    <span class="chat-time">10:41</span>
+                                </div>
+                                <div class="chat-message-preview">
+                                    <p>Begrepen! Ik zal dat verwerken in de planning.</p>
+                                </div>
                             </div>
-                        </li>
-                        <li class="chat-contact">
-                            <div class="contact-avatar">J</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Jawad</div>
-                                <div class="contact-status">Offline</div>
+                        </div>
+                        
+                        <div class="chat-item" data-chat-id="noordwijk">
+                            <div class="chat-avatar" style="background: linear-gradient(90deg, #3498db 0, #2980b9 100%);">ZN</div>
+                            <div class="chat-details">
+                                <div class="chat-header">
+                                    <h4>Zomerfestival Noordwijk</h4>
+                                    <span class="chat-time">Gisteren</span>
+                                </div>
+                                <div class="chat-message-preview">
+                                    <p><strong>Romano:</strong> Hebben we al een definitieve datum voor de soundcheck?</p>
+                                </div>
                             </div>
-                        </li>
-                        <li class="chat-contact">
-                            <div class="contact-avatar">WL</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Wei-Lin</div>
-                                <div class="contact-status">Online</div>
+                        </div>
+                        
+                        <div class="chat-item" data-chat-id="romano">
+                            <div class="chat-avatar">R</div>
+                            <div class="chat-details">
+                                <div class="chat-header">
+                                    <h4>Romano</h4>
+                                    <span class="chat-time">Gisteren</span>
+                                </div>
+                                <div class="chat-message-preview">
+                                    <p>Ik ben morgen op kantoor, dan kunnen we het bespreken.</p>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
-
-                    <h3>Groepsgesprekken</h3>
-                    <ul class="chat-contacts">
-                        <li class="chat-contact">
-                            <div class="contact-avatar" style="background: linear-gradient(90deg, #3498db 0, #2980b9 100%);">ZN</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Zomerfestival Noordwijk</div>
-                                <div class="contact-status">5 deelnemers</div>
+                        </div>
+                        
+                        <div class="chat-item" data-chat-id="team">
+                            <div class="chat-avatar" style="background: linear-gradient(90deg, #2ecc71 0, #27ae60 100%);">FE</div>
+                            <div class="chat-details">
+                                <div class="chat-header">
+                                    <h4>Flitz Events Team</h4>
+                                    <span class="chat-time">24/3</span>
+                                </div>
+                                <div class="chat-message-preview">
+                                    <p><strong>Wei-Lin:</strong> Vergadering verplaatst naar dinsdag 9:30</p>
+                                </div>
                             </div>
-                        </li>
-                        <li class="chat-contact">
-                            <div class="contact-avatar" style="background: linear-gradient(90deg, #2ecc71 0, #27ae60 100%);">FE</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Flitz Events Team</div>
-                                <div class="contact-status">12 deelnemers</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="chat-main">
-                    <div class="chat-header">
-                        <div class="chat-contact-info">
-                            <div class="contact-avatar">JD</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Joris de Vries</div>
-                                <div class="contact-status">Online</div>
+                        </div>
+                        
+                        <div class="chat-item" data-chat-id="weilin">
+                            <div class="chat-avatar">WL</div>
+                            <div class="chat-details">
+                                <div class="chat-header">
+                                    <h4>Wei-Lin</h4>
+                                    <span class="chat-time">23/3</span>
+                                </div>
+                                <div class="chat-message-preview">
+                                    <p>De bestellijst is bijgewerkt, kun je ernaar kijken?</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="chat-messages">
+                </div>
+                
+                <!-- Rechterpaneel: Chat Gesprek -->
+                <div class="chat-detail-panel" id="chat-detail-panel">
+                    <div class="panel-header">
+                        <button class="back-button" id="back-to-chats">
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
+                        <div class="chat-contact-info">
+                            <div class="contact-avatar">JD</div>
+                            <div class="contact-details">
+                                <h4>Joris de Vries</h4>
+                                <span class="status">Online</span>
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            <button class="icon-button"><i class="fa fa-phone"></i></button>
+                            <button class="icon-button"><i class="fa fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="messages-container">
+                        <div class="chat-date">Vandaag</div>
+                        
                         <div class="message received">
-                            <div class="message-content">
+                            <div class="message-bubble">
                                 Hoi! Hoe gaat het met de voorbereidingen voor het Zomerfestival?
                                 <span class="message-time">10:32</span>
                             </div>
                         </div>
 
                         <div class="message sent">
-                            <div class="message-content">
+                            <div class="message-bubble">
                                 Hey Joris! Het gaat goed. Ik heb net de takenlijst bekeken en ben bezig met de planning voor de opbouw.
                                 <span class="message-time">10:34</span>
                             </div>
                         </div>
 
                         <div class="message received">
-                            <div class="message-content">
+                            <div class="message-bubble">
                                 Top! Heb je nog vragen over de verschillende taken?
                                 <span class="message-time">10:36</span>
                             </div>
                         </div>
 
                         <div class="message sent">
-                            <div class="message-content">
+                            <div class="message-bubble">
                                 Ik vraag me af hoeveel tijd we moeten reserveren voor het opzetten van de hoofdtent.
                                 <span class="message-time">10:38</span>
                             </div>
                         </div>
 
                         <div class="message received">
-                            <div class="message-content">
+                            <div class="message-bubble">
                                 Daar moeten we ongeveer 3 uur voor uittrekken. Maar we hebben wel minimaal 4 mensen nodig.
                                 <span class="message-time">10:40</span>
                             </div>
                         </div>
 
                         <div class="message sent">
-                            <div class="message-content">
+                            <div class="message-bubble">
                                 Begrepen! Ik zal dat verwerken in de planning.
                                 <span class="message-time">10:41</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="chat-input">
-                        <input type="text" placeholder="Bericht typen...">
-                        <button>Versturen</button>
+                    
+                    <div class="input-container">
+                        <button class="icon-button"><i class="fa fa-paperclip"></i></button>
+                        <input type="text" placeholder="Typ een bericht" id="message-input">
+                        <button class="send-button" id="send-button">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
                     </div>
                 </div>
             </div>

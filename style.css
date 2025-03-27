@@ -33,6 +33,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     margin-bottom: 30px;
+    width: 90%;
 }
 
 .header-container,
@@ -114,10 +115,45 @@ header h1 {
 nav {
     background-color: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative !important;
-    z-index: 10 !important; /* Tussen header en banner */
+    position: relative;
+    z-index: 30; /* Verhoogde z-index */
     margin-top: 0;
-    order: 3;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+/* Styling voor de sticky state met !important om conflicten te overwinnen */
+nav.sticky {
+    position: fixed !important; 
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+    animation: slideDown 0.3s ease-out !important;
+}
+
+/* Duidelijkere animatie voor het naar beneden glijden */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Verbeterde spacer */
+.nav-spacer {
+    display: none;
+    height: 60px; /* Pas aan naar exacte hoogte van je navbar */
+    width: 100%;
+}
+
+.nav-spacer.active {
+    display: block;
 }
 
 .nav-list {
@@ -555,6 +591,8 @@ nav {
     padding: 20px;
     position: relative;
     transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
@@ -562,13 +600,17 @@ nav {
 }
 
 .project-status {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 5px 10px;
-    border-radius: 20px;
+    display: inline-block;
+    padding: 4px 10px;
     font-size: 12px;
     font-weight: 500;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #a71680 0, #ec6708 100%);
+    color: white;
+    margin-bottom: 12px;
+    margin-top: 0;
+    clear: both;
+    order: 2; /* Voor flexbox ordering indien gebruikt */
 }
 
 .project-card.active .project-status {
@@ -582,8 +624,13 @@ nav {
 }
 
 .project-card h3 {
-    margin-bottom: 15px;
-    color: #a71680;
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 600;
+    width: 100%;
+    display: block;
+    order: 1; /* Titel komt eerst */
 }
 
 .project-dates {
@@ -592,6 +639,7 @@ nav {
     margin-bottom: 15px;
     font-size: 14px;
     color: #666;
+    order: 3;
 }
 
 .project-team {
@@ -625,6 +673,7 @@ nav {
 
 .project-progress {
     margin: 15px 0;
+    order: 4;
 }
 
 .project-details-btn {
@@ -639,6 +688,10 @@ nav {
 
 .project-details-btn:hover {
     background-color: #e9ecef;
+}
+
+.project-card > * {
+    order: 5; /* Standaard ordering */
 }
 
 /* Footer */
@@ -938,7 +991,7 @@ main, section#login, section#dashboard, section#chat-interface, section#projecte
     background: linear-gradient(to top, #a71680, #ec6708);
     transform-origin: bottom center;
     transform: translateX(-50%) rotate(-90deg); /* Standaard links */
-    z-index: 10;
+    z-index: 9;
     border-radius: 1px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1244,6 +1297,967 @@ nav {
     }
     
     .banner-text p {
+        font-size: 13px;
+    }
+}
+
+/* Verbeterde task list styling voor desktop en mobiel */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.task-checkbox {
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.task-item label {
+    font-size: 14px;
+    flex: 1;
+    margin-right: 15px;
+    transition: color 0.2s;
+}
+
+.task-due {
+    color: #777;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* Fix voor overlap op mobiel */
+@media (max-width: 768px) {
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 0;
+    }
+    
+    .task-item label {
+        margin: 5px 0 5px 25px;
+        width: calc(100% - 25px);
+    }
+    
+    .task-checkbox {
+        position: absolute;
+        top: 12px;
+        left: 0;
+    }
+    
+    .task-due {
+        margin-left: 25px;
+        display: block;
+        width: 100%;
+        margin-top: 3px;
+    }
+
+    /* Verbeterde leesbaarheid voor afgeronde taken */
+    .task-checkbox:checked + label {
+        text-decoration: line-through;
+        color: #999;
+    }
+}
+
+/* Verbeterde task list styling die deadline overlap oplost */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.task-checkbox {
+    margin-right: 10px;
+    flex-shrink: 0;
+    position: relative;
+    top: 2px;
+}
+
+.task-item label {
+    font-size: 14px;
+    flex: 1;
+    margin-right: 15px;
+    transition: color 0.2s;
+    padding-right: 80px; /* Ruimte maken voor deadline tekst */
+}
+
+.task-due {
+    color: #777;
+    font-size: 12px;
+    white-space: nowrap;
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+/* Checkbox styling voor betere visuele feedback */
+.task-checkbox:checked + label {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* Fix voor mobiele overlap - aparte regels voor elk element */
+@media (max-width: 768px) {
+    .task-item {
+        flex-direction: column;
+        padding: 12px 0;
+    }
+    
+    .task-checkbox {
+        position: absolute;
+        top: 12px;
+        left: 0;
+    }
+    
+    .task-item label {
+        width: calc(100% - 30px);
+        margin: 0 0 5px 25px;
+        padding-right: 0; /* Verwijder de padding op mobiel */
+    }
+    
+    .task-due {
+        position: static; /* Niet absoluut positioneren op mobiel */
+        margin-left: 25px;
+        margin-top: 2px;
+        display: block;
+        width: 100%;
+        color: #a71680; /* Accent kleur voor betere zichtbaarheid */
+    }
+}
+
+/* Responsieve Chat Interface */
+.chat-container {
+    display: flex;
+    height: calc(100vh - 200px);
+    min-height: 500px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.chat-sidebar {
+    width: 300px;
+    background: #f8f9fa;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive aanpassingen voor chat */
+@media (max-width: 768px) {
+    .chat-container {
+        flex-direction: column;
+        height: calc(100vh - 150px);
+    }
+    
+    .chat-sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 30%;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .chat-main {
+        height: 70%;
+    }
+    
+    .contacts-list {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px;
+    }
+    
+    .contact-item {
+        min-width: 120px;
+        margin-right: 10px;
+        border-bottom: none;
+        border-radius: 8px;
+        padding: 8px;
+        background: #f0f0f0;
+    }
+    
+    .chat-header {
+        padding: 10px;
+    }
+    
+    .chat-messages {
+        max-height: calc(100% - 60px);
+        padding: 10px;
+    }
+    
+    .message-input-container {
+        padding: 8px;
+    }
+    
+    .message-input {
+        padding: 8px;
+    }
+    
+    .send-button {
+        padding: 8px 12px;
+    }
+}
+
+/* Voor zeer kleine schermen extra aanpassingen */
+@media (max-width: 480px) {
+    .chat-container {
+        height: calc(100vh - 120px);
+    }
+    
+    .contact-item {
+        min-width: 100px;
+    }
+    
+    .message {
+        max-width: 85%;
+    }
+}
+
+/* Extra verbeteringen voor mobiele weergave */
+@media (max-width: 768px) {
+    /* Algemene verbeteringen */
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    /* Dashboard widgets responsief */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-widget {
+        margin-bottom: 15px;
+    }
+    
+    /* Project overview responsief */
+    .project-overview {
+        flex-direction: column;
+    }
+    
+    .project-progress-container,
+    .project-details,
+    .project-tasks {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    /* Navigatie aanpassingen */
+    .nav-list {
+        padding: 10px 0;
+    }
+    
+    .nav-list a {
+        padding: 8px 12px;
+    }
+    
+    /* Banner tekst op mobiel */
+    .banner-text h3 {
+        font-size: 16px;
+    }
+    
+    .banner-text p {
+        font-size: 12px;
+        line-height: 1.3;
+    }
+}
+
+/* Touch-friendly verbeteringen */
+@media (max-width: 768px) {
+    /* Grotere tap-targets voor betere touch usability */
+    button, 
+    .button-small, 
+    .view-all,
+    .task-checkbox + label,
+    .contact-item,
+    .nav-list a {
+        min-height: 44px; /* Minimale aanraakhoogte */
+    }
+    
+    /* Meer padding rondom interactieve elementen */
+    .task-checkbox + label {
+        padding: 10px 0;
+    }
+    
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    textarea,
+    select {
+        font-size: 16px; /* Voorkomt inzoomen op iOS */
+        padding: 10px;
+    }
+    
+    /* Grotere whitespace voor leesbaarheid */
+    p, li, td, th {
+        line-height: 1.5;
+    }
+}
+
+/* WhatsApp-stijl Chat Interface */
+#whatsapp-chat {
+    padding: 20px 0;
+}
+
+.whatsapp-container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 200px);
+    min-height: 500px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Chatlijst paneel */
+.chat-list-panel {
+    width: 30%;
+    min-width: 300px;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header voor beide panelen */
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Zoekbalk */
+.search-container {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    border-radius: 20px;
+    padding: 8px 15px;
+}
+
+.search-box i {
+    color: #999;
+    margin-right: 10px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    padding: 8px 0;
+    width: 100%;
+    outline: none;
+}
+
+/* Chat items lijst */
+.chats-container {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.chat-item:hover {
+    background-color: #f5f5f5;
+}
+
+.chat-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #a71680 0, #ec6708 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 500;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.chat-details {
+    flex: 1;
+    overflow: hidden;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.chat-header h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.chat-time {
+    font-size: 12px;
+    color: #999;
+}
+
+.chat-message-preview {
+    display: flex;
+    align-items: center;
+}
+
+.chat-message-preview p {
+    margin: 0;
+    font-size: 13px;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Chat detail paneel */
+.chat-detail-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #e5ddd5;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABoSURBVDiNY/z//z8DNQETlNYA4vNAbI8DHwPiA0D8C4jPQeVxYkagBnWoJmFSDIPKMzEMIjAKGAWDF3AyMDAcYGBgsGfAD84B8TEg/gXExxgYGNKB+AJUHicG+fA8EN+H8mFyFPHhHwYGBgBZSxoGn7YwOAAAAABJRU5ErkJggg==');
+}
+
+.chat-contact-info {
+    display: flex;
+    align-items: center;
+}
+
+.contact-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #a71680 0, #ec6708 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 500;
+    margin-right: 10px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-details h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.status {
+    font-size: 12px;
+    color: #4caf50;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 50%;
+    display: none; /* Verborgen op desktop */
+}
+
+.back-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Chatberichten container */
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.chat-date {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 12px;
+    color: #888;
+    background: rgba(225, 245, 254, 0.5);
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+}
+
+.message {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.message.received {
+    justify-content: flex-start;
+}
+
+.message.sent {
+    justify-content: flex-end;
+}
+
+.message-bubble {
+    max-width: 70%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.message.received .message-bubble {
+    background-color: white;
+}
+
+.message.sent .message-bubble {
+    background-color: #dcf8c6;
+}
+
+.message-time {
+    font-size: 11px;
+    color: #999;
+    display: inline-block;
+    margin-left: 8px;
+    float: right;
+    margin-top: 2px;
+}
+
+/* Input gedeelte */
+.input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #f0f0f0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.input-container input {
+    flex: 1;
+    border: none;
+    background: white;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin: 0 10px;
+    outline: none;
+}
+
+.send-button {
+    background: #a71680;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.send-button:hover {
+    background: #ec6708;
+}
+
+/* Responsive aanpassingen */
+@media (max-width: 768px) {
+    .whatsapp-container {
+        height: calc(100vh - 150px);
+    }
+    
+    .chat-list-panel {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .chat-detail-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .chat-detail-panel.active {
+        transform: translateX(0);
+    }
+    
+    .back-button {
+        display: block;
+    }
+    
+    .messages-container {
+        padding: 10px;
+    }
+    
+    .message-bubble {
+        max-width: 85%;
+    }
+}
+
+/* Voor zeer kleine schermen */
+@media (max-width: 480px) {
+    .panel-header {
+        padding: 10px;
+    }
+    
+    .chat-avatar {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Verbeterde Projecten Pagina CSS */
+
+/* Project overzicht container */
+#projecten-overzicht {
+    padding: 20px 0;
+}
+
+.content-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Project header met filters */
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.project-filters {
+    display: flex;
+    gap: 10px;
+}
+
+.project-filters select,
+.project-filters input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Project grid responsive layout */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Project card styling */
+.project-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.project-card.active {
+    border-left: 3px solid #a71680;
+}
+
+.project-card.completed {
+    border-left: 3px solid #4caf50;
+}
+
+.project-status {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #a71680 0, #ec6708 100%);
+    color: white;
+    margin-bottom: 12px;
+    margin-top: 0;
+    clear: both;
+    order: 2; /* Voor flexbox ordering indien gebruikt */
+}
+
+.project-card.completed .project-status {
+    background: #4caf50;
+}
+
+.project-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 600;
+    width: 100%;
+    display: block;
+    order: 1; /* Titel komt eerst */
+}
+
+.project-dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #666;
+    order: 3;
+}
+
+/* Progress bar styling */
+.project-progress {
+    margin-bottom: 15px;
+    order: 4;
+}
+
+.project-progress label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #a71680 0, #ec6708 100%);
+}
+
+.project-progress span {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Team avatars */
+.project-team {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.team-label {
+    font-size: 13px;
+    color: #555;
+    margin-right: 10px;
+}
+
+.team-avatars {
+    display: flex;
+}
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #a71680 0, #ec6708 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    margin-right: -8px;
+    border: 2px solid white;
+}
+
+/* Details button */
+.project-details-btn {
+    background: #f8f8f8;
+    color: #333;
+    text-align: center;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    margin-top: auto; /* Pushes button to bottom of card */
+}
+
+.project-details-btn:hover {
+    background: #ececec;
+}
+
+/* Responsive aanpassingen */
+@media (max-width: 900px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .project-filters {
+        width: 100%;
+    }
+    
+    .project-filters select,
+    .project-filters input {
+        flex: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-card {
+        padding: 15px;
+    }
+    
+    .project-card h3 {
+        font-size: 16px;
+    }
+    
+    .project-dates {
+        font-size: 12px;
+    }
+    
+    .avatar {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+    
+    .project-filters {
+        flex-direction: column;
+    }
+    
+    .project-filters select,
+    .project-filters input {
+        width: 100%;
+    }
+}
+
+/* Extra compact view voor zeer kleine schermen */
+@media (max-width: 380px) {
+    .project-card {
+        padding: 12px;
+    }
+    
+    .project-status {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+    
+    .project-card h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+    
+    .project-dates {
+        margin-bottom: 10px;
+    }
+    
+    .project-progress label {
+        font-size: 12px;
+    }
+    
+    .project-progress span {
+        font-size: 11px;
+    }
+    
+    .team-label {
+        font-size: 12px;
+    }
+    
+    .project-details-btn {
+        padding: 6px 12px;
         font-size: 13px;
     }
 }
