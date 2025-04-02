@@ -1,0 +1,79 @@
+# voor latere beveiliging.
+
+# # Zet de RewriteEngine aan voor het herschrijven van URL's
+# RewriteEngine On
+
+# # Redirect HTTP naar HTTPS
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# # Zorg ervoor dat URL's zonder index.php werken
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+# # Beveilig de admin pagina: alleen toegang vanaf specifiek IP
+# <Files "admin.php">
+#     Require ip 192.168.1.100  # Voeg hier jouw IP-adres toe
+# </Files>
+
+# # Beveilig de admin pagina met basic authenticatie
+# <Files "admin.php">
+#     AuthType Basic
+#     AuthName "Beveiligde Admin Pagina"
+#     AuthUserFile /pad/naar/.htpasswd  # Verwijs naar je .htpasswd bestand
+#     Require valid-user
+# </Files>
+
+# # Forceer Gzip compressie voor verschillende bestandstypes
+# <IfModule mod_deflate.c>
+#     AddOutputFilterByType DEFLATE text/plain
+#     AddOutputFilterByType DEFLATE text/html
+#     AddOutputFilterByType DEFLATE text/xml
+#     AddOutputFilterByType DEFLATE text/css
+#     AddOutputFilterByType DEFLATE application/javascript
+#     AddOutputFilterByType DEFLATE application/x-javascript
+#     AddOutputFilterByType DEFLATE application/xml
+#     AddOutputFilterByType DEFLATE application/rss+xml
+#     AddOutputFilterByType DEFLATE application/json
+# </IfModule>
+
+# # Voeg cache headers toe voor statische bestanden
+# <IfModule mod_expires.c>
+#     ExpiresActive On
+#     ExpiresByType text/css "access plus 1 year"
+#     ExpiresByType application/javascript "access plus 1 year"
+#     ExpiresByType image/jpg "access plus 1 year"
+#     ExpiresByType image/jpeg "access plus 1 year"
+#     ExpiresByType image/gif "access plus 1 year"
+#     ExpiresByType image/png "access plus 1 year"
+#     ExpiresByType image/svg+xml "access plus 1 year"
+#     ExpiresByType application/font-woff2 "access plus 1 year"
+# </IfModule>
+
+# # Foutpagina's (zorg ervoor dat deze bestanden bestaan)
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html
+
+# # Verberg .htaccess-bestanden
+# <Files .htaccess>
+#     Order allow,deny
+#     Deny from all
+# </Files>
+
+# # Verberg de inhoud van .env-bestanden (indien gebruikt)
+# <Files .env>
+#     Order allow,deny
+#     Deny from all
+# </Files>
+
+# # Verberg logbestanden (indien aanwezig)
+# <FilesMatch "\.(log)$">
+#     Order allow,deny
+#     Deny from all
+# </FilesMatch>
+
+
+
+
+
