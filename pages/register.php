@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start de sessie om de foutmelding en successtatus te krijgen
+session_start(); 
 ?>
 
 <!DOCTYPE html>
@@ -12,14 +12,12 @@ session_start(); // Start de sessie om de foutmelding en successtatus te krijgen
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="login-page">
-    <!-- Header -->
     <header>
         <div class="header-container">
             <h1>Flitz-Events Portal</h1>
         </div>
     </header>
 
-    <!-- Register Sectie -->
     <section id="register">
         <div class="container">
             <div class="register-container">
@@ -28,7 +26,7 @@ session_start(); // Start de sessie om de foutmelding en successtatus te krijgen
                 </div>
                 <h2>Registreren</h2>
 
-                <!-- Formulier met action naar register.php -->
+
                 <form action="../auth/registerb.php" method="POST">
                     <input type="text" name="naam" placeholder="Naam" required>
                     <input type="email" name="email" placeholder="E-mail" required>
@@ -39,13 +37,11 @@ session_start(); // Start de sessie om de foutmelding en successtatus te krijgen
                     <button type="submit">Registreren</button>
                 </form>
 
-                <!-- Foutmeldingen of succes berichten -->
                 <?php if (isset($_SESSION['register_message'])) : ?>
                     <div id="register-message" style="color: <?= $_SESSION['register_success'] ? 'green' : 'red' ?>; font-weight: bold; text-align: center; margin-top: 10px;">
                         <?= $_SESSION['register_message']; ?>
                     </div>
                     <?php 
-                    // Verwijder de sessievariabelen na het weergeven van de melding
                     unset($_SESSION['register_message']);
                     unset($_SESSION['register_success']);
                     ?>
@@ -56,7 +52,6 @@ session_start(); // Start de sessie om de foutmelding en successtatus te krijgen
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-container">
             <p>&copy; 2025 Flitz-Events. Alle rechten voorbehouden.</p>
