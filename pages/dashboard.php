@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Flitz-Events Stagiairs Portal</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -15,7 +15,10 @@
             <h1>Welkom bij Flitz-Events Stagiairs Portal</h1>
             <div class="user-info">
                 <span id="user-name">Stagiair</span>
-                <button id="logout-btn">Uitloggen</button>
+                <form action="../auth/logout.php" method="post">
+                <button type="submit" id="logout-btn">Uitloggen</button>
+                </form>
+
             </div>
         </div>
     </header>
@@ -23,7 +26,7 @@
     <!-- 2. Banner - met vereenvoudigde maar functionele structuur -->
     <div class="intro-banner-wrapper">
         <div class="intro-banner">
-            <img src="Images/FlitzBanner.png" alt="Flitz Events Banner" class="banner-img">
+            <img src="../assets/images/FlitzBanner.png" alt="Flitz Events Banner" class="banner-img">
             <div class="banner-text">
                 <div class="banner-container">
                     <h3>Welkom bij je stage!</h3>
@@ -42,7 +45,7 @@
                 <span class="bar"></span>
             </div>
             <ul class="nav-list">
-                <li><a href="dashboard-stagiair.html">Dashboard</a></li>
+                <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="projecten.html">Projecten</a></li>
                 <li><a href="chat.html">Chat</a></li>
             </ul>
@@ -211,7 +214,7 @@
         </div>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script src="../assets/js/scripts.js"></script>
 </body>
 
 </html>

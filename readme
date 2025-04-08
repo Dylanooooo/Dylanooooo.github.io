@@ -1,0 +1,43 @@
+
+Account: admin
+E-mail: admin@flitz.nl
+Wachtwoord: admin123
+
+
+Account: stagiair:
+E-mail: test@mail.com
+Wachtwoord: stage
+
+
+/flitz-events-portal
+│── /auth
+│   ├── login.php
+│   ├── logout.php
+│   ├── registerb.php
+│── /assets
+│   ├── /css
+│   │   ├── style.css
+│   ├── /js
+│   │   ├── scripts.js
+│   ├── /images
+│       ├── FlitzBanner.png
+│── /pages
+│   ├── dashboard-stagiair.php
+│   ├── projecten.php
+│   ├── chat.php
+│   ├── admin.php
+│   ├── register.php
+│   ├── rooster.php
+; │── /docs
+; │   ├── stagegids.pdf
+│── /includes
+│   ├── config.php  (database connectie)
+│   ├── header.php  (header voor alle paginas)
+│   ├── footer.php  (footer voor alle paginas)
+│── index.php
+│── .htaccess
+│── README.md
+
+
+
+nog te doen: js
