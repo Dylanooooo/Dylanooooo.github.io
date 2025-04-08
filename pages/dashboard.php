@@ -1,3 +1,38 @@
+<?php
+session_start();
+include('../includes/config.php');
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+// Get active project for the user
+$sql = "SELECT * FROM projecten WHERE status = 'actief' ORDER BY voortgang DESC LIMIT 1";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$active_project = $stmt->fetch();
+
+// Get tasks for the active project
+$taken = [];
+if ($active_project) {
+    $sql = "SELECT * FROM taken WHERE project_id = :project_id AND toegewezen_aan = :user_id ORDER BY deadline LIMIT 3";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':project_id', $active_project['id']);
+    $stmt->bindParam(':user_id', $_SESSION['user_id']);
+    $stmt->execute();
+    $taken = $stmt->fetchAll();
+}
+
+// Get unread messages
+$sql = "SELECT COUNT(*) as count FROM berichten WHERE ontvanger_id = :user_id AND gelezen = 0";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':user_id', $_SESSION['user_id']);
+$stmt->execute();
+$unread_messages = $stmt->fetch()['count'];
+?>
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -14,16 +49,15 @@
         <div class="header-container">
             <h1>Welkom bij Flitz-Events Stagiairs Portal</h1>
             <div class="user-info">
-                <span id="user-name">Stagiair</span>
+                <span id="user-name"><?php echo htmlspecialchars($_SESSION['naam']); ?></span>
                 <form action="../auth/logout.php" method="post">
                 <button type="submit" id="logout-btn">Uitloggen</button>
                 </form>
-
             </div>
         </div>
     </header>
 
-    <!-- 2. Banner - met vereenvoudigde maar functionele structuur -->
+    <!-- 2. Banner -->
     <div class="intro-banner-wrapper">
         <div class="intro-banner">
             <img src="../assets/images/FlitzBanner.png" alt="Flitz Events Banner" class="banner-img">
@@ -45,31 +79,33 @@
                 <span class="bar"></span>
             </div>
             <ul class="nav-list">
-                <li><a href="dashboard.php">Dashboard</a></li>
-                <li><a href="projecten.html">Projecten</a></li>
-                <li><a href="chat.html">Chat</a></li>
+                <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                <li><a href="projecten.php">Projecten</a></li>
+                <li><a href="chat.php">Chat</a></li>
+                <?php if (isset($_SESSION['rol']) && strtolower($_SESSION['rol']) === 'admin'): ?>
+                <li><a href="admin.php">Admin</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
-
-    <!-- De nav-spacer zal nu automatisch worden toegevoegd door JavaScript -->
 
     <!-- 4. Dashboard content -->
     <section id="dashboard">
         <div class="container">
             <h2>Jouw Dashboard</h2>
             
-            <!-- Project Overzicht Sectie - Bovenaan en volledige breedte -->
+            <!-- Project Overzicht Sectie -->
+            <?php if ($active_project): ?>
             <div class="dashboard-widget featured-widget">
                 <div class="widget-header">
-                    <h3>Actief Project: Zomerfestival Noordwijk</h3>
-                    <a href="projecten.html" class="button-small">Alle Projecten</a>
+                    <h3>Actief Project: <?php echo htmlspecialchars($active_project['naam']); ?></h3>
+                    <a href="projecten.php" class="button-small">Alle Projecten</a>
                 </div>
                 
                 <div class="project-overview">
-                    <!-- Vervang de bestaande meter met deze SVG-versie -->
+                    <!-- Voortgangsmeter -->
                     <div class="project-progress-container">
-                        <div class="svg-meter" data-percentage="35">
+                        <div class="svg-meter" data-percentage="<?php echo $active_project['voortgang']; ?>">
                             <svg width="200" height="100" viewBox="0 0 200 100">
                                 <!-- Grijze achtergrond boog -->
                                 <path class="meter-bg" d="M10,100 A90,90 0 0,1 190,100" stroke="#eee" stroke-width="10" fill="none" />
@@ -84,7 +120,7 @@
                                 </defs>
                             </svg>
                             <div class="meter-needle"></div>
-                            <div class="meter-center">35%</div>
+                            <div class="meter-center"><?php echo $active_project['voortgang']; ?>%</div>
                         </div>
                         <div class="meter-label">Projectvoortgang</div>
                     </div>
@@ -93,65 +129,64 @@
                         <div class="project-info">
                             <div class="info-item">
                                 <span class="info-label">Start:</span>
-                                <span class="info-value">15 april 2025</span>
+                                <span class="info-value"><?php echo date('d M Y', strtotime($active_project['start_datum'])); ?></span>
                             </div>
                             <div class="info-item">
                                 <span class="info-label">Deadline:</span>
-                                <span class="info-value">10 juni 2025</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Team:</span>
-                                <div class="team-avatars">
-                                    <span class="avatar">J</span>
-                                    <span class="avatar">M</span>
-                                    <span class="avatar">S</span>
-                                    <span class="avatar">+2</span>
-                                </div>
+                                <span class="info-value"><?php echo date('d M Y', strtotime($active_project['eind_datum'])); ?></span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="project-tasks">
                         <h4>Te doen deze week:</h4>
+                        <?php if (count($taken) > 0): ?>
                         <ul class="task-list">
+                            <?php foreach ($taken as $taak): ?>
                             <li class="task-item">
-                                <input type="checkbox" id="task1" class="task-checkbox">
-                                <label for="task1">Leverancierslijst controleren</label>
-                                <span class="task-due">Deadline: 29 Maart</span>
+                                <input type="checkbox" id="task<?php echo $taak['id']; ?>" class="task-checkbox" <?php echo ($taak['status'] == 'afgerond') ? 'checked' : ''; ?>>
+                                <label for="task<?php echo $taak['id']; ?>"><?php echo htmlspecialchars($taak['naam']); ?></label>
+                                <span class="task-due">
+                                    <?php if ($taak['deadline']): ?>
+                                    Deadline: <?php echo date('d M', strtotime($taak['deadline'])); ?>
+                                    <?php else: ?>
+                                    Geen deadline
+                                    <?php endif; ?>
+                                </span>
                             </li>
-                            <li class="task-item">
-                                <input type="checkbox" id="task2" class="task-checkbox">
-                                <label for="task2">Voorbereiden beachvolleybaltoernooi</label>
-                                <span class="task-due">Deadline: 30 Maart</span>
-                            </li>
-                            <li class="task-item">
-                                <input type="checkbox" id="task3" class="task-checkbox" checked>
-                                <label for="task3">Contact opnemen met DJ's</label>
-                                <span class="task-due">Afgerond</span>
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
-                        <a href="taken.html" class="view-all">Bekijk alle taken</a>
+                        <a href="project-detail.php?id=<?php echo $active_project['id']; ?>" class="view-all">Bekijk alle taken</a>
+                        <?php else: ?>
+                        <p>Geen openstaande taken voor dit project.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
+            <?php else: ?>
+            <div class="dashboard-widget featured-widget">
+                <div class="widget-header">
+                    <h3>Geen actief project</h3>
+                    <a href="projecten.php" class="button-small">Bekijk Projecten</a>
+                </div>
+                <p>Er zijn momenteel geen actieve projecten toegewezen.</p>
+            </div>
+            <?php endif; ?>
             
             <div class="dashboard-grid">
-                <!-- Aankomende Shifts Widget -->
+                <!-- Snelle Links Widget -->
                 <div class="dashboard-widget">
-                    <h3>Aankomende Shifts</h3>
-                    <div class="shifts-list">
-                        <div class="shift-item">
-                            <div class="shift-date">27 Maart 2025</div>
-                            <div class="shift-time">09:00 - 17:00</div>
-                            <div class="shift-location">Noordwijk Strand</div>
-                        </div>
-                        <div class="shift-item">
-                            <div class="shift-date">29 Maart 2025</div>
-                            <div class="shift-time">12:00 - 20:00</div>
-                            <div class="shift-location">Scheveningen</div>
-                        </div>
-                    </div>
-                    <a href="rooster.html" class="view-all">Bekijk volledige rooster</a>
+                    <h3>Snelle Links</h3>
+                    <ul class="quick-links">
+                        <li><a href="projecten.php">Actieve Projecten</a></li>
+                        <li><a href="chat.php">
+                            Berichten
+                            <?php if ($unread_messages > 0): ?>
+                            <span class="badge"><?php echo $unread_messages; ?></span>
+                            <?php endif; ?>
+                        </a></li>
+                        <li><a href="trainingen.php">Trainingsmateriaal</a></li>
+                    </ul>
                 </div>
                 
                 <!-- Team Updates Widget -->
@@ -170,39 +205,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Snelle Links Widget -->
-                <div class="dashboard-widget">
-                    <h3>Snelle Links</h3>
-                    <ul class="quick-links">
-                        <li><a href="rooster.html">Mijn Rooster</a></li>
-                        <li><a href="projecten.html">Actieve Projecten</a></li>
-                        <li><a href="training.html">Trainingsmateriaal</a></li>
-                        <li><a href="docs/stagegids.pdf">Stagegids</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Voortgang Widget -->
-                <div class="dashboard-widget">
-                    <h3>Jouw Voortgang</h3>
-                    <div class="progress-bars">
-                        <div class="progress-item">
-                            <label>Competentie 1</label>
-                            <div class="progress-bar">
-                                <div class="progress" style="width: 75%"></div>
-                            </div>
-                            <span>75%</span>
-                        </div>
-                        <div class="progress-item">
-                            <label>Competentie 2</label>
-                            <div class="progress-bar">
-                                <div class="progress" style="width: 45%"></div>
-                            </div>
-                            <span>45%</span>
-                        </div>
-                    </div>
-                    <a href="voortgang.html" class="view-all">Bekijk gedetailleerde voortgang</a>
-                </div>
             </div>
         </div>
     </section>
@@ -216,5 +218,4 @@
 
     <script src="../assets/js/scripts.js"></script>
 </body>
-
 </html>
