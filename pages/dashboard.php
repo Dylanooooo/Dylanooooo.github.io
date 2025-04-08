@@ -45,7 +45,7 @@
                 <span class="bar"></span>
             </div>
             <ul class="nav-list">
-                <li><a href="dashboard-stagiair.html">Dashboard</a></li>
+                <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="projecten.html">Projecten</a></li>
                 <li><a href="chat.html">Chat</a></li>
             </ul>
@@ -214,7 +214,7 @@
         </div>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script src="../assets/js/scripts.js"></script>
 </body>
 
 </html>

@@ -18,18 +18,23 @@ session_start();
         </div>
     </header>
 
-    <section id="register">
+    <section id="login">
         <div class="container">
-            <div class="register-container">
+            <div class="login-container">
                 <div class="login-logo">
                     <img src="../assets/images/FlitzLogo.png" alt="Flitz-Events Logo">
                 </div>
                 <h2>Registreren</h2>
 
+                <?php if (isset($_GET['error'])): ?>
+                    <p style="color: red; text-align: center;">
+                        <?php echo htmlspecialchars($_GET['error']); ?>
+                    </p>
+                <?php endif; ?>
 
                 <form action="../auth/registerb.php" method="POST">
                     <input type="text" name="naam" placeholder="Naam" required>
-                    <input type="email" name="email" placeholder="E-mail" required>
+                    <input type="email" name="email" placeholder="E-mailadres" required>
                     <input type="password" name="password" placeholder="Wachtwoord" required>
                     <input type="text" name="school" placeholder="School" required>
                     <input type="text" name="opleiding" placeholder="Opleiding" required>
@@ -37,17 +42,11 @@ session_start();
                     <button type="submit">Registreren</button>
                 </form>
 
-                <?php if (isset($_SESSION['register_message'])) : ?>
-                    <div id="register-message" style="color: <?= $_SESSION['register_success'] ? 'green' : 'red' ?>; font-weight: bold; text-align: center; margin-top: 10px;">
-                        <?= $_SESSION['register_message']; ?>
-                    </div>
-                    <?php 
-                    unset($_SESSION['register_message']);
-                    unset($_SESSION['register_success']);
-                    ?>
-                <?php endif; ?>
+                <p class="register-link">
+                    Al een account? <a href="../index.php">Inloggen</a>
+                </p>
 
-                <p class="register-help">Al een account? <a href="../index.php">Inloggen</a></p>
+                <p class="login-help">Problemen met registreren? Neem contact op met je begeleider.</p>
             </div>
         </div>
     </section>
@@ -57,5 +56,7 @@ session_start();
             <p>&copy; 2025 Flitz-Events. Alle rechten voorbehouden.</p>
         </div>
     </footer>
+
+    <script src="../assets/js/login.js"></script>
 </body>
 </html>

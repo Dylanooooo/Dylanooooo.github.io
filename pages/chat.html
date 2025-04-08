@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat | Flitz-Events Stageportaal</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="header-container">
-            <h1>Flitz-Events Stageportaal</h1>
+            <h1>Welkom bij Flitz-Events Stagiairs Portal</h1>
             <div class="user-info">
-                <span>Welkom, <span id="user-name">Stagiair</span></span>
-                <button id="logout-btn">Uitloggen</button>
+                <span id="user-name">Stagiair</span>
+                <form action="../auth/logout.php" method="post">
+                <button type="submit" id="logout-btn">Uitloggen</button>
+                </form>
+
             </div>
         </div>
     </header>
@@ -27,9 +30,9 @@
                 <span class="bar"></span>
             </div>
             <ul class="nav-list">
-                <li><a href="dashboard-stagiair.html">Dashboard</a></li>
+                <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="projecten.html">Projecten</a></li>
-                <li><a href="chat.html" class="active">Chat</a></li>
+                <li><a href="chat.html">Chat</a></li>
             </ul>
         </div>
     </nav>
@@ -206,6 +209,6 @@
         </div>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script src="../assets/js/scripts.js"></script>
 </body>
 </html>
