@@ -26,4 +26,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     Medewerker: <input type="text" name="medewerker" value="<?= htmlspecialchars($item['medewerker']) ?>" required><br>
     <input type="submit" value="Bijwerken">
 </form>
-<a href="index.php">← Terug</a>
+<a href="../pages/rooster.html">← Terug</a>

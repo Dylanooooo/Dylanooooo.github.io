@@ -63,13 +63,28 @@ $upcoming_shifts = [
     <?php include('../includes/navigation.php'); ?>
 
     <!-- 2. Banner -->
+
+<body>
+    <!-- Inclusie van de consistente navigatie component -->
+    <?php include('../includes/navigation.php'); ?>
+
+    <!-- 2. Banner -->
     <div class="intro-banner-wrapper">
         <div class="intro-banner">
             <img src="../assets/images/FlitzBanner.png" alt="Flitz Events Banner" class="banner-img">
             <div class="banner-text">
                 <div class="banner-container">
                     <h3>Welkom bij je stage!</h3>
+<<<<<<< Updated upstream
                     <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
+=======
+<<<<<<< HEAD
+                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid:
+                        Ma-Do 9:00-17:00
+=======
+                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
+>>>>>>> fb0fe6faf45eafb234f426e19bad9c0388f0f60f
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>
@@ -79,6 +94,15 @@ $upcoming_shifts = [
     <section id="dashboard">
         <div class="container">
             <h2>Jouw Dashboard</h2>
+<<<<<<< Updated upstream
+            
+            <!-- Project Overzicht Sectie -->
+            <?php if ($active_project): ?>
+=======
+<<<<<<< HEAD
+
+            <!-- Project Overzicht Sectie - Bovenaan en volledige breedte -->
+=======
             
             <!-- Project Overzicht Sectie -->
             <?php if ($active_project): ?>
@@ -117,11 +141,13 @@ $upcoming_shifts = [
                         <div class="project-info">
                             <div class="info-item">
                                 <span class="info-label">Start:</span>
-                                <span class="info-value"><?php echo date('d M Y', strtotime($active_project['start_datum'])); ?></span>
+                                <span
+                                    class="info-value"><?php echo date('d M Y', strtotime($active_project['start_datum'])); ?></span>
                             </div>
                             <div class="info-item">
                                 <span class="info-label">Deadline:</span>
-                                <span class="info-value"><?php echo date('d M Y', strtotime($active_project['eind_datum'])); ?></span>
+                                <span
+                                    class="info-value"><?php echo date('d M Y', strtotime($active_project['eind_datum'])); ?></span>
                             </div>
                         </div>
                     </div>
@@ -132,8 +158,10 @@ $upcoming_shifts = [
                         <ul class="task-list">
                             <?php foreach ($taken as $taak): ?>
                             <li class="task-item">
-                                <input type="checkbox" id="task<?php echo $taak['id']; ?>" class="task-checkbox" <?php echo ($taak['status'] == 'afgerond') ? 'checked' : ''; ?>>
-                                <label for="task<?php echo $taak['id']; ?>"><?php echo htmlspecialchars($taak['naam']); ?></label>
+                                <input type="checkbox" id="task<?php echo $taak['id']; ?>" class="task-checkbox"
+                                    <?php echo ($taak['status'] == 'afgerond') ? 'checked' : ''; ?>>
+                                <label
+                                    for="task<?php echo $taak['id']; ?>"><?php echo htmlspecialchars($taak['naam']); ?></label>
                                 <span class="task-due">
                                     <?php if ($taak['deadline']): ?>
                                     Deadline: <?php echo date('d M', strtotime($taak['deadline'])); ?>
@@ -144,7 +172,8 @@ $upcoming_shifts = [
                             </li>
                             <?php endforeach; ?>
                         </ul>
-                        <a href="project-detail.php?id=<?php echo $active_project['id']; ?>" class="view-all">Bekijk alle taken</a>
+                        <a href="project-detail.php?id=<?php echo $active_project['id']; ?>" class="view-all">Bekijk
+                            alle taken</a>
                         <?php else: ?>
                         <p>Geen openstaande taken voor dit project.</p>
                         <?php endif; ?>
@@ -160,7 +189,7 @@ $upcoming_shifts = [
                 <p>Er zijn momenteel geen actieve projecten toegewezen.</p>
             </div>
             <?php endif; ?>
-            
+
             <div class="dashboard-grid">
                 <!-- Snelle Links Widget -->
                 <div class="dashboard-widget">
@@ -172,6 +201,14 @@ $upcoming_shifts = [
                         <li><a href="#">Contact Opnemen</a></li>
                     </ul>
                 </div>
+<<<<<<< Updated upstream
+                
+                <!-- Aankomende Diensten Widget -->
+=======
+<<<<<<< HEAD
+
+                <!-- Voortgang Widget -->
+=======
                 
                 <!-- Aankomende Diensten Widget -->
                 <div class="dashboard-widget">
@@ -179,15 +216,16 @@ $upcoming_shifts = [
                     <div class="shifts-list">
                         <?php foreach($upcoming_shifts as $shift): ?>
                         <div class="shift-item">
-                            <div class="shift-date"><?php echo $shift['day']; ?> <span class="date"><?php echo $shift['date']; ?></span></div>
+                            <div class="shift-date"><?php echo $shift['day']; ?> <span
+                                    class="date"><?php echo $shift['date']; ?></span></div>
                             <div class="shift-time"><?php echo $shift['time']; ?></div>
                             <div class="shift-location"><?php echo $shift['location']; ?></div>
                         </div>
                         <?php endforeach; ?>
                     </div>
-                    <a href="rooster.php" class="view-all">Bekijk volledig rooster</a>
+                    <a href="#" class="view-all">Bekijk volledig rooster</a>
                 </div>
-                
+
                 <!-- Updates Widget -->
                 <div class="dashboard-widget">
                     <h3>Laatste Updates</h3>
@@ -217,4 +255,5 @@ $upcoming_shifts = [
 
     <script src="../assets/js/scripts.js"></script>
 </body>
+
 </html>
