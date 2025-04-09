@@ -122,6 +122,14 @@ nav {
     width: 100%;
 }
 
+/* Fix for navigation container layout */
+nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 /* Styling voor de sticky state met !important om conflicten te overwinnen */
 nav.sticky {
     position: fixed !important; 
@@ -159,6 +167,9 @@ nav.sticky {
 .nav-list {
     display: flex;
     list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
 }
 
 .nav-list li {
@@ -1892,7 +1903,7 @@ nav {
     color: #999;
     display: inline-block;
     margin-left: 8px;
-    float: right;
+    display: inline-block;
     margin-top: 2px;
 }
 
@@ -2259,6 +2270,456 @@ nav {
     .project-details-btn {
         padding: 6px 12px;
         font-size: 13px;
+    }
+}
+
+/* Verbeterde chat styling */
+.unread-badge {
+    background-color: #a71680;
+    color: white;
+    border-radius: 50%;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.no-chat-selected {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    text-align: center;
+}
+
+.no-chat-message {
+    max-width: 350px;
+    padding: 30px;
+}
+
+.no-chat-message i {
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.no-chat-message h3 {
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.no-chat-message p {
+    color: #777;
+}
+
+.no-messages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #999;
+    text-align: center;
+    padding: 20px;
+}
+
+.message.error .message-bubble {
+    border: 1px solid #ffcc00;
+}
+
+.error-icon {
+    margin-left: 10px;
+    color: #ffcc00;
+}
+
+/* Verbeter scroll ervaring voor berichten */
+.messages-container {
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+.messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+/* Verbeter mobiele ervaring */
+@media (max-width: 768px) {
+    .chat-detail-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .chat-detail-panel.active {
+        transform: translateX(0);
+    }
+    
+    .back-button {
+        display: block;
+    }
+    
+    .input-container {
+        padding: 10px;
+    }
+    
+    .input-container input {
+        font-size: 16px; /* Voorkom inzoomen op iOS */
+    }
+}
+
+/* Footer sticky fix - add to existing CSS */
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main, section#login, section#dashboard, section#whatsapp-chat, 
+section#project-detail, section#projecten-overzicht {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+/* Better spacing between sections and footer */
+section {
+    padding-bottom: 30px;
+}
+
+/* Make sure content containers have proper sizing */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Chat specifieke stijlen */
+#message-input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #f0f2f5;
+    font-family: 'Poppins', sans-serif;
+    max-height: 80px;
+    min-height: 40px;
+    resize: none;
+}
+
+.unread {
+    font-weight: 600;
+}
+
+.unread-badge {
+    background-color: #25D366;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.chat-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #f5f5f5;
+    color: #555;
+    text-align: center;
+    padding: 20px;
+}
+
+.welcome-icon, .empty-state-icon {
+    font-size: 4rem;
+    color: #25D366;
+    margin-bottom: 20px;
+}
+
+.chat-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #555;
+}
+
+/* Modal stijlen */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 0;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-weight: 500;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #555;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.contacts-list {
+    margin-top: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.contact-item:hover {
+    background-color: #f0f2f5;
+}
+
+.contact-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #128c7e;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.contact-item h4 {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Profile Navigation Styling */
+.profile-nav {
+    margin-left: auto;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+    color: #333;
+    text-decoration: none;
+}
+
+.profile-link:hover, .profile-link.active {
+    background-color: rgba(167, 22, 128, 0.1);
+}
+
+.nav-profile-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #a71680;
+}
+
+.nav-profile-initial {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #a71680 0, #ec6708 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.profile-name {
+    margin-left: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Responsive adjustments for profile nav */
+@media (max-width: 768px) {
+    .profile-name {
+        display: none;
+    }
+    
+    .profile-link {
+        padding: 5px;
+    }
+}
+
+/* Profile Page Styling */
+.profile-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.profile-header {
+    padding: 30px;
+    background: linear-gradient(135deg, #a71680 0%, #ec6708 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-initials {
+    font-size: 48px;
+    font-weight: bold;
+    color: #a71680;
+}
+
+.profile-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+}
+
+.profile-role {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.profile-email {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.profile-content {
+    padding: 20px;
+}
+
+.profile-form {
+    max-width: 600px;
+}
+
+.profile-form .form-row {
+    margin-bottom: 15px;
+}
+
+.profile-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .profile-nav .profile-name {
+        display: none;
+    }
+    
+    .nav-list {
+        flex: 1;
     }
 }
 
