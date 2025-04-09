@@ -63,21 +63,12 @@ $upcoming_shifts = [
     <?php include('../includes/navigation.php'); ?>
 
     <!-- 2. Banner -->
-
-<body>
-    <!-- Inclusie van de consistente navigatie component -->
-    <?php include('../includes/navigation.php'); ?>
-
-    <!-- 2. Banner -->
     <div class="intro-banner-wrapper">
         <div class="intro-banner">
             <img src="../assets/images/FlitzBanner.png" alt="Flitz Events Banner" class="banner-img">
             <div class="banner-text">
                 <div class="banner-container">
                     <h3>Welkom bij je stage!</h3>
-                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
-                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid:
-                        Ma-Do 9:00-17:00
                     <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
                 </div>
             </div>
@@ -88,12 +79,8 @@ $upcoming_shifts = [
     <section id="dashboard">
         <div class="container">
             <h2>Jouw Dashboard</h2>
-
             
             <!-- Project Overzicht Sectie -->
-            <?php if ($active_project): ?>
-            <!-- Project Overzicht Sectie - Bovenaan en volledige breedte -->    
-
             <?php if ($active_project): ?>
             <div class="dashboard-widget featured-widget">
                 <div class="widget-header">
@@ -190,14 +177,6 @@ $upcoming_shifts = [
                         <li><a href="#">Contact Opnemen</a></li>
                     </ul>
                 </div>
-<<<<<<< Updated upstream
-                
-                <!-- Aankomende Diensten Widget -->
-=======
-<<<<<<< HEAD
-
-                <!-- Voortgang Widget -->
-=======
                 
                 <!-- Aankomende Diensten Widget -->
                 <div class="dashboard-widget">
@@ -212,7 +191,7 @@ $upcoming_shifts = [
                         </div>
                         <?php endforeach; ?>
                     </div>
-                    <a href="#" class="view-all">Bekijk volledig rooster</a>
+                    <a href="rooster.php" class="view-all">Bekijk volledig rooster</a>
                 </div>
 
                 <!-- Updates Widget -->
@@ -244,5 +223,4 @@ $upcoming_shifts = [
 
     <script src="../assets/js/scripts.js"></script>
 </body>
-
 </html>
