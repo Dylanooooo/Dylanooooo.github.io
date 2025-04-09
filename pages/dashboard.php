@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <!-- 1. Header -->
@@ -16,7 +18,7 @@
             <div class="user-info">
                 <span id="user-name">Stagiair</span>
                 <form action="../auth/logout.php" method="post">
-                <button type="submit" id="logout-btn">Uitloggen</button>
+                    <button type="submit" id="logout-btn">Uitloggen</button>
                 </form>
 
             </div>
@@ -30,7 +32,8 @@
             <div class="banner-text">
                 <div class="banner-container">
                     <h3>Welkom bij je stage!</h3>
-                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00
+                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid:
+                        Ma-Do 9:00-17:00
                 </div>
             </div>
         </div>
@@ -58,23 +61,25 @@
     <section id="dashboard">
         <div class="container">
             <h2>Jouw Dashboard</h2>
-            
+
             <!-- Project Overzicht Sectie - Bovenaan en volledige breedte -->
             <div class="dashboard-widget featured-widget">
                 <div class="widget-header">
                     <h3>Actief Project: Zomerfestival Noordwijk</h3>
                     <a href="projecten.html" class="button-small">Alle Projecten</a>
                 </div>
-                
+
                 <div class="project-overview">
                     <!-- Vervang de bestaande meter met deze SVG-versie -->
                     <div class="project-progress-container">
                         <div class="svg-meter" data-percentage="35">
                             <svg width="200" height="100" viewBox="0 0 200 100">
                                 <!-- Grijze achtergrond boog -->
-                                <path class="meter-bg" d="M10,100 A90,90 0 0,1 190,100" stroke="#eee" stroke-width="10" fill="none" />
+                                <path class="meter-bg" d="M10,100 A90,90 0 0,1 190,100" stroke="#eee" stroke-width="10"
+                                    fill="none" />
                                 <!-- Gekleurde voortgangsboog -->
-                                <path class="meter-fg" d="M10,100 A90,90 0 0,1 190,100" stroke="url(#gradient)" stroke-width="10" fill="none" />
+                                <path class="meter-fg" d="M10,100 A90,90 0 0,1 190,100" stroke="url(#gradient)"
+                                    stroke-width="10" fill="none" />
                                 <!-- Gradient definitie -->
                                 <defs>
                                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -88,7 +93,7 @@
                         </div>
                         <div class="meter-label">Projectvoortgang</div>
                     </div>
-                    
+
                     <div class="project-details">
                         <div class="project-info">
                             <div class="info-item">
@@ -110,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="project-tasks">
                         <h4>Te doen deze week:</h4>
                         <ul class="task-list">
@@ -134,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="dashboard-grid">
                 <!-- Aankomende Shifts Widget -->
                 <div class="dashboard-widget">
@@ -153,7 +158,7 @@
                     </div>
                     <a href="rooster.html" class="view-all">Bekijk volledige rooster</a>
                 </div>
-                
+
                 <!-- Team Updates Widget -->
                 <div class="dashboard-widget">
                     <h3>Team Updates</h3>
@@ -170,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Snelle Links Widget -->
                 <div class="dashboard-widget">
                     <h3>Snelle Links</h3>
@@ -181,7 +186,7 @@
                         <li><a href="docs/stagegids.pdf">Stagegids</a></li>
                     </ul>
                 </div>
-                
+
                 <!-- Voortgang Widget -->
                 <div class="dashboard-widget">
                     <h3>Jouw Voortgang</h3>

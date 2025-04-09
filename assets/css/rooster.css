@@ -1,0 +1,85 @@
+/* Algemene stijlen voor het rooster */
+#rooster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Flexibele kolommen */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Opmaak voor elk roosteritem */
+.rooster-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hover-effect voor roosteritems */
+.rooster-item:hover {
+    transform: scale(1.05);
+}
+
+/* Styling voor de invoervelden */
+.rooster-item input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Styling voor de opslaan-knop */
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+/* Styling voor het zoekveld */
+#search {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+#search::placeholder {
+    color: #888;
+}
+
+/* Responsief ontwerp */
+@media (max-width: 768px) {
+    #rooster {
+        grid-template-columns: 1fr; /* Maak alles in één kolom op kleinere schermen */
+    }
+
+    .rooster-item {
+        width: 100%;
+    }
+
+    /* Vergroot de inputvelden op kleine schermen */
+    .rooster-item input {
+        font-size: 16px;
+    }
+
+    .save-btn {
+        padding: 12px;
+        font-size: 16px;
+    }
+}
+
+
