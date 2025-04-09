@@ -58,54 +58,18 @@ $upcoming_shifts = [
     <link rel="stylesheet" href="../assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<<<<<<< Updated upstream
 <body>
     <!-- Inclusie van de consistente navigatie component -->
     <?php include('../includes/navigation.php'); ?>
 
     <!-- 2. Banner -->
-=======
-
-<body>
-    <!-- Inclusie van de consistente navigatie component -->
-    <?php include('../includes/navigation.php'); ?>
-
-<<<<<<< HEAD
-    <!-- 1. Header -->
-    <header>
-        <div class="header-container">
-            <h1>Welkom bij Flitz-Events Stagiairs Portal</h1>
-            <div class="user-info">
-                <span id="user-name">Stagiair</span>
-                <form action="../auth/logout.php" method="post">
-                    <button type="submit" id="logout-btn">Uitloggen</button>
-                </form>
-
-            </div>
-        </div>
-    </header>
-
-    <!-- 2. Banner - met vereenvoudigde maar functionele structuur -->
-=======
-    <!-- 2. Banner -->
->>>>>>> fb0fe6faf45eafb234f426e19bad9c0388f0f60f
->>>>>>> Stashed changes
     <div class="intro-banner-wrapper">
         <div class="intro-banner">
             <img src="../assets/images/FlitzBanner.png" alt="Flitz Events Banner" class="banner-img">
             <div class="banner-text">
                 <div class="banner-container">
                     <h3>Welkom bij je stage!</h3>
-<<<<<<< Updated upstream
                     <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
-=======
-<<<<<<< HEAD
-                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid:
-                        Ma-Do 9:00-17:00
-=======
-                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
->>>>>>> fb0fe6faf45eafb234f426e19bad9c0388f0f60f
->>>>>>> Stashed changes
                 </div>
             </div>
         </div>
@@ -115,20 +79,9 @@ $upcoming_shifts = [
     <section id="dashboard">
         <div class="container">
             <h2>Jouw Dashboard</h2>
-<<<<<<< Updated upstream
             
             <!-- Project Overzicht Sectie -->
             <?php if ($active_project): ?>
-=======
-<<<<<<< HEAD
-
-            <!-- Project Overzicht Sectie - Bovenaan en volledige breedte -->
-=======
-            
-            <!-- Project Overzicht Sectie -->
-            <?php if ($active_project): ?>
->>>>>>> fb0fe6faf45eafb234f426e19bad9c0388f0f60f
->>>>>>> Stashed changes
             <div class="dashboard-widget featured-widget">
                 <div class="widget-header">
                     <h3>Actief Project: <?php echo htmlspecialchars($active_project['naam']); ?></h3>
@@ -198,7 +151,6 @@ $upcoming_shifts = [
                     </div>
                 </div>
             </div>
-<<<<<<< Updated upstream
             <?php else: ?>
             <div class="dashboard-widget featured-widget">
                 <div class="widget-header">
@@ -210,81 +162,18 @@ $upcoming_shifts = [
             <?php endif; ?>
             
             <div class="dashboard-grid">
-=======
-<<<<<<< HEAD
-
-            <div class="dashboard-grid">
-                <!-- Aankomende Shifts Widget -->
-                <div class="dashboard-widget">
-                    <h3>Aankomende Shifts</h3>
-                    <div class="shifts-list">
-                        <div class="shift-item">
-                            <div class="shift-date">27 Maart 2025</div>
-                            <div class="shift-time">09:00 - 17:00</div>
-                            <div class="shift-location">Noordwijk Strand</div>
-                        </div>
-                        <div class="shift-item">
-                            <div class="shift-date">29 Maart 2025</div>
-                            <div class="shift-time">12:00 - 20:00</div>
-                            <div class="shift-location">Scheveningen</div>
-                        </div>
-                    </div>
-                    <a href="rooster.html" class="view-all">Bekijk volledige rooster</a>
-                </div>
-
-                <!-- Team Updates Widget -->
-                <div class="dashboard-widget">
-                    <h3>Team Updates</h3>
-                    <div class="updates-list">
-                        <div class="update-item">
-                            <h4>Teamuitje</h4>
-                            <p>Vergeet niet: ons teamuitje is gepland op 25 maart!</p>
-                            <span class="date">18 maart 2025</span>
-                        </div>
-                        <div class="update-item">
-                            <h4>Nieuwe Zomerplanning</h4>
-                            <p>De planning voor de zomerperiode is nu beschikbaar.</p>
-                            <span class="date">15 maart 2025</span>
-                        </div>
-                    </div>
-                </div>
-
-=======
-            <?php else: ?>
-            <div class="dashboard-widget featured-widget">
-                <div class="widget-header">
-                    <h3>Geen actief project</h3>
-                    <a href="projecten.php" class="button-small">Bekijk Projecten</a>
-                </div>
-                <p>Er zijn momenteel geen actieve projecten toegewezen.</p>
-            </div>
-            <?php endif; ?>
-            
-            <div class="dashboard-grid">
->>>>>>> fb0fe6faf45eafb234f426e19bad9c0388f0f60f
->>>>>>> Stashed changes
                 <!-- Snelle Links Widget -->
                 <div class="dashboard-widget">
                     <h3>Snelle Links</h3>
                     <ul class="quick-links">
                         <li><a href="projecten.php">Projecten Overzicht</a></li>
-                        <li><a href="#">Weekrooster</a></li>
+                        <li><a href="rooster.php">Weekrooster</a></li>
                         <li><a href="#">Trainingen</a></li>
                         <li><a href="#">Contact Opnemen</a></li>
                     </ul>
                 </div>
-<<<<<<< Updated upstream
                 
                 <!-- Aankomende Diensten Widget -->
-=======
-<<<<<<< HEAD
-
-                <!-- Voortgang Widget -->
-=======
-                
-                <!-- Aankomende Diensten Widget -->
->>>>>>> fb0fe6faf45eafb234f426e19bad9c0388f0f60f
->>>>>>> Stashed changes
                 <div class="dashboard-widget">
                     <h3>Aankomende Diensten</h3>
                     <div class="shifts-list">
@@ -296,7 +185,7 @@ $upcoming_shifts = [
                         </div>
                         <?php endforeach; ?>
                     </div>
-                    <a href="#" class="view-all">Bekijk volledig rooster</a>
+                    <a href="rooster.php" class="view-all">Bekijk volledig rooster</a>
                 </div>
                 
                 <!-- Updates Widget -->

@@ -35,6 +35,13 @@ Volg deze stappen om het project lokaal op te zetten:
 - E-mail: stagiair@flitz-events.nl
 - Wachtwoord: stagiair123
 
+### Stagiair registratie
+Stagiairs kunnen zichzelf registreren met de volgende informatie:
+- Naam en e-mail (verplicht)
+- School/instelling
+- Opleiding
+- Stage periode (start- en einddatum)
+
 ## Projectstructuur
 
 ```
