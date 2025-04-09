@@ -4,7 +4,7 @@ include __DIR__ . '/config.php';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = $pdo->prepare("INSERT INTO rooster (datum, tijdstip, activiteit, medewerker) VALUES (?, ?, ?, ?)");
     $stmt->execute([$_POST['datum'], $_POST['tijdstip'], $_POST['activiteit'], $_POST['medewerker']]);
-    header("Location: index.php");
+    header("Location: ../pages/rooster.html");
     exit;
 }
 ?>
