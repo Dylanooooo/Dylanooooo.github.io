@@ -53,7 +53,6 @@ $user_role = $is_logged_in ? strtolower($_SESSION['rol']) : '';
                 <!-- Navigatie voor stagiairs/standaardgebruikers -->
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/dashboard.php" class="<?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/projecten.php" class="<?php echo $current_page == 'projecten.php' ? 'active' : ''; ?>">Mijn projecten</a></li>
-                <li><a href="<?php echo $root_path ?? ''; ?>pages/taken.php" class="<?php echo $current_page == 'taken.php' ? 'active' : ''; ?>">Mijn taken</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/profiel.php" class="<?php echo $current_page == 'profiel.php' ? 'active' : ''; ?>">Mijn profiel</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/chat.php" class="<?php echo $current_page == 'chat.php' ? 'active' : ''; ?>">Chat</a></li>
             <?php endif; ?>
