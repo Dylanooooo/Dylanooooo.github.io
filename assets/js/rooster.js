@@ -1,32 +1,50 @@
-function laadRooster() {
-    fetch('../includes/getRooster.php')
-        .then(response => response.json())  // Zorg ervoor dat je JSON terugkrijgt van de server
-        .then(data => {
-            const roosterContainer = document.getElementById('rooster');
-            roosterContainer.innerHTML = '';  // Maak de container leeg voordat we de nieuwe data invoeren
+<script>
+    function laadRooster() {
+        fetch('../includes/getRooster.php')
+            .then(response => response.json()) // Zorg dat getRooster.php JSON retourneert
+            .then(data => {
+                const roosterContainer = document.getElementById('rooster');
+                roosterContainer.innerHTML = ''; // Maak de container leeg
 
-            data.forEach(item => {
-                const roosterItem = document.createElement('div');
-                roosterItem.classList.add('rooster-item');
+                // Maak een tabel
+                const table = document.createElement('table');
+                table.classList.add('rooster-tabel');
 
-                // Maak elk veld bewerkbaar
-                roosterItem.innerHTML = `
-                    <div>
-                        <input type="text" value="${item.datum}" class="rooster-datum" data-id="${item.id}">
-                        <input type="time" value="${item.tijdstip}" class="rooster-tijdstip" data-id="${item.id}">
-                        <input type="text" value="${item.activiteit}" class="rooster-activiteit" data-id="${item.id}">
-                        <input type="text" value="${item.medewerker}" class="rooster-medewerker" data-id="${item.id}">
-                        <button class="save-btn" onclick="updateRooster(${item.id})">Opslaan</button>
-                    </div>
+                // Voeg de tabelkop toe
+                const thead = document.createElement('thead');
+                thead.innerHTML = `
+                    <tr>
+                        <th>Naam</th>
+                        <th>Datum</th>
+                        <th>Tijd</th>
+                    </tr>
                 `;
+                table.appendChild(thead);
 
-                roosterContainer.appendChild(roosterItem);
+                // Voeg de tabelrijen toe
+                const tbody = document.createElement('tbody');
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.Naam}</td>
+                        <td>${item.Datum}</td>
+                        <td>${item.Tijd}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+                table.appendChild(tbody);
+
+                // Voeg de tabel toe aan de container
+                roosterContainer.appendChild(table);
+            })
+            .catch(error => {
+                console.error('Fout bij laden rooster:', error);
             });
-        })
-        .catch(error => {
-            console.error('Fout bij het laden van het rooster:', error);
-        });
-}
+    }
+
+    laadRooster();
+    setInterval(laadRooster, 10000); 
+</script>
 
 // Functie om het rooster bij te werken
 function updateRooster(id) {
