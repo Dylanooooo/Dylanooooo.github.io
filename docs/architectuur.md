@@ -5,7 +5,6 @@ Dit document beschrijft de technische architectuur van de webapplicatie, inclusi
 
 ## Mappenstructuur
 
-```
 Dylanooooo.github.io/
 ├── auth/              # Authenticatie scripts
 │   ├── login.php      # Inlogverwerking
@@ -25,7 +24,6 @@ Dylanooooo.github.io/
 │   └── img/           # Afbeeldingen
 ├── docs/              # Documentatie
 └── index.php          # Homepage/startpagina
-```
 
 ## Codestructuur en Werking
 

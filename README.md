@@ -8,7 +8,7 @@ Volg deze stappen om het project lokaal op te zetten:
 
 1. Clone de repository naar je lokale server (XAMPP/WAMP/MAMP) directory:
    ```
-   git clone [repository-url] d:\Xampp\htdocs\Dylanooooo.github.io
+   git clone [repository-url] c:\Xampp\htdocs\Dylanooooo.github.io
    ```
 
 2. Importeer de database:
@@ -28,20 +28,61 @@ Volg deze stappen om het project lokaal op te zetten:
 ## Inloggegevens
 
 ### Administrator
-- E-mail: admin@flitz.nl
+- E-mail: admin@flitz-events.nl
 - Wachtwoord: admin123
 
 ### Stagiair
-- E-mail: test@mail.com
-- Wachtwoord: stage
+- E-mail: stagiair@flitz-events.nl
+- Wachtwoord: stagiair123
 
-## Bestandsstructuur
+## Projectstructuur
 
-Zie [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) voor een gedetailleerd overzicht van de projectstructuur.
+```
+Flitz-Events Stageportaal/
+├── assets/            # Frontend bestanden
+│   ├── css/           # Stylesheet bestanden
+│   ├── js/            # JavaScript bestanden
+│   ├── img/           # Afbeeldingen
+│   └── database/      # Database scripts en updates
+├── auth/              # Authenticatie scripts
+│   ├── login.php      # Inlogverwerking
+│   ├── register.php   # Registratieverwerking
+│   └── logout.php     # Uitloggen
+├── includes/          # Herbruikbare componenten
+│   ├── config.php     # Database configuratie
+│   ├── header.php     # Algemene header
+│   ├── footer.php     # Algemene footer
+│   └── navigation.php # Navigatie component
+├── pages/             # Webpagina's
+│   ├── admin.php      # Admin dashboard
+│   ├── dashboard.php  # Gebruikersdashboard
+│   ├── projecten.php  # Projectenoverzicht
+│   └── project-detail.php # Projectdetailpagina
+└── docs/              # Projectdocumentatie
+```
 
 ## Functionaliteiten
 
-Zie [FEATURES.md](FEATURES.md) voor een gedetailleerd overzicht van de functionaliteiten.
+Het Flitz-Events Stageportaal bevat de volgende hoofdfunctionaliteiten:
+
+- Gebruikersbeheer (registratie, inloggen, rollen)
+- Dashboard met projectoverzicht en taken
+- Projectenbeheer met voortgangsmonitoring
+- Taakbeheer binnen projecten
+- Chatfunctie voor teamcommunicatie
+
+Voor een gedetailleerd overzicht van alle functionaliteiten, zie [FEATURES.md](FEATURES.md).
+
+## Documentatie
+
+In de `docs` map vind je gedetailleerde documentatie over het project:
+
+- [Overzicht](docs/overzicht.md) - Algemene projectdoelen en functionaliteiten
+- [Gebruikersauthenticatie](docs/authenticatie.md) - Details over het inlog- en registratiesysteem
+- [Architectuur](docs/architectuur.md) - Technische architectuur en code organisatie
+- [Ontwikkelingsplan](docs/ontwikkelingsplan.md) - Toekomstige functies en ontwikkelingsmogelijkheden
+- [Setup Handleiding](docs/setup.md) - Gedetailleerde instructies voor het opzetten van de ontwikkelomgeving
+- [Checklist](docs/checklist.md) - Overzicht van voltooide en nog openstaande taken
 
 ## Development
 
@@ -66,4 +107,4 @@ Zie [FEATURES.md](FEATURES.md) voor een gedetailleerd overzicht van de functiona
 ## Contact
 
 Bij vragen of problemen, neem contact op met:
-- Projectbeheerder: [Naam] - [email@flitz.nl]
+- Projectbeheerder: Milan - milan@flitz-events.nl
