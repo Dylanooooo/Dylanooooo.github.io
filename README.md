@@ -94,7 +94,17 @@ In de `docs` map vind je gedetailleerde documentatie over het project:
 ### Lokaal ontwikkelen
 1. Maak wijzigingen in de betreffende bestanden
 2. Test wijzigingen lokaal
-3. Commit wijzigingen naar de repository
+3. Voer code reviews uit
+4. Zorg dat alle tests slagen
+5. Commit wijzigingen naar een feature branch
+
+### Publiceren naar productie
+1. Merge nooit direct naar de main branch zonder review
+2. Zorg dat alle code voldoet aan de projectstandaarden
+3. Controleer op beveiligingsproblemen
+4. Verwijder debug code en console.log statements
+5. Test de applicatie volledig in een staging omgeving
+6. Gebruik pull requests voor alle wijzigingen naar main
 
 ## Bijdragen
 

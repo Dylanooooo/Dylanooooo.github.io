@@ -61,6 +61,10 @@ CREATE TABLE IF NOT EXISTS `gesprekken` (
   CONSTRAINT `gesprekken_ibfk_3` FOREIGN KEY (`laatste_bericht_id`) REFERENCES `berichten` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Add profile_image column to gebruikers table if it doesn't exist
+ALTER TABLE `gebruikers` 
+ADD COLUMN IF NOT EXISTS `profile_image` VARCHAR(255) NULL DEFAULT NULL AFTER `rol`;
+
 -- Voorbeelddata voor projecten
 INSERT INTO `projecten` (`naam`, `beschrijving`, `start_datum`, `eind_datum`, `status`, `voortgang`) VALUES
 ('Zomerfestival Noordwijk', 'Driedaags festival op het strand van Noordwijk', '2025-06-15', '2025-06-18', 'actief', 35),

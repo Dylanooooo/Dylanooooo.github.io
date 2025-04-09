@@ -343,7 +343,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
                             foreach ($berichten as $bericht): 
                                 $bericht_date = date('Y-m-d', strtotime($bericht['datum_verzonden']));
                                 
-                                // Alleen een datum weergeven als deze anders is dan de vorige
+                                // Date display logic has been fixed to show dates only once per day
                                 if ($current_date != $bericht_date) {
                                     $current_date = $bericht_date;
                                     $date_label = date('d-m-Y', strtotime($bericht['datum_verzonden']));
