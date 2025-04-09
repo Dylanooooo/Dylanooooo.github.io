@@ -75,16 +75,10 @@ $upcoming_shifts = [
             <div class="banner-text">
                 <div class="banner-container">
                     <h3>Welkom bij je stage!</h3>
-<<<<<<< Updated upstream
                     <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
-=======
-<<<<<<< HEAD
                     <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid:
                         Ma-Do 9:00-17:00
-=======
                     <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
->>>>>>> fb0fe6faf45eafb234f426e19bad9c0388f0f60f
->>>>>>> Stashed changes
                 </div>
             </div>
         </div>
@@ -94,17 +88,12 @@ $upcoming_shifts = [
     <section id="dashboard">
         <div class="container">
             <h2>Jouw Dashboard</h2>
-<<<<<<< Updated upstream
+
             
             <!-- Project Overzicht Sectie -->
             <?php if ($active_project): ?>
-=======
-<<<<<<< HEAD
+            <!-- Project Overzicht Sectie - Bovenaan en volledige breedte -->    
 
-            <!-- Project Overzicht Sectie - Bovenaan en volledige breedte -->
-=======
-            
-            <!-- Project Overzicht Sectie -->
             <?php if ($active_project): ?>
             <div class="dashboard-widget featured-widget">
                 <div class="widget-header">
