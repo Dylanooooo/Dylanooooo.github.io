@@ -2724,3 +2724,20 @@ section {
 }
 
 
+
+
+
+
+/* voor rooster */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+th {
+    background-color: #f4f4f4;
+}
