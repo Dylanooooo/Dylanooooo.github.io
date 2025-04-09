@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log("Login successful. Session role set to: " . $_SESSION['rol']);
 
         if (strtolower($user['rol']) === 'admin') {
-            header("Location: ../pages/admin.php");
+            header("Location: ../pages/admin_home.php");
         } else {
             header("Location: ../pages/dashboard.php");
         }

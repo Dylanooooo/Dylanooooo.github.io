@@ -1,16 +1,19 @@
 <?php
 session_start();
-include('../includes/config.php');
+require_once('../includes/config.php');
 
-// Check if user is logged in
+// Redirect naar login als niet ingelogd
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../index.php");
-    exit();
+    exit;
 }
 
-// Get projects from database
-$sql = "SELECT * FROM projecten ORDER BY status, eind_datum";
-$stmt = $pdo->prepare($sql);
+// Relatief pad voor navigatie
+$root_path = "../";
+$pageTitle = "Projecten Overzicht | Flitz-Events";
+
+// Haal alle projecten op
+$stmt = $pdo->prepare("SELECT * FROM projecten ORDER BY status ASC, eind_datum ASC");
 $stmt->execute();
 $projecten = $stmt->fetchAll();
 ?>
@@ -20,40 +23,13 @@ $projecten = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projecten | Flitz-Events Stageportaal</title>
+    <title><?php echo $pageTitle; ?></title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <h1>Welkom bij Flitz-Events Stagiairs Portal</h1>
-            <div class="user-info">
-                <span id="user-name"><?php echo htmlspecialchars($_SESSION['naam']); ?></span>
-                <form action="../auth/logout.php" method="post">
-                    <button type="submit" id="logout-btn">Uitloggen</button>
-                </form>
-            </div>
-        </div>
-    </header>
-    
-    <nav>
-        <div class="container">
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-            <ul class="nav-list">
-                <li><a href="dashboard.php">Dashboard</a></li>
-                <li><a href="projecten.php" class="active">Projecten</a></li>
-                <li><a href="chat.php">Chat</a></li>
-                <?php if (isset($_SESSION['rol']) && strtolower($_SESSION['rol']) === 'admin'): ?>
-                <li><a href="admin.php">Admin</a></li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </nav>
+    <!-- Inclusie van de consistente navigatie component -->
+    <?php include('../includes/navigation.php'); ?>
     
     <section id="projecten-overzicht">
         <div class="content-container">
@@ -75,25 +51,19 @@ $projecten = $stmt->fetchAll();
                     <?php 
                         // Bepaal status class
                         $statusClass = '';
-                        $statusLabel = '';
-                        
-                        switch($project['status']) {
-                            case 'actief':
-                                $statusClass = 'active';
-                                $statusLabel = 'Actief';
-                                break;
-                            case 'afgerond':
-                                $statusClass = 'completed';
-                                $statusLabel = 'Afgerond';
-                                break;
-                            case 'aankomend':
-                                $statusClass = '';
-                                $statusLabel = 'Aankomend';
-                                break;
+                        $statusStyle = '';
+                        if ($project['status'] === 'actief') {
+                            $statusClass = 'active';
+                        } elseif ($project['status'] === 'afgerond') {
+                            $statusClass = 'completed';
+                        } else {
+                            $statusClass = '';
                         }
                     ?>
                     <div class="project-card <?php echo $statusClass; ?>">
-                        <span class="project-status" <?php if($project['status'] == 'aankomend'): ?>style="background-color: #e1f5fe; color: #0288d1;"<?php endif; ?>><?php echo $statusLabel; ?></span>
+                        <span class="project-status <?php echo $statusClass; ?>">
+                            <?php echo ucfirst($project['status']); ?>
+                        </span>
                         <h3><?php echo htmlspecialchars($project['naam']); ?></h3>
                         <div class="project-dates">
                             <span>Start: <?php echo date('d M Y', strtotime($project['start_datum'])); ?></span>
@@ -106,20 +76,24 @@ $projecten = $stmt->fetchAll();
                             </div>
                             <span><?php echo $project['voortgang']; ?>% voltooid</span>
                         </div>
+                        <div class="project-team">
+                            <span class="team-label">Team:</span>
+                            <div class="team-avatars">
+                                <div class="avatar">JD</div>
+                                <div class="avatar">KL</div>
+                                <div class="avatar">+3</div>
+                            </div>
+                        </div>
                         <a href="project-detail.php?id=<?php echo $project['id']; ?>" class="project-details-btn">Details bekijken</a>
                     </div>
                 <?php endforeach; ?>
-                
-                <?php if(count($projecten) == 0): ?>
-                    <p>Er zijn momenteel geen projecten beschikbaar.</p>
-                <?php endif; ?>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="footer-container">
-            <p>&copy; 2025 Flitz-Events Stageportaal | Alle rechten voorbehouden</p>
+            <p>&copy; <?php echo date('Y'); ?> Flitz-Events Stageportaal | Alle rechten voorbehouden</p>
         </div>
     </footer>
 

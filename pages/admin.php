@@ -2,42 +2,34 @@
 session_start();
 include('../includes/config.php');
 
-// Check if user is logged in and has admin role
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php?error=Je moet ingelogd zijn om deze pagina te bekijken");
-    exit();
+// Controleer of gebruiker is ingelogd en admin-rechten heeft
+if (!isset($_SESSION['user_id']) || strtolower($_SESSION['rol']) !== 'admin') {
+    header("Location: ../index.php");
+    exit;
 }
 
-// Debug information to check what roles are set
-error_log("User role check: " . $_SESSION['rol'] ?? 'No role set');
+// Relatief pad voor navigatie
+$root_path = "../";
+$pageTitle = "Admin Beheer - Flitz Events";
 
-// Check admin role with case-insensitive comparison
-if (!isset($_SESSION['rol']) || strtolower($_SESSION['rol']) !== 'admin') {
-    header("Location: ../index.php?error=Je hebt geen toegang tot deze pagina");
-    exit();
-}
+// Haal gebruikersgegevens op
+$stmt = $pdo->prepare("SELECT * FROM gebruikers");
+$stmt->execute();
+$gebruikers = $stmt->fetchAll();
 
-// Get all projects
-$sql = "SELECT * FROM projecten ORDER BY datum_aangemaakt DESC";
-$stmt = $pdo->prepare($sql);
+// Haal projecten op
+$stmt = $pdo->prepare("SELECT * FROM projecten");
 $stmt->execute();
 $projecten = $stmt->fetchAll();
 
-// Get all tasks
-$sql = "SELECT t.*, p.naam as project_naam, u.naam as gebruiker_naam 
-        FROM taken t 
-        LEFT JOIN projecten p ON t.project_id = p.id 
-        LEFT JOIN gebruikers u ON t.toegewezen_aan = u.id 
-        ORDER BY t.datum_aangemaakt DESC";
-$stmt = $pdo->prepare($sql);
+// Haal taken op
+$stmt = $pdo->prepare("SELECT t.*, p.naam as project_naam, g.naam as gebruiker_naam 
+                      FROM taken t 
+                      LEFT JOIN projecten p ON t.project_id = p.id
+                      LEFT JOIN gebruikers g ON t.toegewezen_aan = g.id
+                      ORDER BY t.deadline ASC");
 $stmt->execute();
 $taken = $stmt->fetchAll();
-
-// Get all users
-$sql = "SELECT id, naam, email, rol FROM gebruikers ORDER BY naam";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$gebruikers = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +37,12 @@ $gebruikers = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Beheer | Flitz-Events Stageportaal</title>
+    <title><?php echo $pageTitle; ?></title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Tabbladen stijl */
         .admin-tabs {
             display: flex;
             margin-bottom: 20px;
@@ -70,6 +63,8 @@ $gebruikers = $stmt->fetchAll();
         .admin-panel.active {
             display: block;
         }
+        
+        /* Formulier stijlen */
         .admin-form {
             background: #f8f9fa;
             padding: 20px;
@@ -98,6 +93,8 @@ $gebruikers = $stmt->fetchAll();
             justify-content: flex-end;
             gap: 10px;
         }
+        
+        /* Tabel stijlen */
         .admin-table {
             width: 100%;
             border-collapse: collapse;
@@ -116,6 +113,8 @@ $gebruikers = $stmt->fetchAll();
         .admin-table tr:hover {
             background-color: #f9f9f9;
         }
+        
+        /* Actie knoppen */
         .action-buttons {
             display: flex;
             gap: 5px;
@@ -134,6 +133,12 @@ $gebruikers = $stmt->fetchAll();
             background: #d9534f;
             color: white;
         }
+        .view-button {
+            background: #5bc0de;
+            color: white;
+        }
+        
+        /* Status badges */
         .status-badge {
             display: inline-block;
             padding: 3px 8px;
@@ -153,6 +158,8 @@ $gebruikers = $stmt->fetchAll();
             background: #4caf50;
             color: white;
         }
+        
+        /* Melding stijlen */
         .alert {
             padding: 15px;
             margin-bottom: 20px;
@@ -171,31 +178,8 @@ $gebruikers = $stmt->fetchAll();
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <h1>Flitz-Events Admin Beheer</h1>
-            <div class="user-info">
-                <span id="user-name"><?php echo htmlspecialchars($_SESSION['naam']); ?></span>
-                <a href="../auth/logout.php" id="logout-btn">Uitloggen</a>
-            </div>
-        </div>
-    </header>
-
-    <nav>
-        <div class="container">
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-            <ul class="nav-list">
-                <li><a href="dashboard.php">Dashboard</a></li>
-                <li><a href="projecten.php">Projecten</a></li>
-                <li><a href="chat.php">Chat</a></li>
-                <li><a href="admin.php" class="active">Admin</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Inclusie van de consistente navigatie component -->
+    <?php include('../includes/navigation.php'); ?>
 
     <section id="admin" style="flex: 1;">
         <div class="container">
@@ -448,167 +432,73 @@ $gebruikers = $stmt->fetchAll();
 
     <footer>
         <div class="footer-container">
-            <p>&copy; 2025 Flitz-Events Stageportaal | Alle rechten voorbehouden</p>
+            <p>&copy; <?php echo date("Y"); ?> Flitz-Events | Alle rechten voorbehouden</p>
         </div>
     </footer>
 
     <script>
         // Tab switching functionality
         document.querySelectorAll('.admin-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
+            tab.addEventListener('click', () => {
                 // Remove active class from all tabs
                 document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                // Add active class to clicked tab
-                this.classList.add('active');
+                tab.classList.add('active');
                 
                 // Hide all panels
                 document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-                // Show corresponding panel
-                document.getElementById(`${this.dataset.tab}-panel`).classList.add('active');
+                
+                // Show selected panel
+                const panelId = tab.getAttribute('data-tab') + '-panel';
+                document.getElementById(panelId).classList.add('active');
             });
         });
-
-        // Form reset function
+        
+        // Reset form function
         function resetForm(formId) {
             document.getElementById(formId).reset();
         }
-
-        // Project form submission
-        document.getElementById('add-project-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            formData.append('action', 'add_project');
-            
-            fetch('../api/admin_actions.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showAlert('Project succesvol toegevoegd!', 'success');
-                    setTimeout(() => window.location.reload(), 1500);
-                } else {
-                    showAlert('Fout bij toevoegen: ' + data.message, 'danger');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Er is een fout opgetreden bij het verwerken van het verzoek.', 'danger');
-            });
-        });
-
-        // Task form submission
-        document.getElementById('add-task-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            formData.append('action', 'add_task');
-            
-            fetch('../api/admin_actions.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showAlert('Taak succesvol toegevoegd!', 'success');
-                    setTimeout(() => window.location.reload(), 1500);
-                } else {
-                    showAlert('Fout bij toevoegen: ' + data.message, 'danger');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Er is een fout opgetreden bij het verwerken van het verzoek.', 'danger');
-            });
-        });
-
-        // Function to show alerts
-        function showAlert(message, type) {
-            const alertContainer = document.getElementById('alert-container');
-            const alert = document.createElement('div');
-            alert.className = `alert alert-${type}`;
-            alert.textContent = message;
-            
-            alertContainer.appendChild(alert);
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
-                alert.remove();
-            }, 5000);
-        }
-
-        // Edit project function
+        
+        // Project actions
         function editProject(id, naam, beschrijving, startDatum, eindDatum, status, voortgang) {
-            // Here you'd implement editing functionality
-            // For simplicity, we'll just alert the details for now
-            alert(`Project bewerken: ${naam}`);
+            // Deze functie zou het project in een formulier kunnen laden voor bewerking
+            console.log("Edit project: ", id);
+            alert("Functionaliteit nog niet geïmplementeerd");
         }
-
-        // Delete project function
+        
         function deleteProject(id, naam) {
+            // Deze functie zou een bevestiging vragen en dan het project verwijderen
             if (confirm(`Weet je zeker dat je het project "${naam}" wilt verwijderen?`)) {
-                const formData = new FormData();
-                formData.append('action', 'delete_project');
-                formData.append('id', id);
-                
-                fetch('../api/admin_actions.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showAlert('Project succesvol verwijderd!', 'success');
-                        setTimeout(() => window.location.reload(), 1500);
-                    } else {
-                        showAlert('Fout bij verwijderen: ' + data.message, 'danger');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showAlert('Er is een fout opgetreden bij het verwerken van het verzoek.', 'danger');
-                });
+                console.log("Delete project: ", id);
+                alert("Functionaliteit nog niet geïmplementeerd");
             }
         }
-
-        // Edit task function
+        
+        // Task actions
         function editTask(id, projectId, naam, beschrijving, deadline, status, toegewezenAan) {
-            // Here you'd implement editing functionality
-            // For simplicity, we'll just alert the details for now
-            alert(`Taak bewerken: ${naam}`);
+            // Deze functie zou de taak in een formulier kunnen laden voor bewerking
+            console.log("Edit task: ", id);
+            alert("Functionaliteit nog niet geïmplementeerd");
         }
-
-        // Delete task function
+        
         function deleteTask(id, naam) {
+            // Deze functie zou een bevestiging vragen en dan de taak verwijderen
             if (confirm(`Weet je zeker dat je de taak "${naam}" wilt verwijderen?`)) {
-                const formData = new FormData();
-                formData.append('action', 'delete_task');
-                formData.append('id', id);
-                
-                fetch('../api/admin_actions.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showAlert('Taak succesvol verwijderd!', 'success');
-                        setTimeout(() => window.location.reload(), 1500);
-                    } else {
-                        showAlert('Fout bij verwijderen: ' + data.message, 'danger');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showAlert('Er is een fout opgetreden bij het verwerken van het verzoek.', 'danger');
-                });
+                console.log("Delete task: ", id);
+                alert("Functionaliteit nog niet geïmplementeerd");
             }
         }
+        
+        // Initialize any tabs from URL parameter
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            if (tab) {
+                const tabElement = document.querySelector(`.admin-tab[data-tab="${tab}"]`);
+                if (tabElement) {
+                    tabElement.click();
+                }
+            }
+        });
     </script>
-
-    <script src="../assets/js/scripts.js"></script>
 </body>
 </html>

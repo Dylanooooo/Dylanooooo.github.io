@@ -2,11 +2,16 @@
 session_start();
 include('../includes/config.php');
 
-// Check if user is logged in
+// Controleer of de gebruiker is ingelogd
 if (!isset($_SESSION['user_id'])) {
+    // Redirect naar de login pagina als de gebruiker niet is ingelogd
     header("Location: ../index.php");
-    exit();
+    exit;
 }
+
+// Relatief pad voor navigatie
+$root_path = "../";
+$pageTitle = "Stagiair Dashboard - Flitz Events";
 
 // Get active project for the user
 $sql = "SELECT * FROM projecten WHERE status = 'actief' ORDER BY voortgang DESC LIMIT 1";
@@ -25,12 +30,22 @@ if ($active_project) {
     $taken = $stmt->fetchAll();
 }
 
-// Get unread messages
-$sql = "SELECT COUNT(*) as count FROM berichten WHERE ontvanger_id = :user_id AND gelezen = 0";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':user_id', $_SESSION['user_id']);
-$stmt->execute();
-$unread_messages = $stmt->fetch()['count'];
+// Upcoming shifts - dummy data for now
+// In een echte applicatie zouden deze uit een "roosters" tabel komen
+$upcoming_shifts = [
+    [
+        'day' => 'Maandag',
+        'date' => '24 Apr',
+        'time' => '09:00 - 17:00',
+        'location' => 'Kantoor'
+    ],
+    [
+        'day' => 'Woensdag',
+        'date' => '26 Apr',
+        'time' => '09:00 - 17:00',
+        'location' => 'Kantoor'
+    ]
+];
 ?>
 
 <!DOCTYPE html>
@@ -38,24 +53,13 @@ $unread_messages = $stmt->fetch()['count'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Flitz-Events Stagiairs Portal</title>
+    <title><?php echo $pageTitle; ?></title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <!-- 1. Header -->
-    <header>
-        <div class="header-container">
-            <h1>Welkom bij Flitz-Events Stagiairs Portal</h1>
-            <div class="user-info">
-                <span id="user-name"><?php echo htmlspecialchars($_SESSION['naam']); ?></span>
-                <form action="../auth/logout.php" method="post">
-                <button type="submit" id="logout-btn">Uitloggen</button>
-                </form>
-            </div>
-        </div>
-    </header>
+    <!-- Inclusie van de consistente navigatie component -->
+    <?php include('../includes/navigation.php'); ?>
 
     <!-- 2. Banner -->
     <div class="intro-banner-wrapper">
@@ -64,30 +68,11 @@ $unread_messages = $stmt->fetch()['count'];
             <div class="banner-text">
                 <div class="banner-container">
                     <h3>Welkom bij je stage!</h3>
-                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00
+                    <p>Belangrijke informatie: Stagebegeleider: Milan Laroes (te bereiken via chat) | Aanwezigheid: Ma-Do 9:00-17:00</p>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- 3. Navigatie -->
-    <nav>
-        <div class="container">
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-            <ul class="nav-list">
-                <li><a href="dashboard.php" class="active">Dashboard</a></li>
-                <li><a href="projecten.php">Projecten</a></li>
-                <li><a href="chat.php">Chat</a></li>
-                <?php if (isset($_SESSION['rol']) && strtolower($_SESSION['rol']) === 'admin'): ?>
-                <li><a href="admin.php">Admin</a></li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </nav>
 
     <!-- 4. Dashboard content -->
     <section id="dashboard">
@@ -178,41 +163,52 @@ $unread_messages = $stmt->fetch()['count'];
                 <div class="dashboard-widget">
                     <h3>Snelle Links</h3>
                     <ul class="quick-links">
-                        <li><a href="projecten.php">Actieve Projecten</a></li>
-                        <li><a href="chat.php">
-                            Berichten
-                            <?php if ($unread_messages > 0): ?>
-                            <span class="badge"><?php echo $unread_messages; ?></span>
-                            <?php endif; ?>
-                        </a></li>
-                        <li><a href="trainingen.php">Trainingsmateriaal</a></li>
+                        <li><a href="projecten.php">Projecten Overzicht</a></li>
+                        <li><a href="#">Weekrooster</a></li>
+                        <li><a href="#">Trainingen</a></li>
+                        <li><a href="#">Contact Opnemen</a></li>
                     </ul>
                 </div>
                 
-                <!-- Team Updates Widget -->
+                <!-- Aankomende Diensten Widget -->
                 <div class="dashboard-widget">
-                    <h3>Team Updates</h3>
+                    <h3>Aankomende Diensten</h3>
+                    <div class="shifts-list">
+                        <?php foreach($upcoming_shifts as $shift): ?>
+                        <div class="shift-item">
+                            <div class="shift-date"><?php echo $shift['day']; ?> <span class="date"><?php echo $shift['date']; ?></span></div>
+                            <div class="shift-time"><?php echo $shift['time']; ?></div>
+                            <div class="shift-location"><?php echo $shift['location']; ?></div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <a href="#" class="view-all">Bekijk volledig rooster</a>
+                </div>
+                
+                <!-- Updates Widget -->
+                <div class="dashboard-widget">
+                    <h3>Laatste Updates</h3>
                     <div class="updates-list">
                         <div class="update-item">
-                            <h4>Teamuitje</h4>
-                            <p>Vergeet niet: ons teamuitje is gepland op 25 maart!</p>
-                            <span class="date">18 maart 2025</span>
+                            <h4>Nieuwe stageopdracht</h4>
+                            <p>Er staat een nieuwe opdracht klaar voor het Zomerfestival project.</p>
+                            <span class="date">Vandaag, 10:15</span>
                         </div>
                         <div class="update-item">
-                            <h4>Nieuwe Zomerplanning</h4>
-                            <p>De planning voor de zomerperiode is nu beschikbaar.</p>
-                            <span class="date">15 maart 2025</span>
+                            <h4>Trainingsmodule beschikbaar</h4>
+                            <p>De module "Event Veiligheid" staat nu voor je klaar.</p>
+                            <span class="date">Gisteren, 16:30</span>
                         </div>
                     </div>
+                    <a href="#" class="view-all">Alle updates bekijken</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 5. Footer -->
     <footer>
         <div class="footer-container">
-            <p>&copy; 2025 Flitz-Events Stageportaal | Alle rechten voorbehouden</p>
+            <p>&copy; <?php echo date('Y'); ?> Flitz-Events Stageportaal | Alle rechten voorbehouden</p>
         </div>
     </footer>
 
