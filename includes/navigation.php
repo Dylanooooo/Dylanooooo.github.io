@@ -65,6 +65,7 @@ if ($is_logged_in && isset($_SESSION['naam']) && !empty($_SESSION['naam'])) {
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/dashboard.php" class="<?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/projecten.php" class="<?php echo $current_page == 'projecten.php' ? 'active' : ''; ?>">Mijn projecten</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/chat.php" class="<?php echo $current_page == 'chat.php' ? 'active' : ''; ?>">Chat</a></li>
+                <li><a href="<?php echo $root_path ?? ''; ?>pages/rooster.php" class="<?php echo $current_page == 'rooster.php' ? 'active' : ''; ?>">Rooster</a></li>
             <?php endif; ?>
         </ul>
 
