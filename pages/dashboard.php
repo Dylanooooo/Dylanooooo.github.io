@@ -50,6 +50,7 @@ $upcoming_shifts = [
 
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,16 +87,18 @@ $upcoming_shifts = [
                     <h3>Actief Project: <?php echo htmlspecialchars($active_project['naam']); ?></h3>
                     <a href="projecten.php" class="button-small">Alle Projecten</a>
                 </div>
-                
+
                 <div class="project-overview">
                     <!-- Voortgangsmeter -->
                     <div class="project-progress-container">
                         <div class="svg-meter" data-percentage="<?php echo $active_project['voortgang']; ?>">
                             <svg width="200" height="100" viewBox="0 0 200 100">
                                 <!-- Grijze achtergrond boog -->
-                                <path class="meter-bg" d="M10,100 A90,90 0 0,1 190,100" stroke="#eee" stroke-width="10" fill="none" />
+                                <path class="meter-bg" d="M10,100 A90,90 0 0,1 190,100" stroke="#eee" stroke-width="10"
+                                    fill="none" />
                                 <!-- Gekleurde voortgangsboog -->
-                                <path class="meter-fg" d="M10,100 A90,90 0 0,1 190,100" stroke="url(#gradient)" stroke-width="10" fill="none" />
+                                <path class="meter-fg" d="M10,100 A90,90 0 0,1 190,100" stroke="url(#gradient)"
+                                    stroke-width="10" fill="none" />
                                 <!-- Gradient definitie -->
                                 <defs>
                                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -109,28 +112,32 @@ $upcoming_shifts = [
                         </div>
                         <div class="meter-label">Projectvoortgang</div>
                     </div>
-                    
+
                     <div class="project-details">
                         <div class="project-info">
                             <div class="info-item">
                                 <span class="info-label">Start:</span>
-                                <span class="info-value"><?php echo date('d M Y', strtotime($active_project['start_datum'])); ?></span>
+                                <span
+                                    class="info-value"><?php echo date('d M Y', strtotime($active_project['start_datum'])); ?></span>
                             </div>
                             <div class="info-item">
                                 <span class="info-label">Deadline:</span>
-                                <span class="info-value"><?php echo date('d M Y', strtotime($active_project['eind_datum'])); ?></span>
+                                <span
+                                    class="info-value"><?php echo date('d M Y', strtotime($active_project['eind_datum'])); ?></span>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="project-tasks">
                         <h4>Te doen deze week:</h4>
                         <?php if (count($taken) > 0): ?>
                         <ul class="task-list">
                             <?php foreach ($taken as $taak): ?>
                             <li class="task-item">
-                                <input type="checkbox" id="task<?php echo $taak['id']; ?>" class="task-checkbox" <?php echo ($taak['status'] == 'afgerond') ? 'checked' : ''; ?>>
-                                <label for="task<?php echo $taak['id']; ?>"><?php echo htmlspecialchars($taak['naam']); ?></label>
+                                <input type="checkbox" id="task<?php echo $taak['id']; ?>" class="task-checkbox"
+                                    <?php echo ($taak['status'] == 'afgerond') ? 'checked' : ''; ?>>
+                                <label
+                                    for="task<?php echo $taak['id']; ?>"><?php echo htmlspecialchars($taak['naam']); ?></label>
                                 <span class="task-due">
                                     <?php if ($taak['deadline']): ?>
                                     Deadline: <?php echo date('d M', strtotime($taak['deadline'])); ?>
@@ -141,7 +148,8 @@ $upcoming_shifts = [
                             </li>
                             <?php endforeach; ?>
                         </ul>
-                        <a href="project-detail.php?id=<?php echo $active_project['id']; ?>" class="view-all">Bekijk alle taken</a>
+                        <a href="project-detail.php?id=<?php echo $active_project['id']; ?>" class="view-all">Bekijk
+                            alle taken</a>
                         <?php else: ?>
                         <p>Geen openstaande taken voor dit project.</p>
                         <?php endif; ?>
@@ -157,14 +165,14 @@ $upcoming_shifts = [
                 <p>Er zijn momenteel geen actieve projecten toegewezen.</p>
             </div>
             <?php endif; ?>
-            
+
             <div class="dashboard-grid">
                 <!-- Snelle Links Widget -->
                 <div class="dashboard-widget">
                     <h3>Snelle Links</h3>
                     <ul class="quick-links">
                         <li><a href="projecten.php">Projecten Overzicht</a></li>
-                        <li><a href="#">Weekrooster</a></li>
+                        <li><a href="rooster.php">Weekrooster</a></li>
                         <li><a href="#">Trainingen</a></li>
                         <li><a href="#">Contact Opnemen</a></li>
                     </ul>
@@ -176,15 +184,16 @@ $upcoming_shifts = [
                     <div class="shifts-list">
                         <?php foreach($upcoming_shifts as $shift): ?>
                         <div class="shift-item">
-                            <div class="shift-date"><?php echo $shift['day']; ?> <span class="date"><?php echo $shift['date']; ?></span></div>
+                            <div class="shift-date"><?php echo $shift['day']; ?> <span
+                                    class="date"><?php echo $shift['date']; ?></span></div>
                             <div class="shift-time"><?php echo $shift['time']; ?></div>
                             <div class="shift-location"><?php echo $shift['location']; ?></div>
                         </div>
                         <?php endforeach; ?>
                     </div>
-                    <a href="#" class="view-all">Bekijk volledig rooster</a>
+                    <a href="rooster.php" class="view-all">Bekijk volledig rooster</a>
                 </div>
-                
+
                 <!-- Updates Widget -->
                 <div class="dashboard-widget">
                     <h3>Laatste Updates</h3>

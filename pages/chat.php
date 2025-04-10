@@ -2,44 +2,64 @@
 session_start();
 include('../includes/config.php');
 
-// Controleer of de gebruiker is ingelogd
+// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
+    header('Location: ../index.php');
     exit;
 }
 
 // Relatief pad voor navigatie
 $root_path = "../";
+$pageTitle = "Chat - Flitz Events";
+$useIcons = true;
 
-// Gebruikersgegevens voor de chat
 $user_id = $_SESSION['user_id'];
 
-// Haal alle gesprekken op voor deze gebruiker
-$sql = "
-    SELECT 
-        g.id as gesprek_id,
-        IF(g.gebruiker1_id = :user_id, g.gebruiker2_id, g.gebruiker1_id) as contact_id,
-        u.naam as contact_naam,
-        b.bericht as laatste_bericht,
-        b.afzender_id as laatste_afzender_id,
-        b.datum_verzonden,
-        (SELECT COUNT(*) FROM berichten WHERE ontvanger_id = :user_id AND afzender_id = contact_id AND gelezen = 0) as ongelezen_aantal
-    FROM 
-        gesprekken g
-    JOIN 
-        gebruikers u ON (u.id = IF(g.gebruiker1_id = :user_id, g.gebruiker2_id, g.gebruiker1_id))
-    LEFT JOIN 
-        berichten b ON g.laatste_bericht_id = b.id
-    WHERE 
-        g.gebruiker1_id = :user_id OR g.gebruiker2_id = :user_id
-    ORDER BY 
-        g.laatste_activiteit DESC
-";
+// Get all conversations for the current user
+$conversations_query = "SELECT 
+                        g.id, 
+                        g.naam, 
+                        g.type,
+                        g.laatste_bericht,
+                        CASE 
+                            WHEN g.type = 'direct' THEN 
+                                (SELECT naam FROM gebruikers WHERE id = 
+                                    CASE 
+                                        WHEN g.gebruiker1_id = :user_id THEN g.gebruiker2_id 
+                                        WHEN g.gebruiker2_id = :user_id THEN g.gebruiker1_id
+                                        ELSE g.aangemaakt_door
+                                    END
+                                ) 
+                            ELSE g.naam 
+                        END as display_naam,
+                        gu.ongelezen_berichten
+                      FROM gesprekken g
+                      JOIN gesprekken_gebruikers gu ON g.id = gu.gesprek_id
+                      WHERE gu.gebruiker_id = :user_id
+                      ORDER BY g.laatste_bericht DESC";
 
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':user_id', $user_id);
-$stmt->execute();
-$gesprekken = $stmt->fetchAll();
+try {
+    // Check if the current user exists
+    $user_check_query = "SELECT id FROM gebruikers WHERE id = :user_id";
+    $stmt = $pdo->prepare($user_check_query);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+    
+    if (!$stmt->fetch()) {
+        // User doesn't exist in database
+        session_destroy();
+        header('Location: ../index.php?error=invalid_user');
+        exit;
+    }
+    
+    // Get conversations
+    $stmt = $pdo->prepare($conversations_query);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+    $conversations = $stmt->fetchAll();
+} catch (PDOException $e) {
+    $error_message = "Database error: " . $e->getMessage();
+}
 
 // Haal alle contacten op die nog geen gesprek hebben met de gebruiker
 $sql = "
@@ -49,7 +69,8 @@ $sql = "
     AND id NOT IN (
         SELECT IF(gebruiker1_id = :user_id, gebruiker2_id, gebruiker1_id)
         FROM gesprekken
-        WHERE gebruiker1_id = :user_id OR gebruiker2_id = :user_id
+        WHERE (gebruiker1_id = :user_id OR gebruiker2_id = :user_id)
+        AND type = 'direct'
     )
 ";
 $stmt = $pdo->prepare($sql);
@@ -117,8 +138,6 @@ if ($selected_contact_id) {
     }
 }
 
-$pageTitle = "Chat - Flitz Events";
-
 // AJAX handler voor het versturen van berichten
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send_message') {
     $ontvanger_id = intval($_POST['ontvanger_id']);
@@ -130,14 +149,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
     
     try {
+        // First verify that both users exist
+        $verify_users_query = "SELECT id FROM gebruikers WHERE id IN (:user_id, :ontvanger_id)";
+        $stmt = $pdo->prepare($verify_users_query);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':ontvanger_id', $ontvanger_id);
+        $stmt->execute();
+        $valid_users = $stmt->fetchAll();
+        
+        if (count($valid_users) != 2) {
+            echo json_encode(['success' => false, 'message' => 'Een of beide gebruikers bestaan niet in het systeem']);
+            exit;
+        }
+        
         $pdo->beginTransaction();
         
         // Voeg het bericht toe aan de database
-        $sql = "INSERT INTO berichten (afzender_id, ontvanger_id, bericht) VALUES (:afzender_id, :ontvanger_id, :bericht)";
+        $column_name = 'inhoud'; // Default column name
+        
+        // Check if 'inhoud' column exists
+        $check_col = $pdo->query("SHOW COLUMNS FROM berichten LIKE 'inhoud'");
+        if ($check_col->rowCount() == 0) {
+            // Use 'bericht' if 'inhoud' doesn't exist
+            $column_name = 'bericht';
+        }
+        
+        $sql = "INSERT INTO berichten (afzender_id, ontvanger_id, $column_name) VALUES (:afzender_id, :ontvanger_id, :content)";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':afzender_id', $user_id);
         $stmt->bindParam(':ontvanger_id', $ontvanger_id);
-        $stmt->bindParam(':bericht', $bericht);
+        $stmt->bindParam(':content', $bericht);
         $stmt->execute();
         
         $bericht_id = $pdo->lastInsertId();
@@ -156,18 +197,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         
         if ($gesprek) {
             // Update bestaand gesprek
-            $sql = "UPDATE gesprekken SET laatste_bericht_id = :bericht_id, laatste_activiteit = CURRENT_TIMESTAMP WHERE id = :gesprek_id";
+            $sql = "UPDATE gesprekken SET laatste_bericht = NOW() WHERE id = :gesprek_id";
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':bericht_id', $bericht_id);
             $stmt->bindParam(':gesprek_id', $gesprek['id']);
+            $stmt->execute();
+            
+            // Update aantal ongelezen berichten voor ontvanger
+            $sql = "UPDATE gesprekken_gebruikers SET ongelezen_berichten = ongelezen_berichten + 1 
+                    WHERE gesprek_id = :gesprek_id AND gebruiker_id = :ontvanger_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':gesprek_id', $gesprek['id']);
+            $stmt->bindParam(':ontvanger_id', $ontvanger_id);
             $stmt->execute();
         } else {
             // Maak nieuw gesprek aan
-            $sql = "INSERT INTO gesprekken (gebruiker1_id, gebruiker2_id, laatste_bericht_id) VALUES (:user_id, :ontvanger_id, :bericht_id)";
+            $sql = "INSERT INTO gesprekken (naam, type, gebruiker1_id, gebruiker2_id, aangemaakt_door, laatste_bericht) 
+                    VALUES (NULL, 'direct', :user_id, :ontvanger_id, :user_id, NOW())";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':user_id', $user_id);
             $stmt->bindParam(':ontvanger_id', $ontvanger_id);
-            $stmt->bindParam(':bericht_id', $bericht_id);
+            $stmt->execute();
+            
+            $gesprek_id = $pdo->lastInsertId();
+            
+            // Voeg gebruikers toe aan het gesprek
+            $sql = "INSERT INTO gesprekken_gebruikers (gesprek_id, gebruiker_id, ongelezen_berichten) VALUES (:gesprek_id, :user_id, 0)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':gesprek_id', $gesprek_id);
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->execute();
+            
+            $sql = "INSERT INTO gesprekken_gebruikers (gesprek_id, gebruiker_id, ongelezen_berichten) VALUES (:gesprek_id, :ontvanger_id, 1)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':gesprek_id', $gesprek_id);
+            $stmt->bindParam(':ontvanger_id', $ontvanger_id);
             $stmt->execute();
         }
         
@@ -184,6 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit;
     } catch (Exception $e) {
         $pdo->rollBack();
+        error_log("Chat error: " . $e->getMessage() . " - User ID: $user_id, Receiver ID: $ontvanger_id");
         echo json_encode(['success' => false, 'message' => 'Er is een fout opgetreden: ' . $e->getMessage()]);
         exit;
     }
@@ -260,18 +324,18 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
                 </div>
                 
                 <div class="chats-container">
-                    <?php if (empty($gesprekken) && empty($overige_contacten)): ?>
+                    <?php if (empty($conversations) && empty($overige_contacten)): ?>
                         <div class="no-chats">
                             <p>Geen gesprekken gevonden.</p>
                         </div>
                     <?php else: ?>
-                        <?php foreach ($gesprekken as $gesprek): ?>
-                            <div class="chat-item <?php echo ($selected_contact_id == $gesprek['contact_id']) ? 'active' : ''; ?>" 
-                                 data-contact-id="<?php echo $gesprek['contact_id']; ?>">
+                        <?php foreach ($conversations as $gesprek): ?>
+                            <div class="chat-item <?php echo ($selected_contact_id == $gesprek['id']) ? 'active' : ''; ?>" 
+                                 data-contact-id="<?php echo $gesprek['id']; ?>">
                                 <div class="chat-avatar">
                                     <?php
                                     // Maak initialen van de naam
-                                    $naam_delen = explode(' ', $gesprek['contact_naam']);
+                                    $naam_delen = explode(' ', $gesprek['display_naam']);
                                     $initialen = '';
                                     foreach ($naam_delen as $deel) {
                                         $initialen .= strtoupper(substr($deel, 0, 1));
@@ -281,20 +345,19 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
                                 </div>
                                 <div class="chat-details">
                                     <div class="chat-header">
-                                        <h4><?php echo htmlspecialchars($gesprek['contact_naam']); ?></h4>
-                                        <span class="chat-time"><?php echo date('H:i', strtotime($gesprek['datum_verzonden'])); ?></span>
+                                        <h4><?php echo htmlspecialchars($gesprek['display_naam']); ?></h4>
+                                        <span class="chat-time"><?php echo $gesprek['laatste_bericht'] ? date('H:i', strtotime($gesprek['laatste_bericht'])) : ''; ?></span>
                                     </div>
                                     <div class="chat-message-preview">
                                         <?php if ($gesprek['laatste_bericht']): ?>
-                                            <p<?php echo ($gesprek['ongelezen_aantal'] > 0 && $gesprek['laatste_afzender_id'] != $user_id) ? ' class="unread"' : ''; ?>>
-                                                <?php echo ($gesprek['laatste_afzender_id'] == $user_id ? 'Jij: ' : ''); ?>
-                                                <?php echo htmlspecialchars(substr($gesprek['laatste_bericht'], 0, 30)) . (strlen($gesprek['laatste_bericht']) > 30 ? '...' : ''); ?>
+                                            <p<?php echo ($gesprek['ongelezen_berichten'] > 0) ? ' class="unread"' : ''; ?>>
+                                                Laatste bericht
                                             </p>
                                         <?php else: ?>
                                             <p>Geen berichten</p>
                                         <?php endif; ?>
-                                        <?php if ($gesprek['ongelezen_aantal'] > 0): ?>
-                                            <span class="unread-badge"><?php echo $gesprek['ongelezen_aantal']; ?></span>
+                                        <?php if ($gesprek['ongelezen_berichten'] > 0): ?>
+                                            <span class="unread-badge"><?php echo $gesprek['ongelezen_berichten']; ?></span>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -357,7 +420,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
                             ?>
                                 <div class="message <?php echo ($bericht['afzender_id'] == $user_id) ? 'sent' : 'received'; ?>" data-message-id="<?php echo $bericht['id']; ?>">
                                     <div class="message-bubble">
-                                        <?php echo nl2br(htmlspecialchars($bericht['bericht'])); ?>
+                                        <?php 
+                                        // Try to use 'inhoud' first, then fall back to 'bericht'
+                                        $message_content = isset($bericht['inhoud']) ? $bericht['inhoud'] : (isset($bericht['bericht']) ? $bericht['bericht'] : '');
+                                        echo nl2br(htmlspecialchars($message_content)); 
+                                        ?>
                                         <span class="message-time"><?php echo date('H:i', strtotime($bericht['datum_verzonden'])); ?></span>
                                     </div>
                                 </div>
@@ -475,6 +542,20 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
             const contactId = sendButton.dataset.contactId;
             if (message === '') return;
             
+            // Show sending indicator
+            const tempId = 'temp-' + Date.now();
+            const tempMessage = document.createElement('div');
+            tempMessage.className = 'message sent temp-message';
+            tempMessage.id = tempId;
+            tempMessage.innerHTML = `
+                <div class="message-bubble">
+                    ${message.replace(/\n/g, '<br>')}
+                    <span class="message-time">Verzenden...</span>
+                </div>
+            `;
+            messagesContainer.appendChild(tempMessage);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
             // Stuur bericht naar de server
             const formData = new FormData();
             formData.append('action', 'send_message');
@@ -487,15 +568,39 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
             })
             .then(response => response.json())
             .then(data => {
+                // Remove temp message
+                const tempMsg = document.getElementById(tempId);
+                if (tempMsg) tempMsg.remove();
+                
                 if (data.success) {
                     messageInput.value = '';
-                    checkForNewMessages();
+                    // Display the sent message with server data
+                    const messageData = [{
+                        id: data.data.id,
+                        afzender_id: <?php echo $user_id; ?>,
+                        inhoud: data.data.inhoud || data.data.bericht, // Handle both column names
+                        bericht: data.data.bericht || data.data.inhoud, // Handle both column names
+                        datum_verzonden: data.data.datum_verzonden,
+                        afzender_naam: '<?php echo $_SESSION['naam']; ?>'
+                    }];
+                    displayNewMessages(messageData);
+                    
+                    // Update lastMessageId to prevent duplicate display
+                    if (parseInt(data.data.id) > lastMessageId) {
+                        lastMessageId = parseInt(data.data.id);
+                    }
                 } else {
                     console.error('Fout bij versturen bericht:', data.message);
+                    alert('Fout bij versturen bericht: ' + data.message);
                 }
             })
             .catch(error => {
+                // Remove temp message
+                const tempMsg = document.getElementById(tempId);
+                if (tempMsg) tempMsg.remove();
+                
                 console.error('Fout bij versturen bericht:', error);
+                alert('Er is een fout opgetreden bij het versturen van het bericht. Probeer het later opnieuw.');
             });
         }
 
@@ -585,8 +690,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
                 const bubbleDiv = document.createElement('div');
                 bubbleDiv.className = 'message-bubble';
                 
+                // Handle both column names
                 const messageContent = document.createElement('span');
-                messageContent.innerHTML = bericht.bericht.replace(/\n/g, '<br>');
+                const messageText = bericht.inhoud || bericht.bericht;
+                messageContent.innerHTML = messageText.replace(/\n/g, '<br>');
                 
                 const timeSpan = document.createElement('span');
                 timeSpan.className = 'message-time';
@@ -685,7 +792,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
         }
         
         // Start message checking als er een contact is geselecteerd
-        if (selected_contact_id) {
+        if (messagesContainer && messagesContainer.dataset.contactId) {
             startMessageChecking();
         }
         
