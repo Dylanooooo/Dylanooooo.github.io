@@ -24,7 +24,7 @@ Deze checklist geeft een overzicht van de voltooide en nog openstaande taken voo
 ## Openstaande Taken
 
 ### Authenticatie & Beveiliging
-- [ ] Wachtwoord reset functionaliteit
+- [x] Wachtwoord reset functionaliteit
 - [ ] Gedetailleerde toegangscontrole verfijnen
 - [ ] Twee-factor authenticatie implementeren
 - [ ] Account verificatie via e-mail
