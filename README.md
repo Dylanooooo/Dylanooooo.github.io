@@ -28,12 +28,12 @@ Volg deze stappen om het project lokaal op te zetten:
 ## Inloggegevens
 
 ### Administrator
-- E-mail: admin@flitz-events.nl
+- E-mail: admin@flitz.nl
 - Wachtwoord: admin123
 
 ### Stagiair
-- E-mail: stagiair@flitz-events.nl
-- Wachtwoord: stagiair123
+- E-mail: test@mail.com
+- Wachtwoord: stage
 
 ### Stagiair registratie
 Stagiairs kunnen zichzelf registreren met de volgende informatie:
