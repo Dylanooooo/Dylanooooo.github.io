@@ -160,6 +160,48 @@ $root_path = "../";
                         </div>
                     </div>
                 </div>
+                
+                <!-- Add roster management widget to admin dashboard -->
+                <div class="dashboard-widget">
+                    <div class="widget-header">
+                        <h3>Roosterbeheer</h3>
+                        <a href="rooster.php" class="view-all">Volledig rooster</a>
+                    </div>
+                    <div class="widget-content">
+                        <div class="roster-stats">
+                            <?php
+                            // Get upcoming roster stats
+                            $today = date('Y-m-d');
+                            $next_week = date('Y-m-d', strtotime('+7 days'));
+                            
+                            // Count total meetings in the next week
+                            $stmt = $pdo->prepare("SELECT COUNT(*) as total_meetings,
+                                                 COUNT(DISTINCT gebruiker_id) as total_users
+                                                 FROM rooster
+                                                 WHERE dag BETWEEN :today AND :next_week");
+                            $stmt->execute([
+                                'today' => $today,
+                                'next_week' => $next_week
+                            ]);
+                            $stats = $stmt->fetch();
+                            ?>
+                            
+                            <div class="stat-box">
+                                <div class="stat-number"><?php echo $stats['total_meetings']; ?></div>
+                                <div class="stat-label">Geplande afspraken</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number"><?php echo $stats['total_users']; ?></div>
+                                <div class="stat-label">Betrokken personen</div>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <a href="rooster.php" class="button">Rooster bekijken</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
             
             <!-- Activiteitenlogboek -->

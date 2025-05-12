@@ -193,7 +193,11 @@ INSERT INTO `rooster` (`gebruiker_id`, `dag`, `start_tijd`, `eind_tijd`, `locati
 (1, CURDATE(), '09:00:00', '17:00:00', 'Kantoor Amsterdam', 'Projectoverleg om 10:00'),
 (1, DATE_ADD(CURDATE(), INTERVAL 2 DAY), '09:00:00', '17:00:00', 'Kantoor Amsterdam', NULL),
 (2, CURDATE(), '12:00:00', '20:00:00', 'Evenementlocatie Rotterdam', 'Festival setup'),
-(2, DATE_ADD(CURDATE(), INTERVAL 1 DAY), '09:00:00', '17:00:00', 'Kantoor Amsterdam', NULL);
+(2, DATE_ADD(CURDATE(), INTERVAL 1 DAY), '09:00:00', '17:00:00', 'Kantoor Amsterdam', NULL),
+(1, DATE_ADD(CURDATE(), INTERVAL 3 DAY), '10:00:00', '12:00:00', 'Kantoor Amsterdam', 'Teambespreking'),
+(2, DATE_ADD(CURDATE(), INTERVAL 3 DAY), '10:00:00', '12:00:00', 'Kantoor Amsterdam', 'Teambespreking'),
+(1, DATE_ADD(CURDATE(), INTERVAL 5 DAY), '14:00:00', '16:00:00', 'Evenementlocatie Rotterdam', 'Locatiebezoek'),
+(2, DATE_ADD(CURDATE(), INTERVAL 5 DAY), '14:00:00', '16:00:00', 'Evenementlocatie Rotterdam', 'Locatiebezoek');
 
 COMMIT;
 

@@ -180,18 +180,50 @@ $upcoming_shifts = [
                 
                 <!-- Aankomende Diensten Widget -->
                 <div class="dashboard-widget">
-                    <h3>Aankomende Diensten</h3>
-                    <div class="shifts-list">
-                        <?php foreach($upcoming_shifts as $shift): ?>
-                        <div class="shift-item">
-                            <div class="shift-date"><?php echo $shift['day']; ?> <span
-                                    class="date"><?php echo $shift['date']; ?></span></div>
-                            <div class="shift-time"><?php echo $shift['time']; ?></div>
-                            <div class="shift-location"><?php echo $shift['location']; ?></div>
-                        </div>
-                        <?php endforeach; ?>
+                    <div class="widget-header">
+                        <h3>Mijn Rooster</h3>
+                        <a href="rooster.php" class="view-all">Volledig rooster</a>
                     </div>
-                    <a href="rooster.php" class="view-all">Bekijk volledig rooster</a>
+                    <div class="widget-content">
+                        <!-- Upcoming shifts display or summary -->
+                        <div class="upcoming-shifts">
+                            <?php
+                            // Get upcoming shifts for this user
+                            $today = date('Y-m-d');
+                            $next_week = date('Y-m-d', strtotime('+7 days'));
+                            
+                            $stmt = $pdo->prepare("SELECT r.*, DATE_FORMAT(r.dag, '%d-%m-%Y') as formatted_date
+                                               FROM rooster r
+                                               WHERE r.gebruiker_id = :user_id
+                                               AND r.dag BETWEEN :today AND :next_week
+                                               ORDER BY r.dag ASC, r.start_tijd ASC
+                                               LIMIT 3");
+                            $stmt->execute([
+                                'user_id' => $_SESSION['user_id'],
+                                'today' => $today,
+                                'next_week' => $next_week
+                            ]);
+                            $shifts = $stmt->fetchAll();
+                            
+                            if (count($shifts) > 0): ?>
+                                <ul class="shifts-list">
+                                <?php foreach($shifts as $shift): ?>
+                                    <li>
+                                        <div class="shift-date"><?php echo $shift['formatted_date']; ?></div>
+                                        <div class="shift-time">
+                                            <?php echo date('H:i', strtotime($shift['start_tijd'])); ?> - 
+                                            <?php echo date('H:i', strtotime($shift['eind_tijd'])); ?>
+                                        </div>
+                                        <div class="shift-location"><?php echo htmlspecialchars($shift['locatie']); ?></div>
+                                    </li>
+                                <?php endforeach; ?>
+                                </ul>
+                            <?php else: ?>
+                                <p class="no-data">Geen ingeplande shifts voor de komende week.</p>
+                                <a href="rooster.php" class="button-small">Plan een afspraak</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Updates Widget -->
