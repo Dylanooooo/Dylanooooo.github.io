@@ -2,7 +2,7 @@
 
 /* Basis stijlen */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -145,17 +145,399 @@ footer {
     font-size: 14px;
 }
 
+/* Admin specific styles */
+.admin-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    background: white;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.admin-tab {
+    padding: 15px 25px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+}
+
+.admin-tab:hover {
+    background: #e9ecef;
+}
+
+.admin-tab.active {
+    border-bottom-color: #a71680;
+    background: white;
+    color: #a71680;
+}
+
+.admin-panel {
+    display: none;
+    background: white;
+    padding: 25px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.admin-panel.active {
+    display: block;
+}
+
+/* Formulier stijlen */
+.admin-form {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border-left: 4px solid #a71680;
+}
+
+.form-row {
+    margin-bottom: 20px;
+}
+
+.form-row label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #444;
+    font-size: 14px;
+}
+
+.form-row input, 
+.form-row select, 
+.form-row textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-row input:focus, 
+.form-row select:focus, 
+.form-row textarea:focus {
+    border-color: #a71680;
+    box-shadow: 0 0 0 3px rgba(167, 22, 128, 0.1);
+    outline: none;
+}
+
+.form-row textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* Tabel stijlen */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 15px 12px;
+    background: linear-gradient(90deg, #a71680 0%, #ec6708 100%);
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.admin-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Actie knoppen */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.action-button {
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 500;
+}
+
+.action-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.edit-button {
+    background: #f0ad4e;
+    color: white;
+}
+
+.edit-button:hover {
+    background: #ec971f;
+}
+
+.delete-button {
+    background: #d9534f;
+    color: white;
+}
+
+.delete-button:hover {
+    background: #c9302c;
+}
+
+.view-button {
+    background: #5bc0de;
+    color: white;
+}
+
+.view-button:hover {
+    background: #46b8da;
+}
+
+/* Status badges */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-active {
+    background: rgba(167, 22, 128, 0.1);
+    color: #a71680;
+    border: 1px solid rgba(167, 22, 128, 0.3);
+}
+
+.status-upcoming {
+    background: #e1f5fe;
+    color: #0288d1;
+    border: 1px solid #b3e5fc;
+}
+
+.status-completed {
+    background: #e8f5e8;
+    color: #4caf50;
+    border: 1px solid #c8e6c9;
+}
+
+/* Button styling */
+.button-small {
+    background: linear-gradient(90deg, #a71680 0%, #ec6708 100%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.button-small:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(167, 22, 128, 0.3);
+}
+
+/* Melding stijlen */
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-left: 4px solid #28a745;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-left: 4px solid #dc3545;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+    border-left: 4px solid #17a2b8;
+}
+
+/* Loading states */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #666;
+}
+
+.loading:before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #a71680;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Empty states */
+.no-data {
+    text-align: center;
+    padding: 40px 20px;
+    color: #777;
+    font-style: italic;
+}
+
+.no-data i {
+    font-size: 48px;
+    color: #ddd;
+    margin-bottom: 15px;
+    display: block;
+}
+
 /* Responsieve aanpassingen */
 @media (max-width: 768px) {
-    .admin-panels {
-        grid-template-columns: 1fr;
-    }
-    
-    nav ul {
+    .admin-tabs {
         flex-direction: column;
     }
     
-    nav li {
-        margin: 5px 0;
+    .admin-tab {
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        border-left: 3px solid transparent;
+    }
+    
+    .admin-tab.active {
+        border-bottom: 1px solid #eee;
+        border-left-color: #a71680;
+    }
+    
+    .admin-panel {
+        padding: 15px;
+    }
+    
+    .admin-form {
+        padding: 15px;
+    }
+    
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .form-actions .button-small {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .admin-table {
+        font-size: 12px;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 8px 6px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-button {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .form-row {
+        margin-bottom: 15px;
+    }
+    
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+}
+
+/* Print styles */
+@media print {
+    .admin-tabs,
+    .action-buttons,
+    .form-actions {
+        display: none;
+    }
+    
+    .admin-panel {
+        display: block !important;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .admin-table {
+        box-shadow: none;
     }
 }

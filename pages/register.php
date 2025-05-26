@@ -51,11 +51,7 @@ session_start();
         </div>
     </section>
 
-    <footer>
-        <div class="footer-container">
-            <p>&copy; 2025 Flitz-Events. Alle rechten voorbehouden.</p>
-        </div>
-    </footer>
+    <?php include('../includes/footer.php'); ?>
 
     <script src="../assets/js/login.js"></script>
 </body>

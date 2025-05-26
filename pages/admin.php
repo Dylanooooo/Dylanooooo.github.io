@@ -430,11 +430,7 @@ $taken = $stmt->fetchAll();
         </div>
     </section>
 
-    <footer>
-        <div class="footer-container">
-            <p>&copy; <?php echo date("Y"); ?> Flitz-Events | Alle rechten voorbehouden</p>
-        </div>
-    </footer>
+    <?php include('../includes/footer.php'); ?>
 
     <script>
         // Tab switching functionality
@@ -453,6 +449,98 @@ $taken = $stmt->fetchAll();
             });
         });
         
+        // Project form submission
+        document.getElementById('add-project-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            formData.append('action', 'create_project');
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Bezig...';
+            submitBtn.disabled = true;
+            
+            fetch('../api/admin_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    this.reset();
+                    setTimeout(() => {
+                        location.reload(); // Reload to show new project in table
+                    }, 1500);
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('danger', 'Er is een onverwachte fout opgetreden');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+        
+        // Task form submission
+        document.getElementById('add-task-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            formData.append('action', 'create_task');
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Bezig...';
+            submitBtn.disabled = true;
+            
+            fetch('../api/admin_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    this.reset();
+                    setTimeout(() => {
+                        location.reload(); // Reload to show new task in table
+                    }, 1500);
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('danger', 'Er is een onverwachte fout opgetreden');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+        
+        // Alert function
+        function showAlert(type, message) {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+        
         // Reset form function
         function resetForm(formId) {
             document.getElementById(formId).reset();
@@ -462,14 +550,14 @@ $taken = $stmt->fetchAll();
         function editProject(id, naam, beschrijving, startDatum, eindDatum, status, voortgang) {
             // Deze functie zou het project in een formulier kunnen laden voor bewerking
             console.log("Edit project: ", id);
-            alert("Functionaliteit nog niet geïmplementeerd");
+            alert("Edit functionaliteit wordt binnenkort toegevoegd");
         }
         
         function deleteProject(id, naam) {
             // Deze functie zou een bevestiging vragen en dan het project verwijderen
             if (confirm(`Weet je zeker dat je het project "${naam}" wilt verwijderen?`)) {
                 console.log("Delete project: ", id);
-                alert("Functionaliteit nog niet geïmplementeerd");
+                alert("Delete functionaliteit wordt binnenkort toegevoegd");
             }
         }
         
@@ -477,16 +565,41 @@ $taken = $stmt->fetchAll();
         function editTask(id, projectId, naam, beschrijving, deadline, status, toegewezenAan) {
             // Deze functie zou de taak in een formulier kunnen laden voor bewerking
             console.log("Edit task: ", id);
-            alert("Functionaliteit nog niet geïmplementeerd");
+            alert("Edit functionaliteit wordt binnenkort toegevoegd");
         }
         
         function deleteTask(id, naam) {
             // Deze functie zou een bevestiging vragen en dan de taak verwijderen
             if (confirm(`Weet je zeker dat je de taak "${naam}" wilt verwijderen?`)) {
                 console.log("Delete task: ", id);
-                alert("Functionaliteit nog niet geïmplementeerd");
+                alert("Delete functionaliteit wordt binnenkort toegevoegd");
             }
         }
+        
+        // Form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Validate project dates
+            const startDateInput = document.getElementById('project-start-datum');
+            const endDateInput = document.getElementById('project-eind-datum');
+            
+            function validateDates() {
+                if (startDateInput.value && endDateInput.value) {
+                    if (new Date(startDateInput.value) > new Date(endDateInput.value)) {
+                        endDateInput.setCustomValidity('Einddatum moet na de startdatum liggen');
+                    } else {
+                        endDateInput.setCustomValidity('');
+                    }
+                }
+            }
+            
+            startDateInput.addEventListener('change', validateDates);
+            endDateInput.addEventListener('change', validateDates);
+            
+            // Set minimum date to today for new projects
+            const today = new Date().toISOString().split('T')[0];
+            startDateInput.setAttribute('min', today);
+            endDateInput.setAttribute('min', today);
+        });
         
         // Initialize any tabs from URL parameter
         window.addEventListener('DOMContentLoaded', () => {

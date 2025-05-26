@@ -56,17 +56,17 @@ if ($is_logged_in && isset($_SESSION['naam']) && !empty($_SESSION['naam'])) {
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/admin_home.php" class="<?php echo $current_page == 'admin_home.php' ? 'active' : ''; ?>">Dashboard</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/admin.php" class="<?php echo $current_page == 'admin.php' ? 'active' : ''; ?>">Beheer</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/projecten.php" class="<?php echo $current_page == 'projecten.php' ? 'active' : ''; ?>">Projecten</a></li>
-                <li><a href="<?php echo $root_path ?? ''; ?>pages/chat.php" class="<?php echo $current_page == 'chat.php' ? 'active' : ''; ?>">Chat</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/events.php" class="<?php echo $current_page == 'events.php' ? 'active' : ''; ?>">Evenementen</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/gebruikers.php" class="<?php echo $current_page == 'gebruikers.php' ? 'active' : ''; ?>">Gebruikers</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/rooster.php" class="<?php echo in_array($current_page, ['rooster.php', 'rooster_detail.php']) ? 'active' : ''; ?>">Rooster</a></li>
+                <li><a href="<?php echo $root_path ?? ''; ?>pages/chat.php" class="<?php echo $current_page == 'chat.php' ? 'active' : ''; ?>">Chat</a></li>
             
             <?php else: ?>
                 <!-- Navigatie voor stagiairs/standaardgebruikers -->
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/dashboard.php" class="<?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/projecten.php" class="<?php echo $current_page == 'projecten.php' ? 'active' : ''; ?>">Mijn projecten</a></li>
-                <li><a href="<?php echo $root_path ?? ''; ?>pages/chat.php" class="<?php echo $current_page == 'chat.php' ? 'active' : ''; ?>">Chat</a></li>
                 <li><a href="<?php echo $root_path ?? ''; ?>pages/rooster.php" class="<?php echo in_array($current_page, ['rooster.php', 'rooster_detail.php']) ? 'active' : ''; ?>">Rooster</a></li>
+                <li><a href="<?php echo $root_path ?? ''; ?>pages/chat.php" class="<?php echo $current_page == 'chat.php' ? 'active' : ''; ?>">Chat</a></li>
             <?php endif; ?>
         </ul>
 

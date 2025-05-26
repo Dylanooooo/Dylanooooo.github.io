@@ -129,27 +129,29 @@ $upcoming_shifts = [
                     </div>
 
                     <div class="project-tasks">
-                        <h4>Te doen deze week:</h4>
+                        <h4><i class="fas fa-tasks"></i> Te doen deze week:</h4>
                         <?php if (count($taken) > 0): ?>
                         <ul class="task-list">
                             <?php foreach ($taken as $taak): ?>
                             <li class="task-item">
                                 <input type="checkbox" id="task<?php echo $taak['id']; ?>" class="task-checkbox"
                                     <?php echo ($taak['status'] == 'afgerond') ? 'checked' : ''; ?>>
-                                <label
-                                    for="task<?php echo $taak['id']; ?>"><?php echo htmlspecialchars($taak['naam']); ?></label>
+                                <label for="task<?php echo $taak['id']; ?>">
+                                    <span class="task-name"><?php echo htmlspecialchars($taak['naam']); ?></span>
+                                </label>
                                 <span class="task-due">
                                     <?php if ($taak['deadline']): ?>
-                                    Deadline: <?php echo date('d M', strtotime($taak['deadline'])); ?>
+                                    <i class="fas fa-calendar"></i> Deadline: <?php echo date('d M', strtotime($taak['deadline'])); ?>
                                     <?php else: ?>
-                                    Geen deadline
+                                    <i class="fas fa-calendar-times"></i> Geen deadline
                                     <?php endif; ?>
                                 </span>
                             </li>
                             <?php endforeach; ?>
                         </ul>
-                        <a href="project-detail.php?id=<?php echo $active_project['id']; ?>" class="view-all">Bekijk
-                            alle taken</a>
+                        <a href="project-detail.php?id=<?php echo $active_project['id']; ?>" class="view-all">
+                            <i class="fas fa-external-link-alt"></i> Bekijk alle taken
+                        </a>
                         <?php else: ?>
                         <p>Geen openstaande taken voor dit project.</p>
                         <?php endif; ?>
@@ -160,29 +162,39 @@ $upcoming_shifts = [
             <div class="dashboard-widget featured-widget">
                 <div class="widget-header">
                     <h3>Geen actief project</h3>
-                    <a href="projecten.php" class="button-small">Bekijk Projecten</a>
+                    <a href="projecten.php" class="button-small">
+                        <i class="fas fa-folder-open"></i> Bekijk Projecten
+                    </a>
                 </div>
-                <p>Er zijn momenteel geen actieve projecten toegewezen.</p>
+                <div class="no-project-state">
+                    <div class="no-project-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <p>Er zijn momenteel geen actieve projecten toegewezen.</p>
+                    <a href="projecten.php" class="button">Projecten bekijken</a>
+                </div>
             </div>
             <?php endif; ?>
 
             <div class="dashboard-grid">
                 <!-- Snelle Links Widget -->
                 <div class="dashboard-widget">
-                    <h3>Snelle Links</h3>
+                    <h3><i class="fas fa-bolt"></i> Snelle Links</h3>
                     <ul class="quick-links">
-                        <li><a href="projecten.php">Projecten Overzicht</a></li>
-                        <li><a href="rooster.php">Weekrooster</a></li>
-                        <li><a href="#">Trainingen</a></li>
-                        <li><a href="#">Contact Opnemen</a></li>
+                        <li><a href="projecten.php"><i class="fas fa-project-diagram"></i> Projecten Overzicht</a></li>
+                        <li><a href="rooster.php"><i class="fas fa-calendar-week"></i> Weekrooster</a></li>
+                        <li><a href="chat.php"><i class="fas fa-comments"></i> Chat</a></li>
+                        <li><a href="profiel.php"><i class="fas fa-user-cog"></i> Profiel Bewerken</a></li>
                     </ul>
                 </div>
                 
                 <!-- Aankomende Diensten Widget -->
                 <div class="dashboard-widget">
                     <div class="widget-header">
-                        <h3>Mijn Rooster</h3>
-                        <a href="rooster.php" class="view-all">Volledig rooster</a>
+                        <h3><i class="fas fa-calendar-alt"></i> Mijn Rooster</h3>
+                        <a href="rooster.php" class="view-all">
+                            <i class="fas fa-external-link-alt"></i> Volledig rooster
+                        </a>
                     </div>
                     <div class="widget-content">
                         <!-- Upcoming shifts display or summary -->
@@ -208,19 +220,33 @@ $upcoming_shifts = [
                             if (count($shifts) > 0): ?>
                                 <ul class="shifts-list">
                                 <?php foreach($shifts as $shift): ?>
-                                    <li>
-                                        <div class="shift-date"><?php echo $shift['formatted_date']; ?></div>
+                                    <li class="shift-item">
+                                        <div class="shift-date">
+                                            <i class="fas fa-calendar"></i>
+                                            <?php echo $shift['formatted_date']; ?>
+                                        </div>
                                         <div class="shift-time">
+                                            <i class="fas fa-clock"></i>
                                             <?php echo date('H:i', strtotime($shift['start_tijd'])); ?> - 
                                             <?php echo date('H:i', strtotime($shift['eind_tijd'])); ?>
                                         </div>
-                                        <div class="shift-location"><?php echo htmlspecialchars($shift['locatie']); ?></div>
+                                        <div class="shift-location">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <?php echo htmlspecialchars($shift['locatie']); ?>
+                                        </div>
                                     </li>
                                 <?php endforeach; ?>
                                 </ul>
                             <?php else: ?>
-                                <p class="no-data">Geen ingeplande shifts voor de komende week.</p>
-                                <a href="rooster.php" class="button-small">Plan een afspraak</a>
+                                <div class="no-shifts">
+                                    <div class="no-shifts-icon">
+                                        <i class="fas fa-calendar-times"></i>
+                                    </div>
+                                    <p class="no-data">Geen ingeplande shifts voor de komende week.</p>
+                                    <a href="rooster.php" class="button-small">
+                                        <i class="fas fa-plus"></i> Plan een afspraak
+                                    </a>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -228,31 +254,63 @@ $upcoming_shifts = [
 
                 <!-- Updates Widget -->
                 <div class="dashboard-widget">
-                    <h3>Laatste Updates</h3>
+                    <h3><i class="fas fa-bell"></i> Laatste Updates</h3>
                     <div class="updates-list">
                         <div class="update-item">
-                            <h4>Nieuwe stageopdracht</h4>
-                            <p>Er staat een nieuwe opdracht klaar voor het Zomerfestival project.</p>
-                            <span class="date">Vandaag, 10:15</span>
+                            <div class="update-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="update-content">
+                                <h4>Nieuwe stageopdracht</h4>
+                                <p>Er staat een nieuwe opdracht klaar voor het Zomerfestival project.</p>
+                                <span class="date">Vandaag, 10:15</span>
+                            </div>
                         </div>
                         <div class="update-item">
-                            <h4>Trainingsmodule beschikbaar</h4>
-                            <p>De module "Event Veiligheid" staat nu voor je klaar.</p>
-                            <span class="date">Gisteren, 16:30</span>
+                            <div class="update-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="update-content">
+                                <h4>Trainingsmodule beschikbaar</h4>
+                                <p>De module "Event Veiligheid" staat nu voor je klaar.</p>
+                                <span class="date">Gisteren, 16:30</span>
+                            </div>
                         </div>
                     </div>
-                    <a href="#" class="view-all">Alle updates bekijken</a>
+                    <a href="#" class="view-all">
+                        <i class="fas fa-external-link-alt"></i> Alle updates bekijken
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="footer-container">
-            <p>&copy; <?php echo date('Y'); ?> Flitz-Events Stageportaal | Alle rechten voorbehouden</p>
-        </div>
-    </footer>
+    <?php include('../includes/footer.php'); ?>
 
     <script src="../assets/js/scripts.js"></script>
+    <script>
+        // Task checkbox functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskCheckboxes = document.querySelectorAll('.task-checkbox');
+            
+            taskCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const taskId = this.id.replace('task', '');
+                    const isCompleted = this.checked;
+                    
+                    // Visual feedback
+                    const taskItem = this.closest('.task-item');
+                    if (isCompleted) {
+                        taskItem.classList.add('completed');
+                    } else {
+                        taskItem.classList.remove('completed');
+                    }
+                    
+                    // Here you could add AJAX call to update task status
+                    console.log(`Task ${taskId} marked as ${isCompleted ? 'completed' : 'pending'}`);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

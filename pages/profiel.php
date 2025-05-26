@@ -166,70 +166,152 @@ $useIcons = true;
                                 ?>
                             </div>
                         <?php endif; ?>
+                        <div class="avatar-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
                     </div>
                     <div class="profile-info">
                         <h3><?php echo htmlspecialchars($user['naam']); ?></h3>
-                        <p class="profile-role"><?php echo ucfirst(htmlspecialchars($user['rol'])); ?></p>
-                        <p class="profile-email"><?php echo htmlspecialchars($user['email']); ?></p>
+                        <p class="profile-role">
+                            <i class="fas fa-user-tag"></i> <?php echo ucfirst(htmlspecialchars($user['rol'])); ?>
+                        </p>
+                        <p class="profile-email">
+                            <i class="fas fa-envelope"></i> <?php echo htmlspecialchars($user['email']); ?>
+                        </p>
+                        <?php if (isset($user['datum_aangemaakt'])): ?>
+                        <p class="profile-join-date">
+                            <i class="fas fa-calendar-plus"></i> Lid sinds <?php echo date('M Y', strtotime($user['datum_aangemaakt'])); ?>
+                        </p>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
                 <div class="profile-content">
                     <div class="dashboard-widget">
-                        <h3>Persoonlijke Informatie</h3>
+                        <h3><i class="fas fa-user-edit"></i> Persoonlijke Informatie</h3>
                         <form id="profile-form" class="profile-form" method="post" enctype="multipart/form-data">
                             <div class="form-row">
-                                <label for="profile-naam">Naam</label>
-                                <input type="text" id="profile-naam" name="naam" value="<?php echo htmlspecialchars($user['naam']); ?>">
+                                <label for="profile-naam"><i class="fas fa-user"></i> Naam</label>
+                                <input type="text" id="profile-naam" name="naam" value="<?php echo htmlspecialchars($user['naam']); ?>" required>
                             </div>
                             <div class="form-row">
-                                <label for="profile-email">E-mail</label>
-                                <input type="email" id="profile-email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
+                                <label for="profile-email"><i class="fas fa-envelope"></i> E-mail</label>
+                                <input type="email" id="profile-email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                             </div>
                             <div class="form-row">
-                                <label for="profile-image">Profielfoto</label>
+                                <label for="profile-image"><i class="fas fa-camera"></i> Profielfoto</label>
                                 <input type="file" id="profile-image" name="profile_image" accept="image/*">
-                                <p class="form-help">Toegestane formaten: JPG, PNG, GIF</p>
+                                <p class="form-help">Toegestane formaten: JPG, PNG, GIF (max 5MB)</p>
                             </div>
                             <div class="form-row">
-                                <button type="submit" class="button-small">Opslaan</button>
+                                <button type="submit" class="button-small">
+                                    <i class="fas fa-save"></i> Opslaan
+                                </button>
                             </div>
                         </form>
                     </div>
                     
                     <div class="dashboard-widget">
-                        <h3>Wachtwoord Wijzigen</h3>
+                        <h3><i class="fas fa-lock"></i> Wachtwoord Wijzigen</h3>
                         <form id="password-form" class="profile-form" method="post" action="">
                             <input type="hidden" name="action" value="change_password">
                             <div class="form-row">
-                                <label for="current-password">Huidig Wachtwoord</label>
+                                <label for="current-password"><i class="fas fa-key"></i> Huidig Wachtwoord</label>
                                 <input type="password" id="current-password" name="current_password" required>
                             </div>
                             <div class="form-row">
-                                <label for="new-password">Nieuw Wachtwoord</label>
+                                <label for="new-password"><i class="fas fa-lock"></i> Nieuw Wachtwoord</label>
                                 <input type="password" id="new-password" name="new_password" required minlength="6">
                                 <p class="form-help">Minimaal 6 karakters</p>
                             </div>
                             <div class="form-row">
-                                <label for="confirm-password">Bevestig Wachtwoord</label>
+                                <label for="confirm-password"><i class="fas fa-lock"></i> Bevestig Wachtwoord</label>
                                 <input type="password" id="confirm-password" name="confirm_password" required>
                             </div>
                             <div class="form-row">
-                                <button type="submit" class="button-small">Wachtwoord Wijzigen</button>
+                                <button type="submit" class="button-small">
+                                    <i class="fas fa-shield-alt"></i> Wachtwoord Wijzigen
+                                </button>
                             </div>
                         </form>
+                    </div>
+                    
+                    <!-- Additional profile sections -->
+                    <div class="dashboard-widget">
+                        <h3><i class="fas fa-chart-line"></i> Activiteit Overzicht</h3>
+                        <div class="activity-stats">
+                            <?php
+                            // Get user statistics
+                            $stmt = $pdo->prepare("SELECT COUNT(*) as task_count FROM taken WHERE toegewezen_aan = :user_id");
+                            $stmt->execute(['user_id' => $user_id]);
+                            $task_count = $stmt->fetch()['task_count'];
+                            
+                            $stmt = $pdo->prepare("SELECT COUNT(*) as completed_tasks FROM taken WHERE toegewezen_aan = :user_id AND status = 'afgerond'");
+                            $stmt->execute(['user_id' => $user_id]);
+                            $completed_tasks = $stmt->fetch()['completed_tasks'];
+                            ?>
+                            <div class="stat-item">
+                                <div class="stat-number"><?php echo $task_count; ?></div>
+                                <div class="stat-label">Toegewezen taken</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number"><?php echo $completed_tasks; ?></div>
+                                <div class="stat-label">Voltooide taken</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number"><?php echo $task_count > 0 ? round(($completed_tasks / $task_count) * 100) : 0; ?>%</div>
+                                <div class="stat-label">Voltooiingspercentage</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="footer-container">
-            <p>&copy; <?php echo date("Y"); ?> Flitz-Events Stageportaal | Alle rechten voorbehouden</p>
-        </div>
-    </footer>
+    <?php include('../includes/footer.php'); ?>
 
-    <script src="../assets/js/scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password confirmation validation
+            const newPassword = document.getElementById('new-password');
+            const confirmPassword = document.getElementById('confirm-password');
+            
+            function validatePassword() {
+                if (newPassword.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity('Wachtwoorden komen niet overeen');
+                } else {
+                    confirmPassword.setCustomValidity('');
+                }
+            }
+            
+            newPassword.addEventListener('change', validatePassword);
+            confirmPassword.addEventListener('keyup', validatePassword);
+            
+            // File upload preview
+            const profileImage = document.getElementById('profile-image');
+            const avatar = document.querySelector('.profile-avatar');
+            
+            profileImage.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = avatar.querySelector('img');
+                        if (img) {
+                            img.src = e.target.result;
+                        } else {
+                            const newImg = document.createElement('img');
+                            newImg.src = e.target.result;
+                            newImg.alt = 'Profielfoto';
+                            avatar.querySelector('.profile-initials').style.display = 'none';
+                            avatar.insertBefore(newImg, avatar.firstChild);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

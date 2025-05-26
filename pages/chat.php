@@ -4,7 +4,7 @@ include('../includes/config.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
+    header("Location: ../index.php");
     exit;
 }
 
@@ -15,278 +15,58 @@ $useIcons = true;
 
 $user_id = $_SESSION['user_id'];
 
-// Get all conversations for the current user
-$conversations_query = "SELECT 
-                        g.id, 
-                        g.naam, 
-                        g.type,
-                        g.laatste_bericht,
-                        CASE 
-                            WHEN g.type = 'direct' THEN 
-                                (SELECT naam FROM gebruikers WHERE id = 
-                                    CASE 
-                                        WHEN g.gebruiker1_id = :user_id THEN g.gebruiker2_id 
-                                        WHEN g.gebruiker2_id = :user_id THEN g.gebruiker1_id
-                                        ELSE g.aangemaakt_door
-                                    END
-                                ) 
-                            ELSE g.naam 
-                        END as display_naam,
-                        gu.ongelezen_berichten
-                      FROM gesprekken g
-                      JOIN gesprekken_gebruikers gu ON g.id = gu.gesprek_id
-                      WHERE gu.gebruiker_id = :user_id
-                      ORDER BY g.laatste_bericht DESC";
-
+// Check if the current user exists
 try {
-    // Check if the current user exists
-    $user_check_query = "SELECT id FROM gebruikers WHERE id = :user_id";
-    $stmt = $pdo->prepare($user_check_query);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->execute();
+    $stmt = $pdo->prepare("SELECT * FROM gebruikers WHERE id = :id");
+    $stmt->execute(['id' => $user_id]);
+    $current_user = $stmt->fetch();
     
-    if (!$stmt->fetch()) {
-        // User doesn't exist in database
+    if (!$current_user) {
         session_destroy();
-        header('Location: ../index.php?error=invalid_user');
+        header("Location: ../index.php");
         exit;
     }
-    
-    // Get conversations
-    $stmt = $pdo->prepare($conversations_query);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->execute();
-    $conversations = $stmt->fetchAll();
 } catch (PDOException $e) {
-    $error_message = "Database error: " . $e->getMessage();
-}
-
-// Haal alle contacten op die nog geen gesprek hebben met de gebruiker
-$sql = "
-    SELECT id, naam 
-    FROM gebruikers 
-    WHERE id != :user_id 
-    AND id NOT IN (
-        SELECT IF(gebruiker1_id = :user_id, gebruiker2_id, gebruiker1_id)
-        FROM gesprekken
-        WHERE (gebruiker1_id = :user_id OR gebruiker2_id = :user_id)
-        AND type = 'direct'
-    )
-";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':user_id', $user_id);
-$stmt->execute();
-$overige_contacten = $stmt->fetchAll();
-
-// Geselecteerd contact/gesprek
-$selected_contact_id = isset($_GET['contact_id']) ? intval($_GET['contact_id']) : null;
-$selected_contact = null;
-$berichten = [];
-
-// Als een contact is geselecteerd, haal zijn/haar gegevens en berichten op
-if ($selected_contact_id) {
-    // Haal contactgegevens op
-    $sql = "SELECT * FROM gebruikers WHERE id = :contact_id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':contact_id', $selected_contact_id);
-    $stmt->execute();
-    $selected_contact = $stmt->fetch();
-    
-    if ($selected_contact) {
-        // Controleer of er al een gesprek bestaat tussen deze gebruikers
-        $sql = "
-            SELECT id FROM gesprekken 
-            WHERE (gebruiker1_id = :user_id AND gebruiker2_id = :contact_id)
-            OR (gebruiker1_id = :contact_id AND gebruiker2_id = :user_id)
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':contact_id', $selected_contact_id);
-        $stmt->execute();
-        $gesprek = $stmt->fetch();
-        
-        $gesprek_id = null;
-        if ($gesprek) {
-            $gesprek_id = $gesprek['id'];
-        }
-        
-        // Haal berichten op
-        $sql = "
-            SELECT b.*, u.naam as afzender_naam
-            FROM berichten b
-            JOIN gebruikers u ON b.afzender_id = u.id
-            WHERE (b.afzender_id = :user_id AND b.ontvanger_id = :contact_id)
-            OR (b.afzender_id = :contact_id AND b.ontvanger_id = :user_id)
-            ORDER BY b.datum_verzonden ASC
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':contact_id', $selected_contact_id);
-        $stmt->execute();
-        $berichten = $stmt->fetchAll();
-        
-        // Markeer ongelezen berichten als gelezen
-        $sql = "
-            UPDATE berichten
-            SET gelezen = 1
-            WHERE ontvanger_id = :user_id AND afzender_id = :contact_id AND gelezen = 0
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':contact_id', $selected_contact_id);
-        $stmt->execute();
-    }
-}
-
-// AJAX handler voor het versturen van berichten
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send_message') {
-    $ontvanger_id = intval($_POST['ontvanger_id']);
-    $bericht = trim($_POST['bericht']);
-    
-    if (empty($bericht)) {
-        echo json_encode(['success' => false, 'message' => 'Bericht kan niet leeg zijn']);
-        exit;
-    }
-    
-    try {
-        // First verify that both users exist
-        $verify_users_query = "SELECT id FROM gebruikers WHERE id IN (:user_id, :ontvanger_id)";
-        $stmt = $pdo->prepare($verify_users_query);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':ontvanger_id', $ontvanger_id);
-        $stmt->execute();
-        $valid_users = $stmt->fetchAll();
-        
-        if (count($valid_users) != 2) {
-            echo json_encode(['success' => false, 'message' => 'Een of beide gebruikers bestaan niet in het systeem']);
-            exit;
-        }
-        
-        $pdo->beginTransaction();
-        
-        // Voeg het bericht toe aan de database
-        $column_name = 'inhoud'; // Default column name
-        
-        // Check if 'inhoud' column exists
-        $check_col = $pdo->query("SHOW COLUMNS FROM berichten LIKE 'inhoud'");
-        if ($check_col->rowCount() == 0) {
-            // Use 'bericht' if 'inhoud' doesn't exist
-            $column_name = 'bericht';
-        }
-        
-        $sql = "INSERT INTO berichten (afzender_id, ontvanger_id, $column_name) VALUES (:afzender_id, :ontvanger_id, :content)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':afzender_id', $user_id);
-        $stmt->bindParam(':ontvanger_id', $ontvanger_id);
-        $stmt->bindParam(':content', $bericht);
-        $stmt->execute();
-        
-        $bericht_id = $pdo->lastInsertId();
-        
-        // Controleer of er al een gesprek bestaat
-        $sql = "
-            SELECT id FROM gesprekken 
-            WHERE (gebruiker1_id = :user_id AND gebruiker2_id = :ontvanger_id)
-            OR (gebruiker1_id = :ontvanger_id AND gebruiker2_id = :user_id)
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':ontvanger_id', $ontvanger_id);
-        $stmt->execute();
-        $gesprek = $stmt->fetch();
-        
-        if ($gesprek) {
-            // Update bestaand gesprek
-            $sql = "UPDATE gesprekken SET laatste_bericht = NOW() WHERE id = :gesprek_id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':gesprek_id', $gesprek['id']);
-            $stmt->execute();
-            
-            // Update aantal ongelezen berichten voor ontvanger
-            $sql = "UPDATE gesprekken_gebruikers SET ongelezen_berichten = ongelezen_berichten + 1 
-                    WHERE gesprek_id = :gesprek_id AND gebruiker_id = :ontvanger_id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':gesprek_id', $gesprek['id']);
-            $stmt->bindParam(':ontvanger_id', $ontvanger_id);
-            $stmt->execute();
-        } else {
-            // Maak nieuw gesprek aan
-            $sql = "INSERT INTO gesprekken (naam, type, gebruiker1_id, gebruiker2_id, aangemaakt_door, laatste_bericht) 
-                    VALUES (NULL, 'direct', :user_id, :ontvanger_id, :user_id, NOW())";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':user_id', $user_id);
-            $stmt->bindParam(':ontvanger_id', $ontvanger_id);
-            $stmt->execute();
-            
-            $gesprek_id = $pdo->lastInsertId();
-            
-            // Voeg gebruikers toe aan het gesprek
-            $sql = "INSERT INTO gesprekken_gebruikers (gesprek_id, gebruiker_id, ongelezen_berichten) VALUES (:gesprek_id, :user_id, 0)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':gesprek_id', $gesprek_id);
-            $stmt->bindParam(':user_id', $user_id);
-            $stmt->execute();
-            
-            $sql = "INSERT INTO gesprekken_gebruikers (gesprek_id, gebruiker_id, ongelezen_berichten) VALUES (:gesprek_id, :ontvanger_id, 1)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':gesprek_id', $gesprek_id);
-            $stmt->bindParam(':ontvanger_id', $ontvanger_id);
-            $stmt->execute();
-        }
-        
-        $pdo->commit();
-        
-        // Haal het nieuwe bericht op met afzendernaam
-        $sql = "SELECT b.*, u.naam as afzender_naam FROM berichten b JOIN gebruikers u ON b.afzender_id = u.id WHERE b.id = :bericht_id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':bericht_id', $bericht_id);
-        $stmt->execute();
-        $nieuw_bericht = $stmt->fetch();
-        
-        echo json_encode(['success' => true, 'message' => 'Bericht verstuurd', 'data' => $nieuw_bericht]);
-        exit;
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        error_log("Chat error: " . $e->getMessage() . " - User ID: $user_id, Receiver ID: $ontvanger_id");
-        echo json_encode(['success' => false, 'message' => 'Er is een fout opgetreden: ' . $e->getMessage()]);
-        exit;
-    }
-}
-
-// Als het een AJAX-verzoek is om berichten op te halen, verwerk dat dan
-if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET['contact_id'])) {
-    $contact_id = intval($_GET['contact_id']);
-    $last_id = isset($_GET['last_id']) ? intval($_GET['last_id']) : 0;
-    
-    $sql = "
-        SELECT b.*, u.naam as afzender_naam
-        FROM berichten b
-        JOIN gebruikers u ON b.afzender_id = u.id
-        WHERE ((b.afzender_id = :user_id AND b.ontvanger_id = :contact_id)
-        OR (b.afzender_id = :contact_id AND b.ontvanger_id = :user_id))
-        AND b.id > :last_id
-        ORDER BY b.datum_verzonden ASC
-    ";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->bindParam(':contact_id', $contact_id);
-    $stmt->bindParam(':last_id', $last_id);
-    $stmt->execute();
-    $nieuwe_berichten = $stmt->fetchAll();
-    
-    // Markeer ongelezen berichten als gelezen
-    $sql = "
-        UPDATE berichten
-        SET gelezen = 1
-        WHERE ontvanger_id = :user_id AND afzender_id = :contact_id AND gelezen = 0
-    ";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->bindParam(':contact_id', $contact_id);
-    $stmt->execute();
-    
-    echo json_encode(['success' => true, 'berichten' => $nieuwe_berichten]);
+    error_log("Error checking user: " . $e->getMessage());
+    header("Location: ../index.php");
     exit;
+}
+
+// Get all users for the contacts list (excluding current user)
+try {
+    $stmt = $pdo->prepare("
+        SELECT id, naam, email, rol 
+        FROM gebruikers 
+        WHERE id != :current_user_id 
+        AND actief = 1 
+        ORDER BY naam ASC
+    ");
+    $stmt->execute(['current_user_id' => $user_id]);
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error fetching users: " . $e->getMessage());
+    $users = [];
+}
+
+// Get unread counts
+try {
+    $stmt = $pdo->prepare("
+        SELECT afzender_id, COUNT(*) as unread_count 
+        FROM berichten 
+        WHERE ontvanger_id = :current_user_id 
+        AND gelezen = 0 
+        GROUP BY afzender_id
+    ");
+    $stmt->execute(['current_user_id' => $user_id]);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $unread_counts = [];
+    foreach ($results as $result) {
+        $unread_counts[$result['afzender_id']] = (int)$result['unread_count'];
+    }
+} catch (PDOException $e) {
+    error_log("Error fetching unread counts: " . $e->getMessage());
+    $unread_counts = [];
 }
 ?>
 
@@ -297,510 +77,588 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_messages' && isset($_GET[
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle; ?></title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Simple chat interface styles */
+        .chat-container {
+            display: flex;
+            height: 600px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .contacts-sidebar {
+            width: 300px;
+            background: #f8f9fa;
+            border-right: 1px solid #e1e1e1;
+        }
+
+        .contacts-header {
+            padding: 20px;
+            background: linear-gradient(90deg, #a71680 0%, #ec6708 100%);
+            color: white;
+        }
+
+        .contacts-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-search {
+            padding: 15px;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .contact-search input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .contacts-list {
+            height: calc(100% - 140px);
+            overflow-y: auto;
+        }
+
+        .contact-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .contact-item.active {
+            background-color: #e3f2fd;
+            border-left: 3px solid #a71680;
+        }
+
+        .contact-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #a71680;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .contact-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .contact-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .unread-badge {
+            background: #ff4444;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background: white;
+            border-bottom: 1px solid #e1e1e1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-header h4 {
+            margin: 0;
+            color: #333;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            max-width: 70%;
+        }
+
+        .message.sent {
+            background: #e3f2fd;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .message.received {
+            background: white;
+            margin-right: auto;
+        }
+
+        .message-content {
+            margin: 0;
+            color: #333;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .chat-input {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #e1e1e1;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0;
+            width: 100%;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .input-group input:focus {
+            border-color: #a71680;
+        }
+
+        .input-group button {
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #a71680 0%, #ec6708 100%);
+            color: white;
+            border: 1px solid #a71680;
+            border-radius: 0 4px 4px 0;
+            border-left: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .input-group button:hover {
+            opacity: 0.9;
+        }
+
+        .no-chat-selected {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #666;
+            text-align: center;
+        }
+
+        .no-chat-selected i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .error {
+            color: #d9534f;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .no-messages {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-style: italic;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 500px;
+            }
+            
+            .contacts-sidebar {
+                width: 250px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Inclusie van de consistente navigatie component -->
     <?php include('../includes/navigation.php'); ?>
 
-    <section id="whatsapp-chat">
-        <div class="whatsapp-container">
-            <!-- Chat lijst paneel -->
-            <div class="chat-list-panel">
-                <div class="panel-header">
-                    <h2>Chats</h2>
-                    <div class="header-actions">
-                        <button class="icon-button" id="nieuwe-chat-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-button"><i class="fas fa-ellipsis-v"></i></button>
+    <section id="chat-page">
+        <div class="container">
+            <h2>Chat</h2>
+            
+            <div class="chat-container">
+                <!-- Contacts sidebar -->
+                <div class="contacts-sidebar">
+                    <div class="contacts-header">
+                        <h3>Contacten</h3>
                     </div>
-                </div>
-                
-                <div class="search-container">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Zoek chat" id="chat-search">
+                    
+                    <div class="contact-search">
+                        <input type="text" id="contact-search" placeholder="Zoek contacten...">
                     </div>
-                </div>
-                
-                <div class="chats-container">
-                    <?php if (empty($conversations) && empty($overige_contacten)): ?>
-                        <div class="no-chats">
-                            <p>Geen gesprekken gevonden.</p>
-                        </div>
-                    <?php else: ?>
-                        <?php foreach ($conversations as $gesprek): ?>
-                            <div class="chat-item <?php echo ($selected_contact_id == $gesprek['id']) ? 'active' : ''; ?>" 
-                                 data-contact-id="<?php echo $gesprek['id']; ?>">
-                                <div class="chat-avatar">
+                    
+                    <div class="contacts-list" id="contacts-list">
+                        <?php foreach ($users as $user): ?>
+                            <div class="contact-item" data-user-id="<?php echo $user['id']; ?>" data-user-name="<?php echo htmlspecialchars($user['naam']); ?>">
+                                <div class="contact-avatar">
                                     <?php
-                                    // Maak initialen van de naam
-                                    $naam_delen = explode(' ', $gesprek['display_naam']);
-                                    $initialen = '';
-                                    foreach ($naam_delen as $deel) {
-                                        $initialen .= strtoupper(substr($deel, 0, 1));
+                                    $name_parts = explode(' ', $user['naam']);
+                                    $initials = strtoupper(substr($name_parts[0], 0, 1));
+                                    if (count($name_parts) > 1) {
+                                        $initials .= strtoupper(substr(end($name_parts), 0, 1));
                                     }
-                                    echo $initialen;
+                                    echo $initials;
                                     ?>
                                 </div>
-                                <div class="chat-details">
-                                    <div class="chat-header">
-                                        <h4><?php echo htmlspecialchars($gesprek['display_naam']); ?></h4>
-                                        <span class="chat-time"><?php echo $gesprek['laatste_bericht'] ? date('H:i', strtotime($gesprek['laatste_bericht'])) : ''; ?></span>
-                                    </div>
-                                    <div class="chat-message-preview">
-                                        <?php if ($gesprek['laatste_bericht']): ?>
-                                            <p<?php echo ($gesprek['ongelezen_berichten'] > 0) ? ' class="unread"' : ''; ?>>
-                                                Laatste bericht
-                                            </p>
-                                        <?php else: ?>
-                                            <p>Geen berichten</p>
-                                        <?php endif; ?>
-                                        <?php if ($gesprek['ongelezen_berichten'] > 0): ?>
-                                            <span class="unread-badge"><?php echo $gesprek['ongelezen_berichten']; ?></span>
-                                        <?php endif; ?>
-                                    </div>
+                                <div class="contact-info">
+                                    <h4><?php echo htmlspecialchars($user['naam']); ?></h4>
+                                    <p><?php echo ucfirst($user['rol']); ?></p>
                                 </div>
+                                <?php if (isset($unread_counts[$user['id']]) && $unread_counts[$user['id']] > 0): ?>
+                                    <span class="unread-badge"><?php echo $unread_counts[$user['id']]; ?></span>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-            
-            <!-- Chat detail paneel -->
-            <div class="chat-detail-panel <?php echo $selected_contact ? 'active' : ''; ?>">
-                <?php if ($selected_contact): ?>
-                    <div class="panel-header">
-                        <button class="back-button"><i class="fas fa-arrow-left"></i></button>
-                        <div class="chat-avatar">
-                            <?php
-                            // Maak initialen van de naam
-                            $naam_delen = explode(' ', $selected_contact['naam']);
-                            $initialen = '';
-                            foreach ($naam_delen as $deel) {
-                                $initialen .= strtoupper(substr($deel, 0, 1));
-                            }
-                            echo $initialen;
-                            ?>
-                        </div>
-                        <div class="chat-info">
-                            <h3><?php echo htmlspecialchars($selected_contact['naam']); ?></h3>
-                            <span class="status">Online</span>
-                        </div>
-                        <div class="header-actions">
-                            <button class="icon-button"><i class="fas fa-ellipsis-v"></i></button>
-                        </div>
-                    </div>
-                    
-                    <div class="messages-container" id="messages-container" data-contact-id="<?php echo $selected_contact_id; ?>">
-                        <?php if (empty($berichten)): ?>
-                            <div class="chat-empty-state">
-                                <div class="empty-state-icon">
-                                    <i class="far fa-comments"></i>
-                                </div>
-                                <p>Begin een gesprek met <?php echo htmlspecialchars($selected_contact['naam']); ?></p>
+                        
+                        <?php if (empty($users)): ?>
+                            <div class="no-contacts">
+                                <p>Geen contacten beschikbaar.</p>
                             </div>
-                        <?php else: ?>
-                            <?php 
-                            $current_date = null;
-                            foreach ($berichten as $bericht): 
-                                $bericht_date = date('Y-m-d', strtotime($bericht['datum_verzonden']));
-                                
-                                // Date display logic has been fixed to show dates only once per day
-                                if ($current_date != $bericht_date) {
-                                    $current_date = $bericht_date;
-                                    $date_label = date('d-m-Y', strtotime($bericht['datum_verzonden']));
-                                    if ($bericht_date == date('Y-m-d')) {
-                                        $date_label = 'Vandaag';
-                                    } elseif ($bericht_date == date('Y-m-d', strtotime('-1 day'))) {
-                                        $date_label = 'Gisteren';
-                                    }
-                                    echo '<div class="chat-date">' . $date_label . '</div>';
-                                }
-                            ?>
-                                <div class="message <?php echo ($bericht['afzender_id'] == $user_id) ? 'sent' : 'received'; ?>" data-message-id="<?php echo $bericht['id']; ?>">
-                                    <div class="message-bubble">
-                                        <?php 
-                                        // Try to use 'inhoud' first, then fall back to 'bericht'
-                                        $message_content = isset($bericht['inhoud']) ? $bericht['inhoud'] : (isset($bericht['bericht']) ? $bericht['bericht'] : '');
-                                        echo nl2br(htmlspecialchars($message_content)); 
-                                        ?>
-                                        <span class="message-time"><?php echo date('H:i', strtotime($bericht['datum_verzonden'])); ?></span>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
-                    
-                    <div class="input-container">
-                        <button class="icon-button"><i class="far fa-smile"></i></button>
-                        <textarea id="message-input" placeholder="Typ een bericht"></textarea>
-                        <button class="send-button" id="send-button" data-contact-id="<?php echo $selected_contact_id; ?>">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
+                </div>
+
+                <!-- Chat area -->
+                <div class="chat-area" id="chat-area">
+                    <div class="no-chat-selected">
+                        <i class="fas fa-comments"></i>
+                        <h3>Selecteer een contact</h3>
+                        <p>Kies een contact uit de lijst om te beginnen met chatten.</p>
                     </div>
-                <?php else: ?>
-                    <div class="chat-welcome">
-                        <div class="welcome-icon">
-                            <i class="far fa-comments"></i>
-                        </div>
-                        <h2>Welkom bij de chat</h2>
-                        <p>Selecteer een contact om een gesprek te starten</p>
-                    </div>
-                <?php endif; ?>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Modal voor nieuwe chat -->
-    <div id="nieuwe-chat-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Nieuw gesprek</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="search-container">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Zoek contact" id="contact-search">
-                    </div>
-                </div>
-                <div class="contacts-list">
-                    <?php foreach ($overige_contacten as $contact): ?>
-                        <div class="contact-item" data-contact-id="<?php echo $contact['id']; ?>">
-                            <div class="contact-avatar">
-                                <?php
-                                // Maak initialen van de naam
-                                $naam_delen = explode(' ', $contact['naam']);
-                                $initialen = '';
-                                foreach ($naam_delen as $deel) {
-                                    $initialen .= strtoupper(substr($deel, 0, 1));
-                                }
-                                echo $initialen;
-                                ?>
-                            </div>
-                            <h4><?php echo htmlspecialchars($contact['naam']); ?></h4>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Hidden input for current user ID -->
+    <input type="hidden" id="current-user-id" value="<?php echo $user_id; ?>">
 
-    <footer>
-        <div class="footer-container">
-            <p>&copy; <?php echo date("Y"); ?> Flitz-Events | Alle rechten voorbehouden</p>
-        </div>
-    </footer>
+    <?php include('../includes/footer.php'); ?>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const messagesContainer = document.getElementById('messages-container');
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
-        const chatItems = document.querySelectorAll('.chat-item');
-        const backButton = document.querySelector('.back-button');
-        const chatDetailPanel = document.querySelector('.chat-detail-panel');
-        const nieuweChatBtn = document.getElementById('nieuwe-chat-btn');
-        const nieuweChatModal = document.getElementById('nieuwe-chat-modal');
-        const closeModal = document.querySelector('.close-modal');
-        const contactItems = document.querySelectorAll('.contact-item');
-        let lastMessageId = 0;
+        let currentChatUserId = null;
+        let messageRefreshInterval = null;
 
-        // Scroll naar beneden in de berichtencontainer
-        if (messagesContainer) {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            lastMessageId = 0;
-            // Haal het laatste berichtID op
-            const messages = messagesContainer.querySelectorAll('.message');
-            if (messages.length > 0) {
-                const lastMessage = messages[messages.length - 1];
-                lastMessageId = lastMessage.dataset.messageId || 0;
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChat();
+        });
+
+        function initializeChat() {
+            const contactItems = document.querySelectorAll('.contact-item');
+            
+            contactItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-user-id');
+                    const userName = this.getAttribute('data-user-name');
+                    openChat(userId, userName, this);
+                });
+            });
+
+            // Contact search functionality
+            document.getElementById('contact-search').addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const contacts = document.querySelectorAll('.contact-item');
+                
+                contacts.forEach(contact => {
+                    const name = contact.querySelector('h4').textContent.toLowerCase();
+                    const role = contact.querySelector('p').textContent.toLowerCase();
+                    
+                    if (name.includes(searchTerm) || role.includes(searchTerm)) {
+                        contact.style.display = 'flex';
+                    } else {
+                        contact.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function openChat(userId, userName, contactElement) {
+            // Update active contact
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            contactElement.classList.add('active');
+            
+            // Store current chat user
+            currentChatUserId = userId;
+            
+            // Build chat interface
+            const chatArea = document.getElementById('chat-area');
+            chatArea.innerHTML = `
+                <div class="chat-header">
+                    <div class="contact-avatar">
+                        ${contactElement.querySelector('.contact-avatar').textContent}
+                    </div>
+                    <h4>Chat met ${userName}</h4>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="loading">Berichten worden geladen...</div>
+                </div>
+                <div class="chat-input">
+                    <form class="input-group" id="message-form">
+                        <input type="text" id="message-input" placeholder="Type een bericht..." autocomplete="off">
+                        <button type="submit">
+                            <i class="fas fa-paper-plane"></i> Versturen
+                        </button>
+                    </form>
+                </div>
+            `;
+            
+            // Load messages
+            loadMessages(userId);
+            
+            // Set up message form
+            setupMessageForm();
+            
+            // Clear unread indicator
+            const unreadIndicator = contactElement.querySelector('.unread-badge');
+            if (unreadIndicator) {
+                unreadIndicator.remove();
             }
+            
+            // Mark messages as read
+            markMessagesAsRead(userId);
+            
+            // Start auto-refresh
+            startMessageRefresh();
         }
 
-        // Stuur bericht versturen
-        if (sendButton) {
-            sendButton.addEventListener('click', function() {
-                sendMessage();
-            });
+        function loadMessages(userId) {
+            const chatMessages = document.getElementById('chat-messages');
+            if (!chatMessages) return;
+
+            chatMessages.innerHTML = '<div class="loading">Berichten laden...</div>';
+
+            // Use the working chat_ajax.php endpoint
+            fetch(`../api/chat_ajax.php?action=get_messages&contact_id=${userId}&last_id=0`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayMessages(data.messages);
+                    } else {
+                        chatMessages.innerHTML = '<div class="error">Fout bij het laden van berichten: ' + data.message + '</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading messages:', error);
+                    chatMessages.innerHTML = '<div class="error">Fout bij het laden van berichten.</div>';
+                });
         }
 
-        if (messageInput) {
-            messageInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
+        function displayMessages(messages) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const currentUserId = document.getElementById('current-user-id').value;
+            
+            if (messages.length === 0) {
+                messagesContainer.innerHTML = '<div class="no-messages">Geen berichten. Start het gesprek!</div>';
+                return;
+            }
+            
+            let html = '';
+            
+            messages.forEach(message => {
+                // Handle different property names for message content
+                const messageText = message.bericht || message.message || 'Bericht niet beschikbaar';
+                
+                const isFromMe = parseInt(message.afzender_id) === parseInt(currentUserId);
+                const messageClass = isFromMe ? 'sent' : 'received';
+                
+                // Handle timestamp properly
+                let messageDate;
+                if (message.timestamp) {
+                    messageDate = new Date(message.timestamp);
+                } else if (message.datum_verzonden) {
+                    messageDate = new Date(message.datum_verzonden);
+                } else {
+                    messageDate = new Date();
                 }
+                
+                const time = messageDate.toLocaleTimeString('nl-NL', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                html += `
+                    <div class="message ${messageClass}">
+                        <div class="message-content">${escapeHtml(messageText)}</div>
+                        <div class="message-time">${time}</div>
+                    </div>
+                `;
             });
+            
+            messagesContainer.innerHTML = html;
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Add helper function for HTML escaping
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function setupMessageForm() {
+            const form = document.getElementById('message-form');
+            const input = document.getElementById('message-input');
+            
+            if (!form || !input) {
+                console.error('Message form elements not found');
+                return;
+            }
+            
+            // Remove any existing event listeners
+            form.removeEventListener('submit', handleFormSubmit);
+            
+            // Add new event listener
+            form.addEventListener('submit', handleFormSubmit);
+            
+            input.focus();
+        }
+        
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            sendMessage();
         }
 
         function sendMessage() {
-            if (!messageInput || !sendButton) return;
-            const message = messageInput.value.trim();
-            const contactId = sendButton.dataset.contactId;
-            if (message === '') return;
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
             
-            // Show sending indicator
-            const tempId = 'temp-' + Date.now();
-            const tempMessage = document.createElement('div');
-            tempMessage.className = 'message sent temp-message';
-            tempMessage.id = tempId;
-            tempMessage.innerHTML = `
-                <div class="message-bubble">
-                    ${message.replace(/\n/g, '<br>')}
-                    <span class="message-time">Verzenden...</span>
-                </div>
-            `;
-            messagesContainer.appendChild(tempMessage);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            if (!message || !currentChatUserId) {
+                console.log('No message or no current chat user');
+                return;
+            }
             
-            // Stuur bericht naar de server
+            console.log('Sending message:', message, 'to user:', currentChatUserId);
+            
+            // Disable input while sending
+            input.disabled = true;
+            
             const formData = new FormData();
             formData.append('action', 'send_message');
-            formData.append('ontvanger_id', contactId);
-            formData.append('bericht', message);
+            formData.append('contact_id', currentChatUserId);
+            formData.append('message', message);
             
-            fetch('chat.php', {
+            fetch('../api/chat_ajax.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
-                // Remove temp message
-                const tempMsg = document.getElementById(tempId);
-                if (tempMsg) tempMsg.remove();
-                
+                console.log('Send message response:', data);
                 if (data.success) {
-                    messageInput.value = '';
-                    // Display the sent message with server data
-                    const messageData = [{
-                        id: data.data.id,
-                        afzender_id: <?php echo $user_id; ?>,
-                        inhoud: data.data.inhoud || data.data.bericht, // Handle both column names
-                        bericht: data.data.bericht || data.data.inhoud, // Handle both column names
-                        datum_verzonden: data.data.datum_verzonden,
-                        afzender_naam: '<?php echo $_SESSION['naam']; ?>'
-                    }];
-                    displayNewMessages(messageData);
-                    
-                    // Update lastMessageId to prevent duplicate display
-                    if (parseInt(data.data.id) > lastMessageId) {
-                        lastMessageId = parseInt(data.data.id);
-                    }
+                    input.value = '';
+                    loadMessages(currentChatUserId);
                 } else {
-                    console.error('Fout bij versturen bericht:', data.message);
-                    alert('Fout bij versturen bericht: ' + data.message);
+                    alert('Fout bij verzenden: ' + data.message);
                 }
             })
             .catch(error => {
-                // Remove temp message
-                const tempMsg = document.getElementById(tempId);
-                if (tempMsg) tempMsg.remove();
-                
-                console.error('Fout bij versturen bericht:', error);
-                alert('Er is een fout opgetreden bij het versturen van het bericht. Probeer het later opnieuw.');
-            });
-        }
-
-        // Regelmatig controleren op nieuwe berichten
-        let messageCheckInterval;
-        function startMessageChecking() {
-            if (messagesContainer) {
-                const contactId = messagesContainer.dataset.contactId;
-                if (contactId) {
-                    // Check direct en dan elke 3 seconden
-                    checkForNewMessages();
-                    messageCheckInterval = setInterval(checkForNewMessages, 3000);
-                }
-            }
-        }
-
-        function stopMessageChecking() {
-            clearInterval(messageCheckInterval);
-        }
-
-        function checkForNewMessages() {
-            if (!messagesContainer) return;
-            const contactId = messagesContainer.dataset.contactId;
-            
-            if (!contactId) return;
-            
-            // Haal nieuwe berichten op
-            fetch(`chat.php?action=get_messages&contact_id=${contactId}&last_id=${lastMessageId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success && data.berichten.length > 0) {
-                    displayNewMessages(data.berichten);
-                }
+                console.error('Error sending message:', error);
+                alert('Fout bij het verzenden van het bericht.');
             })
-            .catch(error => {
-                console.error('Fout bij ophalen berichten:', error);
+            .finally(() => {
+                // Re-enable input
+                input.disabled = false;
+                input.focus();
             });
         }
 
-        function displayNewMessages(berichten) {
-            let currentDate = null;
-            const currentUserId = <?php echo $user_id; ?>;
-            
-            // Get the last displayed date in the container
-            const dateDivs = messagesContainer.querySelectorAll('.chat-date');
-            if (dateDivs.length > 0) {
-                const lastDateText = dateDivs[dateDivs.length - 1].textContent;
-                
-                if (lastDateText === 'Vandaag') {
-                    currentDate = new Date().toISOString().split('T')[0];
-                } else if (lastDateText === 'Gisteren') {
-                    currentDate = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-                } else {
-                    // Parse Dutch date format (dd-mm-yyyy)
-                    const dateParts = lastDateText.split('-');
-                    if (dateParts.length === 3) {
-                        currentDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-                    }
-                }
-            }
-            
-            berichten.forEach(bericht => {
-                const berichtDate = new Date(bericht.datum_verzonden).toISOString().split('T')[0];
-                
-                // Voeg datumscheiding toe indien nodig
-                if (currentDate !== berichtDate) {
-                    currentDate = berichtDate;
-                    let dateLabel = new Date(bericht.datum_verzonden).toLocaleDateString('nl-NL');
-                    
-                    if (berichtDate === new Date().toISOString().split('T')[0]) {
-                        dateLabel = 'Vandaag';
-                    } else if (berichtDate === new Date(Date.now() - 86400000).toISOString().split('T')[0]) {
-                        dateLabel = 'Gisteren';
-                    }
-                    
-                    const dateDiv = document.createElement('div');
-                    dateDiv.className = 'chat-date';
-                    dateDiv.textContent = dateLabel;
-                    messagesContainer.appendChild(dateDiv);
-                }
-                
-                // Maak berichtbel aan
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${bericht.afzender_id == currentUserId ? 'sent' : 'received'}`;
-                messageDiv.dataset.messageId = bericht.id;
-                
-                const bubbleDiv = document.createElement('div');
-                bubbleDiv.className = 'message-bubble';
-                
-                // Handle both column names
-                const messageContent = document.createElement('span');
-                const messageText = bericht.inhoud || bericht.bericht;
-                messageContent.innerHTML = messageText.replace(/\n/g, '<br>');
-                
-                const timeSpan = document.createElement('span');
-                timeSpan.className = 'message-time';
-                timeSpan.textContent = new Date(bericht.datum_verzonden).toLocaleTimeString('nl-NL', {hour: '2-digit', minute:'2-digit'});
-                
-                bubbleDiv.appendChild(messageContent);
-                bubbleDiv.appendChild(timeSpan);
-                messageDiv.appendChild(bubbleDiv);
-                messagesContainer.appendChild(messageDiv);
-                
-                // Update laatst ontvangen bericht ID
-                if (parseInt(bericht.id) > lastMessageId) {
-                    lastMessageId = parseInt(bericht.id);
-                }
-            });
-            
-            // Scroll naar beneden
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        function markMessagesAsRead(userId) {
+            fetch(`../api/chat_ajax.php?action=mark_read&contact_id=${userId}`)
+                .then(response => response.json())
+                .catch(error => console.error('Error marking messages as read:', error));
         }
 
-        // Chat items klikbaar maken
-        chatItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const contactId = this.dataset.contactId;
-                window.location.href = `chat.php?contact_id=${contactId}`;
-            });
-        });
-        
-        // Terug knop functionaliteit
-        if (backButton) {
-            backButton.addEventListener('click', function() {
-                window.location.href = 'chat.php';
-            });
-        }
-        
-        // Modal voor nieuwe chat
-        if (nieuweChatBtn) {
-            nieuweChatBtn.addEventListener('click', function() {
-                nieuweChatModal.style.display = 'block';
-            });
-        }
-        
-        if (closeModal) {
-            closeModal.addEventListener('click', function() {
-                nieuweChatModal.style.display = 'none';
-            });
-        }
-        
-        // Sluit modal als er buiten wordt geklikt
-        window.addEventListener('click', function(event) {
-            if (event.target === nieuweChatModal) {
-                nieuweChatModal.style.display = 'none';
+        function startMessageRefresh() {
+            // Clear existing interval
+            if (messageRefreshInterval) {
+                clearInterval(messageRefreshInterval);
             }
-        });
-        
-        // Contact items klikbaar maken
-        contactItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const contactId = this.dataset.contactId;
-                window.location.href = `chat.php?contact_id=${contactId}`;
-                nieuweChatModal.style.display = 'none';
-            });
-        });
-        
-        // Zoekfunctionaliteit
-        const chatSearch = document.getElementById('chat-search');
-        if (chatSearch) {
-            chatSearch.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                
-                chatItems.forEach(item => {
-                    const contactName = item.querySelector('h4').textContent.toLowerCase();
-                    if (contactName.includes(searchTerm)) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
+            
+            // Set new interval
+            messageRefreshInterval = setInterval(() => {
+                if (currentChatUserId) {
+                    loadMessages(currentChatUserId);
+                }
+            }, 10000); // Refresh every 10 seconds
         }
-        
-        const contactSearch = document.getElementById('contact-search');
-        if (contactSearch) {
-            contactSearch.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                
-                contactItems.forEach(item => {
-                    const contactName = item.querySelector('h4').textContent.toLowerCase();
-                    if (contactName.includes(searchTerm)) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        }
-        
-        // Start message checking als er een contact is geselecteerd
-        if (messagesContainer && messagesContainer.dataset.contactId) {
-            startMessageChecking();
-        }
-        
-        // Cleanup bij verlaten van de pagina
+
+        // Clean up on page unload
         window.addEventListener('beforeunload', function() {
-            stopMessageChecking();
+            if (messageRefreshInterval) {
+                clearInterval(messageRefreshInterval);
+            }
         });
-    });
     </script>
 </body>
 </html>

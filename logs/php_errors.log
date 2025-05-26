@@ -1,0 +1,907 @@
+[26-May-2025 13:29:01 Europe/Amsterdam] Database connection failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'laatst_ingelogd' in 'field list'
+[26-May-2025 13:29:46 Europe/Amsterdam] Database connection failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'laatst_ingelogd' in 'field list'
+[26-May-2025 13:29:47 Europe/Amsterdam] Database connection failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'laatst_ingelogd' in 'field list'
+[26-May-2025 13:34:36 Europe/Amsterdam] Added column 'laatst_ingelogd' to table 'gebruikers'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'actief' to table 'gebruikers'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'budget' to table 'projecten'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'project_manager_id' to table 'projecten'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'laatst_bijgewerkt' to table 'projecten'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'geschatte_uren' to table 'taken'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'werkelijke_uren' to table 'taken'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'datum_voltooid' to table 'taken'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'timestamp' to table 'berichten'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'type' to table 'rooster'
+[26-May-2025 13:34:37 Europe/Amsterdam] Added column 'aangemaakt_door' to table 'rooster'
+[26-May-2025 13:34:37 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:38 Europe/Amsterdam] Error fetching chat users: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:34:38 Europe/Amsterdam] Uncaught exception: Call to undefined function getAllUnreadCounts()
+[26-May-2025 13:34:41 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:41 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:43 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:43 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:34:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:35:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:35:00 Europe/Amsterdam] Error fetching chat users: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:35:00 Europe/Amsterdam] Uncaught exception: Call to undefined function getAllUnreadCounts()
+[26-May-2025 13:35:03 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:35:03 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:35:13 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:35:13 Europe/Amsterdam] Error fetching chat users: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:35:13 Europe/Amsterdam] Uncaught exception: Call to undefined function getAllUnreadCounts()
+[26-May-2025 13:35:14 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:35:14 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:35:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:35:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:37:28 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:37:28 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:37:29 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:37:29 Europe/Amsterdam] Error fetching chat users: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:37:29 Europe/Amsterdam] Uncaught exception: Call to undefined function getAllUnreadCounts()
+[26-May-2025 13:40:33 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:33 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:34 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:34 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:35 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:35 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:36 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:36 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:36 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:37 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:37 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:38 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:40:38 Europe/Amsterdam] Error fetching chat users: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:40:38 Europe/Amsterdam] Uncaught exception: Call to undefined function getAllUnreadCounts()
+[26-May-2025 13:43:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:54 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 1
+[26-May-2025 13:43:54 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:43:54 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:43:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:55 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:55 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:55 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 2
+[26-May-2025 13:43:55 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:43:55 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:43:55 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:55 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 4
+[26-May-2025 13:43:55 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:43:55 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:43:55 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:43:59 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 1
+[26-May-2025 13:43:59 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:43:59 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:43:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:00 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 2
+[26-May-2025 13:44:00 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:00 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:00 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 2
+[26-May-2025 13:44:00 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:00 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:01 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 4
+[26-May-2025 13:44:01 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:01 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:07 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:07 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:07 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 2
+[26-May-2025 13:44:07 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:07 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:08 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 1
+[26-May-2025 13:44:08 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:08 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:18 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:18 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 1
+[26-May-2025 13:44:18 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:18 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:28 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:28 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 1
+[26-May-2025 13:44:28 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:28 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:38 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:38 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 1
+[26-May-2025 13:44:38 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:38 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:48 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 1
+[26-May-2025 13:44:48 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:48 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:44:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:44:58 Europe/Amsterdam] Chat: Fetching messages between user 3 and user 1
+[26-May-2025 13:44:58 Europe/Amsterdam] Chat: SQL Query: 
+            SELECT * FROM berichten 
+            WHERE (afzender_id = :user1 AND ontvanger_id = :user2) 
+            OR (afzender_id = :user2 AND ontvanger_id = :user1)
+            ORDER BY timestamp ASC
+        
+[26-May-2025 13:44:58 Europe/Amsterdam] Chat: Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:45:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:45:08 Europe/Amsterdam] Error fetching chat messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 13:45:18 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:45:28 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:45:38 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:45:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:46:39 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:03 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:09 Europe/Amsterdam] Error sending message: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 13:47:17 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:37 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:47 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:57 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:57 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:47:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:48:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:48:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:48:30 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:48:40 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:48:50 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:49:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:49:39 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:11 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:11 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:12 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:12 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:14 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:14 Europe/Amsterdam] Error sending message: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 13:50:22 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:32 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:50:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:51:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:51:12 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:51:39 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:51:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:51:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:11 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:11 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:15 Europe/Amsterdam] Error sending message: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 13:52:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:31 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:52:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:53:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:53:12 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:53:22 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:53:31 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:17 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:18 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:18 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:21 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:23 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:23 Europe/Amsterdam] Error sending message: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 13:54:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:26 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:54:43 Europe/Amsterdam] Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[26-May-2025 13:54:47 Europe/Amsterdam] Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[26-May-2025 13:57:49 Europe/Amsterdam] Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[26-May-2025 13:58:23 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:58:24 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:58:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:58:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:58:26 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:58:26 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:58:36 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:58:46 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:58:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:59:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:59:16 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:59:26 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:59:36 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:59:46 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 13:59:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:24 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:26 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:28 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:28 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:33 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:33 Europe/Amsterdam] Error sending message: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:00:39 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:49 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:00:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:01:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:01:19 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:01:29 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:01:39 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:01:57 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:01:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:01 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:01 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:02:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:01 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:03 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:03 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:03 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:02:03 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:03 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:04 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:04 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:02:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:04 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:04 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:04 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:02:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:04 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:15 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:15 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:02:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:25 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:25 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:02:35 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:35 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:35 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:02:45 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:45 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:45 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:02:55 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:02:55 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:02:55 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:03:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:03:05 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:03:05 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:03:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:03:20 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:03:20 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:03:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:03:25 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:03:25 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:03:35 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:03:35 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:03:35 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:03:45 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:03:45 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:03:45 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:03:55 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:03:55 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:03:55 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:04:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:04:05 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:04:05 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:04:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:04:15 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:04:15 Europe/Amsterdam] Error fetching messages: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'bericht' in 'field list'
+[26-May-2025 14:04:39 Europe/Amsterdam] Added column 'bericht' to table 'berichten'
+[26-May-2025 14:04:40 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:04:40 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:04:40 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:04:57 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:04:57 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:04:57 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:04:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:04:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:00 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:00 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:05:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:00 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:01 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:01 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:05:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:02 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:12 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:12 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:12 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:05:22 Europe/Amsterdam] Created table 'gebruikers'
+[26-May-2025 14:05:22 Europe/Amsterdam] Created table 'projecten'
+[26-May-2025 14:05:22 Europe/Amsterdam] Created table 'taken'
+[26-May-2025 14:05:23 Europe/Amsterdam] Created table 'berichten'
+[26-May-2025 14:05:23 Europe/Amsterdam] Created table 'rooster'
+[26-May-2025 14:05:24 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:24 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:24 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:05:32 Europe/Amsterdam] Created table 'taken'
+[26-May-2025 14:05:32 Europe/Amsterdam] Created table 'berichten'
+[26-May-2025 14:05:32 Europe/Amsterdam] Created table 'rooster'
+[26-May-2025 14:05:33 Europe/Amsterdam] Table 'projecten' does not exist, cannot add column 'budget'
+[26-May-2025 14:05:33 Europe/Amsterdam] Table 'projecten' does not exist, cannot add column 'project_manager_id'
+[26-May-2025 14:05:33 Europe/Amsterdam] Table 'projecten' does not exist, cannot add column 'laatst_bijgewerkt'
+[26-May-2025 14:05:34 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:34 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:34 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:05:42 Europe/Amsterdam] Created table 'projecten'
+[26-May-2025 14:05:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:42 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:42 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:05:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:05:52 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:05:52 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:06:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:06:02 Europe/Amsterdam] Chat AJAX request from user ID: 3 with role: stagiair
+[26-May-2025 14:06:02 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:06:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:06:47 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:06:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:06:54 Europe/Amsterdam] Login attempt for: admin@flitz-events.nl
+[26-May-2025 14:06:54 Europe/Amsterdam] User found with role: stagiair
+[26-May-2025 14:06:54 Europe/Amsterdam] Login successful. Session role set to: stagiair
+[26-May-2025 14:06:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:06:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:06:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:06:54 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:06:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:06:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:09:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:09:16 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:09:16 Europe/Amsterdam] Login attempt for: stagiair@flitz-events.nl
+[26-May-2025 14:09:16 Europe/Amsterdam] User found with role: stagiair
+[26-May-2025 14:09:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:09:27 Europe/Amsterdam] Login attempt for: stagiair@flitz-events.nl
+[26-May-2025 14:09:27 Europe/Amsterdam] User found with role: stagiair
+[26-May-2025 14:09:34 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:09:34 Europe/Amsterdam] Login attempt for: stagiair@flitz-events.nl
+[26-May-2025 14:09:34 Europe/Amsterdam] User found with role: stagiair
+[26-May-2025 14:09:34 Europe/Amsterdam] Login successful. Session role set to: stagiair
+[26-May-2025 14:09:34 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:09:35 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:09:35 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:09:35 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:00 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:06 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:06 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:10:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:06 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:08 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:08 Europe/Amsterdam] User 2 attempting to send message to user 1
+[26-May-2025 14:10:08 Europe/Amsterdam] Message successfully sent with ID: 1
+[26-May-2025 14:10:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:09 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:09 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:10:16 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:16 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:16 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:10:26 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:26 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:26 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:10:36 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:36 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:36 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:10:39 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:39 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:40 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:40 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:40 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:43 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:43 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:43 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:43 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:43 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:43 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:44 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:10:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:10:44 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:12:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:05 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:12:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:08 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:12:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:08 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:08 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:12:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:09 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:12:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:09 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:12:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:10 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:12:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:12:10 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:17:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:17:18 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:17:18 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:17:19 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:17:21 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:17:22 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:17:22 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:18:47 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:18:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:18:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:18:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:18:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:18:51 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:18:51 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:18:51 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:18:51 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:18:51 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:02 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:02 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:19:12 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:12 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:12 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:19:22 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:22 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:22 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:19:32 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:32 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:32 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:19:32 Europe/Amsterdam] SQL Query failed for user 2 and contact 1
+[26-May-2025 14:19:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:42 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:42 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:19:42 Europe/Amsterdam] SQL Query failed for user 2 and contact 1
+[26-May-2025 14:19:45 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:46 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:46 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:46 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:46 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:19:46 Europe/Amsterdam] SQL Query failed for user 2 and contact 1
+[26-May-2025 14:19:47 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:47 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:57 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:19:57 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:19:57 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:19:57 Europe/Amsterdam] SQL Query failed for user 2 and contact 1
+[26-May-2025 14:20:07 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:07 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:07 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:20:07 Europe/Amsterdam] SQL Query failed for user 2 and contact 1
+[26-May-2025 14:20:17 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:17 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:17 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:20:17 Europe/Amsterdam] SQL Query failed for user 2 and contact 1
+[26-May-2025 14:20:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:27 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:27 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:20:27 Europe/Amsterdam] SQL Query failed for user 2 and contact 1
+[26-May-2025 14:20:37 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:37 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:37 Europe/Amsterdam] Error fetching messages: SQLSTATE[HY093]: Invalid parameter number
+[26-May-2025 14:20:37 Europe/Amsterdam] SQL Query failed for user 2 and contact 1
+[26-May-2025 14:20:47 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:47 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:47 Europe/Amsterdam] Successfully fetched 1 messages for user 2 from contact 1
+[26-May-2025 14:20:53 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:55 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:55 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:55 Europe/Amsterdam] Successfully fetched 1 messages for user 2 from contact 1
+[26-May-2025 14:20:55 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:55 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:58 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:58 Europe/Amsterdam] User 2 attempting to send message to user 1
+[26-May-2025 14:20:58 Europe/Amsterdam] Message successfully sent with ID: 2
+[26-May-2025 14:20:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:20:58 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:20:58 Europe/Amsterdam] Successfully fetched 2 messages for user 2 from contact 1
+[26-May-2025 14:21:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:00 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:00 Europe/Amsterdam] User 2 attempting to send message to user 1
+[26-May-2025 14:21:00 Europe/Amsterdam] Message successfully sent with ID: 3
+[26-May-2025 14:21:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:00 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:00 Europe/Amsterdam] Successfully fetched 3 messages for user 2 from contact 1
+[26-May-2025 14:21:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:05 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:05 Europe/Amsterdam] Successfully fetched 3 messages for user 2 from contact 1
+[26-May-2025 14:21:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:05 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:05 Europe/Amsterdam] User 2 attempting to send message to user 1
+[26-May-2025 14:21:05 Europe/Amsterdam] Message successfully sent with ID: 4
+[26-May-2025 14:21:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:05 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:05 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:21:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:15 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:15 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:21:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:25 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:25 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:21:35 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:35 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:35 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:21:45 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:45 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:45 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:21:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:53 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:54 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:21:54 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:21:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:21:54 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:04 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:04 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:22:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:15 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:15 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:22:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:25 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:25 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:22:34 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:34 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:34 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:22:41 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:41 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:41 Europe/Amsterdam] User 2 attempting to send message to user 1
+[26-May-2025 14:22:41 Europe/Amsterdam] Message successfully sent with ID: 5
+[26-May-2025 14:22:41 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:41 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:41 Europe/Amsterdam] Successfully fetched 5 messages for user 2 from contact 1
+[26-May-2025 14:22:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:44 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:44 Europe/Amsterdam] User 2 attempting to send message to user 1
+[26-May-2025 14:22:44 Europe/Amsterdam] Message successfully sent with ID: 6
+[26-May-2025 14:22:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:44 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:44 Europe/Amsterdam] Successfully fetched 6 messages for user 2 from contact 1
+[26-May-2025 14:22:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:44 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:22:44 Europe/Amsterdam] Successfully fetched 6 messages for user 2 from contact 1
+[26-May-2025 14:22:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:56 Europe/Amsterdam] Login attempt for: admin@flitz-events.nl
+[26-May-2025 14:22:56 Europe/Amsterdam] User found with role: stagiair
+[26-May-2025 14:22:56 Europe/Amsterdam] Login successful. Session role set to: stagiair
+[26-May-2025 14:22:57 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:57 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:22:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:01 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:01 Europe/Amsterdam] Successfully fetched 6 messages for user 1 from contact 2
+[26-May-2025 14:23:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:01 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:04 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:04 Europe/Amsterdam] User 1 attempting to send message to user 2
+[26-May-2025 14:23:04 Europe/Amsterdam] Message successfully sent with ID: 7
+[26-May-2025 14:23:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:05 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:05 Europe/Amsterdam] Successfully fetched 7 messages for user 1 from contact 2
+[26-May-2025 14:23:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:06 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:06 Europe/Amsterdam] User 1 attempting to send message to user 2
+[26-May-2025 14:23:06 Europe/Amsterdam] Message successfully sent with ID: 8
+[26-May-2025 14:23:06 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:06 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:06 Europe/Amsterdam] Successfully fetched 8 messages for user 1 from contact 2
+[26-May-2025 14:23:07 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:07 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:07 Europe/Amsterdam] User 1 attempting to send message to user 2
+[26-May-2025 14:23:07 Europe/Amsterdam] Message successfully sent with ID: 9
+[26-May-2025 14:23:07 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:07 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:07 Europe/Amsterdam] Successfully fetched 9 messages for user 1 from contact 2
+[26-May-2025 14:23:11 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:11 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:11 Europe/Amsterdam] Successfully fetched 9 messages for user 1 from contact 2
+[26-May-2025 14:23:21 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:21 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:21 Europe/Amsterdam] Successfully fetched 9 messages for user 1 from contact 2
+[26-May-2025 14:23:31 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:31 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:31 Europe/Amsterdam] Successfully fetched 9 messages for user 1 from contact 2
+[26-May-2025 14:23:41 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:41 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:41 Europe/Amsterdam] Successfully fetched 9 messages for user 1 from contact 2
+[26-May-2025 14:23:51 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:23:51 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:23:51 Europe/Amsterdam] Successfully fetched 9 messages for user 1 from contact 2
+[26-May-2025 14:24:01 Europe/Amsterdam] Created table 'projecten'
+[26-May-2025 14:24:01 Europe/Amsterdam] Created table 'taken'
+[26-May-2025 14:24:01 Europe/Amsterdam] Created table 'berichten'
+[26-May-2025 14:24:01 Europe/Amsterdam] Created table 'rooster'
+[26-May-2025 14:24:03 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:03 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:03 Europe/Amsterdam] Successfully fetched 0 messages for user 1 from contact 2
+[26-May-2025 14:24:09 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:10 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:10 Europe/Amsterdam] Successfully fetched 0 messages for user 1 from contact 2
+[26-May-2025 14:24:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:10 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:14 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:14 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:14 Europe/Amsterdam] User 1 attempting to send message to user 2
+[26-May-2025 14:24:14 Europe/Amsterdam] Message successfully sent with ID: 1
+[26-May-2025 14:24:14 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:14 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:14 Europe/Amsterdam] Successfully fetched 1 messages for user 1 from contact 2
+[26-May-2025 14:24:19 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:19 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:19 Europe/Amsterdam] User 1 attempting to send message to user 2
+[26-May-2025 14:24:20 Europe/Amsterdam] Message successfully sent with ID: 2
+[26-May-2025 14:24:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:20 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:20 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:24:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:20 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:20 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:24:31 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:31 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:31 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:24:41 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:41 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:41 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:24:51 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:24:51 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:24:51 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:25:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:25:01 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:25:01 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:25:11 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:25:11 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:25:11 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:25:21 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:25:21 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:25:21 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:25:38 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:25:38 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:25:38 Europe/Amsterdam] Successfully fetched 2 messages for user 1 from contact 2
+[26-May-2025 14:25:40 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:25:40 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:25:40 Europe/Amsterdam] User 1 attempting to send message to user 2
+[26-May-2025 14:25:40 Europe/Amsterdam] Message successfully sent with ID: 3
+[26-May-2025 14:25:40 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:25:40 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:25:40 Europe/Amsterdam] Successfully fetched 3 messages for user 1 from contact 2
+[26-May-2025 14:25:41 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:25:41 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:25:41 Europe/Amsterdam] Successfully fetched 3 messages for user 1 from contact 2
+[26-May-2025 14:25:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:25:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:26:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:26:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:27:26 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:27:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:21 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:23 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:23 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:28:23 Europe/Amsterdam] Successfully fetched 3 messages for user 1 from contact 2
+[26-May-2025 14:28:23 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:23 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:28:27 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:27 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:28:27 Europe/Amsterdam] User 1 attempting to send message to user 2
+[26-May-2025 14:28:28 Europe/Amsterdam] Message successfully sent with ID: 4
+[26-May-2025 14:28:28 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:28 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:28:28 Europe/Amsterdam] Successfully fetched 4 messages for user 1 from contact 2
+[26-May-2025 14:28:33 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:33 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: stagiair
+[26-May-2025 14:28:33 Europe/Amsterdam] Successfully fetched 4 messages for user 1 from contact 2
+[26-May-2025 14:28:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:42 Europe/Amsterdam] Login attempt for: stagiair@flitz-events.nl
+[26-May-2025 14:28:42 Europe/Amsterdam] User found with role: stagiair
+[26-May-2025 14:28:42 Europe/Amsterdam] Login successful. Session role set to: stagiair
+[26-May-2025 14:28:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:43 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:47 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:48 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:50 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:50 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:52 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:28:52 Europe/Amsterdam] Successfully fetched 4 messages for user 2 from contact 1
+[26-May-2025 14:28:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:52 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:28:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:56 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:28:56 Europe/Amsterdam] User 2 attempting to send message to user 1
+[26-May-2025 14:28:56 Europe/Amsterdam] Message successfully sent with ID: 5
+[26-May-2025 14:28:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:28:56 Europe/Amsterdam] Chat AJAX request from user ID: 2 with role: stagiair
+[26-May-2025 14:28:56 Europe/Amsterdam] Successfully fetched 5 messages for user 2 from contact 1
+[26-May-2025 14:29:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:29:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:29:17 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:29:18 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:29:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:29:20 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:25 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:26 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:35 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:35 Europe/Amsterdam] Login attempt for: admin@flitz-events.nl
+[26-May-2025 14:31:35 Europe/Amsterdam] User found with role: admin
+[26-May-2025 14:31:35 Europe/Amsterdam] Login successful. Session role set to: admin
+[26-May-2025 14:31:36 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:36 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:51 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:51 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:57 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:58 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:31:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:32:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:32:01 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:32:02 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:32:02 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: admin
+[26-May-2025 14:32:02 Europe/Amsterdam] Successfully fetched 5 messages for user 1 from contact 2
+[26-May-2025 14:32:03 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:32:03 Europe/Amsterdam] Chat AJAX request from user ID: 1 with role: admin
+[26-May-2025 14:32:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:32:04 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:32:46 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:32:53 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:33:54 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:33:54 Europe/Amsterdam] Added aangemaakt_door column to projecten table
+[26-May-2025 14:33:54 Europe/Amsterdam] Added aangemaakt_door column to taken table
+[26-May-2025 14:33:56 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:34:12 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:34:14 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:34:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:34:50 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:34:52 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:34:53 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:34:59 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:00 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:05 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:17 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:18 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:22 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:23 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:23 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:24 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:37 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:38 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:40 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:41 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:42 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:44 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:45 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:51 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:35:51 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:36:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:36:10 Europe/Amsterdam] Login attempt for: stagiair@flitz-events.nl
+[26-May-2025 14:36:10 Europe/Amsterdam] User found with role: stagiair
+[26-May-2025 14:36:10 Europe/Amsterdam] Login successful. Session role set to: stagiair
+[26-May-2025 14:36:10 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:36:11 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:36:15 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:36:16 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:36:17 Europe/Amsterdam] Database structure update completed successfully
+[26-May-2025 14:36:18 Europe/Amsterdam] Database structure update completed successfully

@@ -43,24 +43,21 @@ $users = $stmt->fetchAll();
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
             gap: 15px;
+            flex-wrap: wrap;
         }
         
         .date-selector {
             display: flex;
             align-items: center;
-            gap: 10px;
-            background-color: #f8f9fa;
-            padding: 8px 15px;
-            border-radius: 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            gap: 15px;
         }
         
         #current-week {
-            font-weight: 500;
-            color: #333;
             font-size: 0.95rem;
+            font-weight: 500;
+            min-width: 200px;
+            text-align: center;
         }
         
         .date-nav-btn {
@@ -127,6 +124,10 @@ $users = $stmt->fetchAll();
             margin-top: 15px;
             position: relative;
             min-height: 300px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
         
         .loading {
@@ -136,6 +137,16 @@ $users = $stmt->fetchAll();
             padding: 50px 0;
             color: #666;
             font-style: italic;
+        }
+        
+        .error-message {
+            text-align: center;
+            color: #d9534f;
+            padding: 20px;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            margin: 20px 0;
         }
         
         /* Improved Modal styles */
@@ -420,11 +431,7 @@ $users = $stmt->fetchAll();
         </div>
     </div>
 
-    <footer>
-        <div class="footer-container">
-            <p>&copy; <?php echo date('Y'); ?> Flitz-Events Stageportaal | Alle rechten voorbehouden</p>
-        </div>
-    </footer>
+    <?php include('../includes/footer.php'); ?>
 
     <script>
         let currentWeekOffset = <?php echo $week_offset; ?>;

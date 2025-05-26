@@ -2,40 +2,55 @@
 session_start();
 include('../includes/config.php');
 
-// Controleer of de gebruiker is ingelogd en admin/medewerker rol heeft
+// Controleer of gebruiker is ingelogd en admin-rechten heeft
 if (!isset($_SESSION['user_id']) || strtolower($_SESSION['rol']) !== 'admin') {
-    // Redirect naar de login pagina als de gebruiker niet is ingelogd of geen admin/medewerker is
     header("Location: ../index.php");
     exit;
 }
 
-// Haal de gebruikersnaam op uit de sessie
-$username = $_SESSION['naam'] ?? 'Medewerker';
-
-// Haal actuele projectdata op
-$sql = "SELECT * FROM projecten ORDER BY status, start_datum LIMIT 3";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$projecten = $stmt->fetchAll();
-
-// Haal recente taken op
-$sql = "SELECT t.*, p.naam as project_naam FROM taken t 
-        LEFT JOIN projecten p ON t.project_id = p.id 
-        ORDER BY t.datum_aangemaakt DESC LIMIT 5";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$taken = $stmt->fetchAll();
-
-// Haal gebruikersgegevens op (voor statistieken)
-$sql = "SELECT COUNT(*) as total FROM gebruikers";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$user_count = $stmt->fetch()['total'];
-
-$pageTitle = "Medewerker Dashboard - Flitz Events";
-$useIcons = true;
 // Relatief pad voor navigatie
 $root_path = "../";
+$pageTitle = "Admin Dashboard - Flitz Events";
+
+// Haal statistieken op
+try {
+    // Totaal aantal gebruikers
+    $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM gebruikers WHERE actief = 1");
+    $stmt->execute();
+    $total_users = $stmt->fetch()['total'];
+    
+    // Totaal aantal projecten
+    $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM projecten");
+    $stmt->execute();
+    $total_projects = $stmt->fetch()['total'];
+    
+    // Actieve projecten
+    $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM projecten WHERE status = 'actief'");
+    $stmt->execute();
+    $active_projects = $stmt->fetch()['total'];
+    
+    // Openstaande taken
+    $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM taken WHERE status IN ('open', 'in_uitvoering')");
+    $stmt->execute();
+    $open_tasks = $stmt->fetch()['total'];
+    
+    // Recente activiteiten (laatste 10 berichten)
+    $stmt = $pdo->prepare("
+        SELECT b.*, u1.naam as afzender_naam, u2.naam as ontvanger_naam
+        FROM berichten b
+        JOIN gebruikers u1 ON b.afzender_id = u1.id
+        JOIN gebruikers u2 ON b.ontvanger_id = u2.id
+        ORDER BY b.timestamp DESC
+        LIMIT 10
+    ");
+    $stmt->execute();
+    $recent_messages = $stmt->fetchAll();
+    
+} catch (PDOException $e) {
+    error_log("Error fetching admin stats: " . $e->getMessage());
+    $total_users = $total_projects = $active_projects = $open_tasks = 0;
+    $recent_messages = [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,194 +64,199 @@ $root_path = "../";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Inclusie van de consistente navigatie component -->
     <?php include('../includes/navigation.php'); ?>
 
-    <section id="dashboard">
+    <section id="admin-dashboard">
         <div class="container">
-            <h2>Medewerker Dashboard</h2>
+            <h2>Admin Dashboard</h2>
             
-            <!-- Welkomstsectie -->
-            <div class="dashboard-widget featured-widget">
-                <div class="widget-header">
-                    <h3>Overzicht</h3>
+            <!-- Statistieken overzicht -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo $total_users; ?></h3>
+                        <p>Actieve Gebruikers</p>
+                    </div>
                 </div>
-                <div class="stats-container">
-                    <div class="stat-box">
-                        <div class="stat-number"><?php echo $user_count; ?></div>
-                        <div class="stat-label">Gebruikers</div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-project-diagram"></i>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-number"><?php echo count($projecten); ?></div>
-                        <div class="stat-label">Actieve Projecten</div>
+                    <div class="stat-content">
+                        <h3><?php echo $total_projects; ?></h3>
+                        <p>Totaal Projecten</p>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-number"><?php echo count($taken); ?></div>
-                        <div class="stat-label">Recente Taken</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo $active_projects; ?></h3>
+                        <p>Actieve Projecten</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><?php echo $open_tasks; ?></h3>
+                        <p>Openstaande Taken</p>
                     </div>
                 </div>
             </div>
             
-            <div class="dashboard-grid">
-                <!-- Snelle toegang -->
-                <div class="dashboard-widget">
-                    <h3>Snelle Toegang</h3>
-                    <ul class="quick-links">
-                        <li><a href="admin.php"><i class="fas fa-cog"></i> Beheer Instellingen</a></li>
-                        <li><a href="admin.php?tab=users"><i class="fas fa-users"></i> Gebruikersbeheer</a></li>
-                        <li><a href="admin.php?tab=projects"><i class="fas fa-tasks"></i> Projectbeheer</a></li>
-                        <li><a href="admin.php?tab=tasks"><i class="fas fa-clipboard-list"></i> Takenbeheer</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Recente projecten -->
-                <div class="dashboard-widget">
-                    <h3>Recente Projecten</h3>
-                    <?php if (count($projecten) > 0): ?>
-                        <ul class="project-list">
-                            <?php foreach ($projecten as $project): ?>
-                                <li class="project-item">
-                                    <div class="project-info">
-                                        <h4><?php echo htmlspecialchars($project['naam']); ?></h4>
-                                        <span class="status-badge <?php 
-                                            if ($project['status'] === 'actief') echo 'status-active';
-                                            elseif ($project['status'] === 'afgerond') echo 'status-completed';
-                                            else echo 'status-upcoming';
-                                        ?>">
-                                            <?php echo ucfirst($project['status']); ?>
-                                        </span>
-                                        <div class="project-dates">
-                                            <span class="date">Start: <?php echo date('d M Y', strtotime($project['start_datum'])); ?></span>
-                                            <span class="date">Einde: <?php echo date('d M Y', strtotime($project['eind_datum'])); ?></span>
+            <!-- Dashboard content -->
+            <div class="dashboard-content">
+                <div class="dashboard-main">
+                    <!-- Recente activiteit -->
+                    <div class="dashboard-widget">
+                        <h3><i class="fas fa-clock"></i> Recente Activiteit</h3>
+                        <div class="activity-list">
+                            <?php if (count($recent_messages) > 0): ?>
+                                <?php foreach (array_slice($recent_messages, 0, 5) as $message): ?>
+                                    <div class="activity-item">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-comment"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <p><strong><?php echo htmlspecialchars($message['afzender_naam']); ?></strong> 
+                                               stuurde een bericht naar <strong><?php echo htmlspecialchars($message['ontvanger_naam']); ?></strong></p>
+                                            <span class="activity-time"><?php echo date('d M Y H:i', strtotime($message['timestamp'])); ?></span>
                                         </div>
                                     </div>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <a href="projecten.php" class="view-all">Alle projecten bekijken</a>
-                    <?php else: ?>
-                        <p>Geen projecten gevonden.</p>
-                    <?php endif; ?>
-                </div>
-                
-                <!-- Recente taken -->
-                <div class="dashboard-widget">
-                    <h3>Recente Taken</h3>
-                    <?php if (count($taken) > 0): ?>
-                        <ul class="task-list">
-                            <?php foreach ($taken as $taak): ?>
-                                <li class="task-item">
-                                    <span class="task-project"><?php echo htmlspecialchars($taak['project_naam']); ?></span>
-                                    <span class="task-name"><?php echo htmlspecialchars($taak['naam']); ?></span>
-                                    <span class="task-status <?php 
-                                        if ($taak['status'] === 'afgerond') echo 'status-completed';
-                                        elseif ($taak['status'] === 'in_uitvoering') echo 'status-active';
-                                        else echo '';
-                                    ?>">
-                                        <?php echo ucfirst(str_replace('_', ' ', $taak['status'])); ?>
-                                    </span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <a href="admin.php?tab=tasks" class="view-all">Alle taken beheren</a>
-                    <?php else: ?>
-                        <p>Geen recente taken gevonden.</p>
-                    <?php endif; ?>
-                </div>
-                
-                <!-- Mededelingen voor medewerkers -->
-                <div class="dashboard-widget">
-                    <h3>Mededelingen</h3>
-                    <div class="updates-list">
-                        <div class="update-item">
-                            <h4>Nieuwe Stagairs</h4>
-                            <p>Er starten volgende week 3 nieuwe stagiairs. Zorg ervoor dat hun accounts klaargezet zijn.</p>
-                            <span class="date">Vandaag</span>
-                        </div>
-                        <div class="update-item">
-                            <h4>Projectplanning</h4>
-                            <p>De planning voor het zomerfestival moet uiterlijk vrijdag zijn afgerond.</p>
-                            <span class="date">Gisteren</span>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p class="no-activity">Geen recente activiteit gevonden.</p>
+                            <?php endif; ?>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Add roster management widget to admin dashboard -->
-                <div class="dashboard-widget">
-                    <div class="widget-header">
-                        <h3>Roosterbeheer</h3>
-                        <a href="rooster.php" class="view-all">Volledig rooster</a>
-                    </div>
-                    <div class="widget-content">
-                        <div class="roster-stats">
-                            <?php
-                            // Get upcoming roster stats
-                            $today = date('Y-m-d');
-                            $next_week = date('Y-m-d', strtotime('+7 days'));
+                    
+                    <!-- Snelle acties -->
+                    <div class="dashboard-widget">
+                        <h3><i class="fas fa-bolt"></i> Snelle Acties</h3>
+                        <div class="quick-actions">
+                            <a href="admin.php?tab=projects" class="action-card">
+                                <div class="action-icon">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Nieuw Project</h4>
+                                    <p>Voeg een nieuw project toe</p>
+                                </div>
+                            </a>
                             
-                            // Count total meetings in the next week
-                            $stmt = $pdo->prepare("SELECT COUNT(*) as total_meetings,
-                                                 COUNT(DISTINCT gebruiker_id) as total_users
-                                                 FROM rooster
-                                                 WHERE dag BETWEEN :today AND :next_week");
-                            $stmt->execute([
-                                'today' => $today,
-                                'next_week' => $next_week
-                            ]);
-                            $stats = $stmt->fetch();
-                            ?>
+                            <a href="admin.php?tab=tasks" class="action-card">
+                                <div class="action-icon">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Nieuwe Taak</h4>
+                                    <p>Maak een nieuwe taak aan</p>
+                                </div>
+                            </a>
                             
-                            <div class="stat-box">
-                                <div class="stat-number"><?php echo $stats['total_meetings']; ?></div>
-                                <div class="stat-label">Geplande afspraken</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-number"><?php echo $stats['total_users']; ?></div>
-                                <div class="stat-label">Betrokken personen</div>
-                            </div>
+                            <a href="admin.php?tab=users" class="action-card">
+                                <div class="action-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Gebruikers Beheren</h4>
+                                    <p>Beheer gebruikersaccounts</p>
+                                </div>
+                            </a>
                             
-                            <div class="action-buttons">
-                                <a href="rooster.php" class="button">Rooster bekijken</a>
-                            </div>
+                            <a href="rooster.php" class="action-card">
+                                <div class="action-icon">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h4>Afspraak Plannen</h4>
+                                    <p>Plan een nieuwe afspraak</p>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
                 
-            </div>
-            
-            <!-- Activiteitenlogboek -->
-            <div class="dashboard-widget">
-                <div class="widget-header">
-                    <h3>Recente Activiteit</h3>
-                </div>
-                <div class="activity-log">
-                    <div class="log-item">
-                        <span class="log-time">10:30</span>
-                        <span class="log-message">Nieuw project aangemaakt: "Zomerfestival Arnhem"</span>
+                <!-- Sidebar -->
+                <div class="dashboard-sidebar">
+                    <!-- Systeem status -->
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-server"></i> Systeem Status</h3>
+                        <div class="status-list">
+                            <div class="status-item">
+                                <span class="status-label">Database:</span>
+                                <span class="status-value online">Online</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Chat Service:</span>
+                                <span class="status-value online">Actief</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Laatste backup:</span>
+                                <span class="status-value"><?php echo date('d M Y'); ?></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="log-item">
-                        <span class="log-time">09:15</span>
-                        <span class="log-message">Gebruiker "JanDoe" toegevoegd aan project "Bedrijfsevent Amsterdam"</span>
-                    </div>
-                    <div class="log-item">
-                        <span class="log-time">Gisteren</span>
-                        <span class="log-message">Taak "Locatie bezoeken" gemarkeerd als afgerond</span>
-                    </div>
-                    <div class="log-item">
-                        <span class="log-time">Gisteren</span>
-                        <span class="log-message">Nieuwe gebruiker geregistreerd: "Emma de Vries"</span>
+                    
+                    <!-- Recent toegevoegde gebruikers -->
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-user-clock"></i> Nieuwe Gebruikers</h3>
+                        <?php
+                        try {
+                            $stmt = $pdo->prepare("
+                                SELECT naam, rol, datum_aangemaakt 
+                                FROM gebruikers 
+                                WHERE actief = 1 
+                                ORDER BY datum_aangemaakt DESC 
+                                LIMIT 5
+                            ");
+                            $stmt->execute();
+                            $new_users = $stmt->fetchAll();
+                        } catch (PDOException $e) {
+                            $new_users = [];
+                        }
+                        ?>
+                        
+                        <div class="users-list">
+                            <?php if (count($new_users) > 0): ?>
+                                <?php foreach ($new_users as $user): ?>
+                                    <div class="user-item">
+                                        <div class="user-avatar">
+                                            <?php
+                                            $name_parts = explode(' ', $user['naam']);
+                                            $initials = strtoupper(substr($name_parts[0], 0, 1));
+                                            if (count($name_parts) > 1) {
+                                                $initials .= strtoupper(substr(end($name_parts), 0, 1));
+                                            }
+                                            echo $initials;
+                                            ?>
+                                        </div>
+                                        <div class="user-info">
+                                            <strong><?php echo htmlspecialchars($user['naam']); ?></strong>
+                                            <span><?php echo ucfirst($user['rol']); ?></span>
+                                            <small><?php echo date('d M', strtotime($user['datum_aangemaakt'])); ?></small>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p class="no-users">Geen nieuwe gebruikers.</p>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="footer-container">
-            <p>&copy; <?php echo date("Y"); ?> Flitz-Events Medewerkers Portal | Alle rechten voorbehouden</p>
-        </div>
-    </footer>
-
-    <script src="../assets/js/scripts.js"></script>
+    <?php include('../includes/footer.php'); ?>
 </body>
 </html>
